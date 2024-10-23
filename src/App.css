@@ -21,6 +21,12 @@
   padding: 0px 0px;
 }
 
+/* Custom css Slick */
+.slick-prev:before,
+.slick-next:before {
+  font-size: 30px !important;
+  color: #ba3451 !important;
+}
 /* style navigation landing page */
 
 .navigation {
