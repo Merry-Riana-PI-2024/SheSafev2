@@ -31,7 +31,7 @@ function CasesSection (){
     dots: true,
     infinite: cards.length > 1,
     speed: 500,
-    slidesToShow: 1,
+    slidesToShow: 2,
     slidesToScroll: 1,
     initialSlide: 0,
     arrows: true,
@@ -59,6 +59,10 @@ function CasesSection (){
           <Slider {...settings} >   
                
               <Card />
+              <Card />
+           
+
+
            
 
           </Slider>

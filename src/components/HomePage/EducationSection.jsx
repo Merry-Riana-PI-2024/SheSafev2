@@ -2,6 +2,7 @@ import style from "../../assets/css/HomePage.module.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
+import CardEdu from "./CardEdu";
 
 function EducationSection() {
   function NextArrow(props) {
@@ -26,9 +27,10 @@ function EducationSection() {
     );
   }
 
+  const cards =[<CardEdu/>]
   var settings = {
     dots: true,
-    infinite: false,
+    infinite: cards.length > 1,
     speed: 500,
     slidesToShow: 2,
     slidesToScroll: 2,
@@ -77,44 +79,11 @@ function EducationSection() {
 
         <div className={`${style["tips-content"]} silder-container mb-5`}>
           <Slider {...settings} >
-            <div className={`${style["tips-card"]}  `}>
-              <div className={`${style.image}`}>
-                <img
-                  className="img-fluid"
-                  src="https://img.freepik.com/free-vector/flat-women-s-history-month-illustration_23-2149301501.jpg?t=st=1726025478~exp=1726029078~hmac=72d4b65f1ee84b90f2ce7a72951155f5f7429a7fc225f3e4b5fa5d2bfee2a7e7&w=740"
-                />
-              </div>
+           
+            <CardEdu />
+            <CardEdu />
+            <CardEdu />
 
-              <div className={`${style.title}`}>
-                <h6>Strategi Menghindari Situasi Beresiko</h6>
-              </div>
-            </div>
-
-            <div className={`${style["tips-card"]}`}>
-              <div className={`${style.image}`}>
-                <img
-                  className="img-fluid"
-                  src="https://img.freepik.com/free-vector/flat-women-s-history-month-illustration_23-2149301501.jpg?t=st=1726025478~exp=1726029078~hmac=72d4b65f1ee84b90f2ce7a72951155f5f7429a7fc225f3e4b5fa5d2bfee2a7e7&w=740"
-                />
-              </div>
-
-              <div className={`${style.title}`}>
-                <h6>Strategi Menghindari Situasi Beresiko</h6>
-              </div>
-            </div>
-
-            <div className={`${style["tips-card"]} `}>
-              <div className={`${style.image}`}>
-                <img
-                  className="img-fluid"
-                  src="https://img.freepik.com/free-vector/flat-women-s-history-month-illustration_23-2149301501.jpg?t=st=1726025478~exp=1726029078~hmac=72d4b65f1ee84b90f2ce7a72951155f5f7429a7fc225f3e4b5fa5d2bfee2a7e7&w=740"
-                />
-              </div>
-
-              <div className={`${style.title}`}>
-                <h6>Strategi Menghindari Situasi Beresiko</h6>
-              </div>
-            </div>
           </Slider>
         </div>
       </div>

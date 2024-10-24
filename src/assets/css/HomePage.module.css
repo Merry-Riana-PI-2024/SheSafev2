@@ -143,8 +143,9 @@
 }
 
 .tips-card {
-  width: 170px;
+  width: 210px;
   height: max-content;
+  max-width: 90%;
 }
 
 .tips-card .image {
