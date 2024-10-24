@@ -38,6 +38,7 @@
 
 .cases-card {
   display: flex;
+  max-width: 100%;
   width: 232px;
   padding: 16px 12px;
   flex-direction: column;
@@ -46,6 +47,7 @@
   border-radius: 5px;
   border: 1px solid var(--light-primary);
   background: #fff;
+  height: 100%;
 }
 
 .cases-user .username {

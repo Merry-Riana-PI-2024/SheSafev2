@@ -1,6 +1,45 @@
 import style from "../../assets/css/HomePage.module.css"
 import Card from "./Card"
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick"
+
 function CasesSection (){
+  function NextArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+      <div
+        className={className}
+        style={{ ...style, right: "-5px", zIndex: "10", top:"40%" }}
+        onClick={onClick}
+      />
+    );
+  }
+
+  function PrevArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+      <div
+        className={className}
+        style={{ ...style, left: "-10px", zIndex: "10", top:"40%"}}
+        onClick={onClick}
+      />
+    );
+  }
+
+  var settings = {
+    dots: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 2,
+    slidesToScroll: 1,
+    initialSlide: 0,
+    arrows: true,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
+    vertical:false
+  };
+
     return (<>
       <div className={`${style['cases-section']}`}>
         <div className={`${style['cases-heading']}`}>
@@ -15,8 +54,14 @@ function CasesSection (){
           </p>
         </div>
 
-        <div className={`${style['cases-content']} my-3`}>
-            <Card />
+        <div className={`${style['cases-content']} my-3 slider-container`}>
+          <Slider {...settings} >   
+               
+              <Card />
+              <Card />
+              <Card />
+
+          </Slider>
         </div>
       </div>
     </>)

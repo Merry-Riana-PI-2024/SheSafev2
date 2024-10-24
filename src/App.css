@@ -27,6 +27,15 @@
   font-size: 30px !important;
   color: #ba3451 !important;
 }
+
+.slider-container .slick-list {
+  margin: 0 -5px;
+}
+
+.slider-container .slick-slide {
+  padding: 0 5px;
+}
+
 /* style navigation landing page */
 
 .navigation {

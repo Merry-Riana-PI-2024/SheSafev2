@@ -3,7 +3,7 @@ import style from "../../assets/css/HomePage.module.css"
 
 function Card (){
     return (<>
-           <div className={`${style['cases-card']} mx-1 `}>
+           <div className={`${style['cases-card']}  `}>
             <div className={`${style['cases-user']}`}>
               <p className={`${style.username} `}>Anonim</p>
               <p>11 Oktober 2024 | 02:40pm</p>
@@ -13,6 +13,8 @@ function Card (){
             </div>
             <button className={`${style['btn-support']} mt-2`}>100 Dukungan</button>
           </div>
+
+          
 
     </>)
 }

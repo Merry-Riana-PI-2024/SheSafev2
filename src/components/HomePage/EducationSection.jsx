@@ -75,9 +75,9 @@ function EducationSection() {
           <p className={`text-[#BA324F]`}>selengkapnya</p>
         </div>
 
-        <div className={`${style["tips-content"]} silder-container`}>
-          <Slider {...settings}>
-            <div className={`${style["tips-card"]} mx-1 mb-5`}>
+        <div className={`${style["tips-content"]} silder-container mb-5`}>
+          <Slider {...settings} >
+            <div className={`${style["tips-card"]}  `}>
               <div className={`${style.image}`}>
                 <img
                   className="img-fluid"
@@ -90,7 +90,7 @@ function EducationSection() {
               </div>
             </div>
 
-            <div className={`${style["tips-card"]} mx-1 mb-5`}>
+            <div className={`${style["tips-card"]}`}>
               <div className={`${style.image}`}>
                 <img
                   className="img-fluid"
@@ -103,7 +103,7 @@ function EducationSection() {
               </div>
             </div>
 
-            <div className={`${style["tips-card"]} mx-1 mb-5`}>
+            <div className={`${style["tips-card"]} `}>
               <div className={`${style.image}`}>
                 <img
                   className="img-fluid"
