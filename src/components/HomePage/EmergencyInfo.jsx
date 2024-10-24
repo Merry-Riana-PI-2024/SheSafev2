@@ -1,15 +1,23 @@
 import { useState } from "react";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import style from "../../assets/css/HomePage.module.css";
+import Slider from "react-slick";
+import { Icon } from "@iconify/react";
 
 function EmergencyInfo() {
   const emergencyNumbers = ["1500-899", "021-5923185"];
   const [text, setText] = useState("");
+  const [isCopied, setIsCopied] = useState(false); 
+
 
   const copyToClipboard = (textToCopy) => {
     navigator.clipboard
       .writeText(textToCopy)
       .then(() => {
-        alert("Teks berhasil disalin ke clipboard!");
+        setText(textToCopy);
+        setIsCopied(!isCopied); 
+        setTimeout(() => setIsCopied(false), 1000); 
       })
       .catch((err) => {
         console.error("Gagal menyalin teks: ", err);
@@ -17,61 +25,149 @@ function EmergencyInfo() {
   };
 
   const handleClick = (number) => {
-    setText(number); // Set text to the clicked number
-    copyToClipboard(number); // Call copyToClipboard function with the number
+    copyToClipboard(number);
+  };
+
+  function NextArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+      <div
+        className={className}
+        style={{ ...style, right: "-5px", zIndex: "10", top: "40%" }}
+        onClick={onClick}
+      />
+    );
+  }
+
+  function PrevArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+      <div
+        className={className}
+        style={{ ...style, left: "-10px", zIndex: "10", top: "40%" }}
+        onClick={onClick}
+      />
+    );
+  }
+
+  var settings = {
+    dots: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 2,
+    slidesToScroll: 1,
+    initialSlide: 0,
+    arrows: true,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
+    vertical: false,
   };
 
   return (
     <>
-      <div className={`${style["emergency-section"]}`}>
+      <div className={`${style["emergency-section"]} relative`}>
         <div className={`${style["emergency-heading"]}`}>
           <h4 className={`text-xl`}>Info Pusat Bantuan</h4>
         </div>
-        <div className={`${style["emergency-content"]}`}>
-          <div
-            className={`${style["emergency-card"]} mx-1`}
-            onClick={() => handleClick(emergencyNumbers[0])}>
-            <div className={`${style["info-telp"]}`}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none">
-                <path
-                  d="M16.5559 12.906L16.1009 13.359C16.1009 13.359 15.0179 14.435 12.0629 11.497C9.10788 8.55898 10.1909 7.48298 10.1909 7.48298L10.4769 7.19698C11.1839 6.49498 11.2509 5.36698 10.6339 4.54298L9.37388 2.85998C8.60988 1.83998 7.13488 1.70498 6.25988 2.57498L4.68988 4.13498C4.25688 4.56698 3.96688 5.12498 4.00188 5.74498C4.09188 7.33198 4.80988 10.745 8.81388 14.727C13.0609 18.949 17.0459 19.117 18.6749 18.965C19.1909 18.917 19.6389 18.655 19.9999 18.295L21.4199 16.883C22.3799 15.93 22.1099 14.295 20.8819 13.628L18.9719 12.589C18.1659 12.152 17.1859 12.28 16.5559 12.906Z"
-                  fill="#BA324F"
-                />
-              </svg>
-              <h5>{emergencyNumbers[0]}</h5>
-            </div>
-            <div className={`${style["info-title"]}`}>
-              <p>Darurat KDRT</p>
-            </div>
-          </div>
+        
+        
+      <div className={`${style['success-message']} ${isCopied ? style.show : ''} absolute right-0 top-0 z-10 px-2 py-1 my-2 bg-[#BA324F] gap-2 text-white text-[12px] rounded-[10px] inline-flex justify-center items-center`}>
+        <Icon
+          icon="stash:copy-duotone"
+          width="32"
+          height="32"
+          style={{ color: "#ffffff" }}
+        />
+        Nomor Berhasil Disalin
+      </div>
 
-          <div
-            className={`${style["emergency-card"]} mx-1`}
-            onClick={() => handleClick(emergencyNumbers[1])}>
-            <div className={`${style["info-telp"]}`}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none">
-                <path
-                  d="M16.5559 12.906L16.1009 13.359C16.1009 13.359 15.0179 14.435 12.0629 11.497C9.10788 8.55898 10.1909 7.48298 10.1909 7.48298L10.4769 7.19698C11.1839 6.49498 11.2509 5.36698 10.6339 4.54298L9.37388 2.85998C8.60988 1.83998 7.13488 1.70498 6.25988 2.57498L4.68988 4.13498C4.25688 4.56698 3.96688 5.12498 4.00188 5.74498C4.09188 7.33198 4.80988 10.745 8.81388 14.727C13.0609 18.949 17.0459 19.117 18.6749 18.965C19.1909 18.917 19.6389 18.655 19.9999 18.295L21.4199 16.883C22.3799 15.93 22.1099 14.295 20.8819 13.628L18.9719 12.589C18.1659 12.152 17.1859 12.28 16.5559 12.906Z"
-                  fill="#BA324F"
+
+        <div className={`${style["emergency-content"]} slider-container`}>
+          <Slider {...settings}>
+          
+
+
+            <div
+              className={`${style["emergency-card"]} mx-1`}
+             >
+              <div className={`${style["info-telp"]}`}>
+                <div className={`flex gap-2 `}>
+                  <Icon
+                    icon="line-md:phone-twotone"
+                    width="24"
+                    height="24"
+                    style={{ color: "#BA324F" }}
+                  />
+                  <h5>{emergencyNumbers[1]}</h5>
+                </div>
+
+                <Icon
+                  icon="stash:copy-duotone"
+                  width="32"
+                  height="32"
+                  style={{ color: "#BA324F", cursor:"copy" }}  onClick={() => handleClick(emergencyNumbers[1])}
                 />
-              </svg>
-              <h5>{emergencyNumbers[1]}</h5>
+              </div>
+              <div className={`${style["info-title"]}`}>
+                <p>Darurat KDRT</p>
+              </div>
             </div>
-            <div className={`${style["info-title"]}`}>
-              <p>Darurat KDRT</p>
+
+            <div
+              className={`${style["emergency-card"]} mx-1`}
+             >
+              <div className={`${style["info-telp"]}`}>
+                <div className={`flex gap-2 `}>
+                  <Icon
+                    icon="line-md:phone-twotone"
+                    width="24"
+                    height="24"
+                    style={{ color: "#BA324F" }}
+                  />
+                  <h5>{emergencyNumbers[1]}</h5>
+                </div>
+
+                <Icon
+                  icon="stash:copy-duotone"
+                  width="32"
+                  height="32"
+                  style={{ color: "#BA324F", cursor:"copy" }}  onClick={() => handleClick(emergencyNumbers[1])}
+                />
+              </div>
+              <div className={`${style["info-title"]}`}>
+                <p>Darurat KDRT</p>
+              </div>
             </div>
-          </div>
+            
+            <div
+              className={`${style["emergency-card"]} mx-1`}
+             >
+              <div className={`${style["info-telp"]}`}>
+                <div className={`flex gap-2 `}>
+                  <Icon
+                    icon="line-md:phone-twotone"
+                    width="24"
+                    height="24"
+                    style={{ color: "#BA324F" }}
+                  />
+                  <h5>{emergencyNumbers[1]}</h5>
+                </div>
+
+                <Icon
+                  icon="stash:copy-duotone"
+                  width="32"
+                  height="32"
+                  style={{ color: "#BA324F", cursor:"copy" }}  onClick={() => handleClick(emergencyNumbers[1])}
+                />
+              </div>
+              <div className={`${style["info-title"]}`}>
+                <p>Darurat KDRT</p>
+              </div>
+            </div>
+
+          </Slider>
         </div>
+
       </div>
     </>
   );
