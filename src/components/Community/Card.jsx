@@ -4,7 +4,7 @@ import foto from "../../assets/images/fp1.png";
 function Card() {
   return (
     <>
-      <div className={`px-5 py-2 `}>
+      <div className={`px-5 py-2 my-2`}>
         <div className={`px-5 py-6  bg-white rounded-t-[10px] box-shadow: shadow-sm shadow-md; `}>
 
           <div className={`flex flex-row gap-8  items-center justify-start `}>
