@@ -26,18 +26,19 @@ function CasesSection (){
       />
     );
   }
-
+  const cards = [<Card />]; 
   var settings = {
     dots: true,
-    infinite: false,
+    infinite: cards.length > 1,
     speed: 500,
-    slidesToShow: 2,
+    slidesToShow: 1,
     slidesToScroll: 1,
     initialSlide: 0,
     arrows: true,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
     vertical:false
+    
   };
 
     return (<>
@@ -58,8 +59,7 @@ function CasesSection (){
           <Slider {...settings} >   
                
               <Card />
-              <Card />
-              <Card />
+           
 
           </Slider>
         </div>
