@@ -6,6 +6,8 @@ import HomePage from './pages/HomePage'
 import Community from './pages/Community'
 import DetailCom from './pages/DetailCom'
 import Profile from './pages/Profile'
+import Education from './pages/Education'
+import DetailEdu from './pages/DetailEdu'
 
 function App() {
 
@@ -18,6 +20,8 @@ function App() {
       <Route path="community" element={<Community />}/>
       <Route path="community/detail" element={<DetailCom />}/>
       <Route path="profile" element={<Profile />}/>
+      <Route path="education" element={<Education />}/>
+      <Route path="education/detail" element={<DetailEdu />}/>
 
 
 
