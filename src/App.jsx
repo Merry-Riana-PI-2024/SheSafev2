@@ -8,6 +8,7 @@ import DetailCom from './pages/DetailCom'
 import Profile from './pages/Profile'
 import Education from './pages/Education'
 import DetailEdu from './pages/DetailEdu'
+import AddCases from './pages/AddCases'
 
 function App() {
 
@@ -22,6 +23,8 @@ function App() {
       <Route path="profile" element={<Profile />}/>
       <Route path="education" element={<Education />}/>
       <Route path="education/detail" element={<DetailEdu />}/>
+      <Route path="cases/add" element={<AddCases />}/>
+
 
 
 

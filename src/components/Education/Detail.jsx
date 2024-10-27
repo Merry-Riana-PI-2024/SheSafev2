@@ -11,7 +11,7 @@ function Detail() {
           </p>
         </div>
 
-        <div className={``}></div>
+        <div className={`mt-5 `}></div>
       </div>
     </>
   );

@@ -2,6 +2,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import DetailContent from "../components/Community/DetailContent";
 import NavCom from "../components/Community/NavCom";
 
+
 function DetailCom() {
   return (
     <>
