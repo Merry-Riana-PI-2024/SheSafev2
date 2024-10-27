@@ -10,11 +10,6 @@
     --white: #ffffff;
   }
 
-.header{
-    font-size: 20px;
-    margin-right: 50px;
-}
-
 .form-control {
     background-color: var(--light-primary);
     border: none;
@@ -32,6 +27,7 @@
   .small {
     color: var(--secondary-color);
     font-weight: 600;
+    display: block;
   }
   
   .small-b {
@@ -42,6 +38,6 @@
   .h1 {
     color: var(--primary-color);
     text-align: center;
-    font-size: 20px;
+    font-size: 18px;
     margin: 25px 0 10px;
   }

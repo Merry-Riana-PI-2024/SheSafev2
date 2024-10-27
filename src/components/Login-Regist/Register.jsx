@@ -15,36 +15,36 @@ function Register() {
                     <img src={logo} alt="Logo" className="w-32" />
                 </div>
                 <div className="text-center mb-6">
-                    <h1 className={`${style['h1']} text-3xl font-bold`}>Daftar Akun</h1>
+                    <h1 className={`${style['h1']} text-2xl font-bold`}>Daftar Akun</h1>
                     <p className={`${style['p']} mt-3 mb-3`}>Ruang Aman untuk Pemberdayaan dan Keadilan Perempuan</p>
                 </div>
                 <form action="">
                     <div className="mb-4">
-                        <label htmlFor="nama" className="label">Nama Lengkap</label>
+                        <label htmlFor="nama" className="text-sm font-bold">Nama Lengkap</label>
                         <input
                         type="text"
                         id="nama"
                         placeholder="Nama Lengkap"
-                        className={`${style['form-control']} w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-#8c263b-500`}
+                        className={`${style['form-control']} mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-#8c263b-500`}
                         required
                       />   
                     </div>
                     <div className="mb-4">
-                      <label htmlFor="email" className="label">Email</label>
+                      <label htmlFor="email" className="text-sm font-bold">Email</label>
                       <input
                         type="email"
                         id="email"
                         placeholder="Email"
-                        className={`${style['form-control']} w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-#8c263b-500`}
+                        className={`${style['form-control']} mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-#8c263b-500`}
                         required
                       />
                     </div>
                     <div className="flex gap-4 mb-4">
                       <div className="w-1/2">
-                        <label htmlFor="gender" className="label">Jenis Kelamin</label>
+                        <label htmlFor="gender" className="text-sm font-bold">Jenis Kelamin</label>
                         <select
                           id="gender"
-                          className={`${style['form-control']} w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-#8c263b-500`}
+                          className={`${style['form-control']} mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-#8c263b-500`}
                           required
                           defaultValue="Pilih"
                         >
@@ -54,42 +54,42 @@ function Register() {
                         </select>
                       </div>
                       <div className="w-1/2">
-                        <label htmlFor="ttl" className="label">Tanggal Lahir</label>
+                        <label htmlFor="ttl" className="text-sm font-bold">Tanggal Lahir</label>
                         <input
                           type="date"
                           id="ttl"
-                          className={`${style['form-control']} w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-#8c263b-500`}
+                          className={`${style['form-control']} mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-#8c263b-500`}
                           required
                         />
                       </div>
                     </div>
                     <div className="mb-1">
-                      <label htmlFor="identitas" className="label">Bukti Identitas</label>
+                      <label htmlFor="identitas" className="text-sm font-bold">Bukti Identitas</label>
                       <input
                           type="file"
                           id="identitas"
-                          className={`${style['form-control']} w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-#8c263b-500`}
+                          className={`${style['form-control']} mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-#8c263b-500`}
                           required
                       />
                     </div>
                     <small className={`${style['small']}`}>**Maximum file 2mb</small>
                     <div className="mb-4 mt-3">
-                      <label htmlFor="password" className="label">Password</label>
+                      <label htmlFor="password" className="text-sm font-bold">Password</label>
                       <input
                         type="password"
                         id="password"
                         placeholder="Password"
-                        className={`${style['form-control']} w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-#8c263b-500`}
+                        className={`${style['form-control']} mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-#8c263b-500`}
                         required
                       />
                     </div>
                     <div className="mb-4">
-                      <label htmlFor="password-confirm" className="label">Konfirmasi Password</label>
+                      <label htmlFor="password-confirm" className="text-sm font-bold">Konfirmasi Password</label>
                       <input
                         type="password"
                         id="password-confirm"
                         placeholder="Konfirmasi Password"
-                        className={`${style['form-control']} w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-#8c263b-500`}
+                        className={`${style['form-control']} mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-#8c263b-500`}
                         required
                       />
                     </div>
@@ -101,7 +101,7 @@ function Register() {
                       </button>
                     </div>
                 </form>
-                <div className="mt-2 text-center mb-10">
+                <div className="mt-5 text-center mb-10">
                   <small className={`${style['small']}`}>Sudah Punya Akun? <Link to="/login"><span className={`${style['small-b']}`}>Masuk</span></Link></small>
                 </div>
             </div>
