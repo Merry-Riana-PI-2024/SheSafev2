@@ -1,5 +1,6 @@
 import style from '../../assets/css/LandingPage.module.css'
 import logo from '../../assets/images/lg_ss.png'
+import { Link } from 'react-router-dom';
 
 function Cta() {
   return (
@@ -16,9 +17,9 @@ function Cta() {
               dukungan
             </p>
           </div>
-          <a className="lg-btn-secondary" href="/views/register.html">
+          <Link to="/regist" className="lg-btn-secondary">
             Daftar Sekarang
-          </a>
+          </Link>
         </div>
       </div>
     </>

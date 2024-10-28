@@ -1,4 +1,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import "@fortawesome/fontawesome-free/css/all.min.css";
+
+body {
+  font-size: 14px !important;
+  background-color: var(--light-secondary);
+  font-family: "Nunito Sans", sans-serif !important;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+  .wrapper-mobile {
+    max-width: 420px; /* Lebar maksimal container selebar ponsel */
+  }
+
+  .navbar {
+    max-width: 385px;
+  }
+}
+
+/* Responsive */
+
