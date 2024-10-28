@@ -52,7 +52,7 @@ function ListPengajuanKasus() {
       <div className="flex flex-col w-full max-w-[480px] flex-grow bg-white shadow-lg rounded-lg p-4 mx-auto">
         <ul className="flex w-full mb-4">
           <li className="flex-1 text-center">
-            <button className="w-full py-2 text-gray-600 bg-gray-100 rounded-b-lg font-semibold">My Jurnal</button>
+            <button className="w-full py-2 text-gray-600 bg-white rounded-b-lg font-semibold" style={{ border: '1px solid rgba(4, 57, 94, 1)' }}>My Jurnal</button>
           </li>
           <li className="flex-1 text-center">
             <button className="w-full py-2 text-white bg-[#04395e] rounded-b-lg font-semibold">Pengajuan Kasus</button>
@@ -76,23 +76,27 @@ function ListPengajuanKasus() {
 
         {filteredData.map((item) => (
           <div key={item.id} className="bg-white border rounded-lg shadow-sm mb-4">
-            <div className="flex justify-between px-4 py-2 bg-gray-100 rounded-t-lg">
-              <span className="text-blue-900">{item.tanggal}</span>
-              <span className={`text-pink-600 ${item.draft ? 'hidden' : ''}`}>{item.status}</span>
-              {item.draft && <span className="text-yellow-600">Draft</span>}
-            </div>
+            <div className="flex items-center items-center px-4 py-2">
+                <span className="text-sm text-gray-700 bg-gray-200 px-2 py-1 rounded mr-2">{item.tanggal}</span>
+                <span className={`${item.draft ? 'text-red-600 bg-red-100' : 'text-pink-600 bg-pink-100'} text-sm font-semibold px-2 py-1 rounded`}>
+                  {item.draft ? 'Draft' : item.status}
+                </span>
+              </div>
             <div className="px-4 py-2">
               <h4 className="font-semibold text-gray-800">{item.judul}</h4>
               <p className="text-gray-600 mt-2">{item.deskripsi}</p>
             </div>
-            <div className="flex justify-between p-4">
-              <button onClick={handleEdit} className="flex items-center bg-gray-100 text-blue-600 rounded px-3 py-1">
-                <i className="fas fa-edit mr-2"></i> Edit
-              </button>
-              <button onClick={handleDelete} className="flex items-center bg-red-100 text-red-600 rounded px-3 py-1">
-                <i className="fas fa-trash-alt mr-2"></i> Hapus
-              </button>
+
+
+            <div style={{ backgroundColor: 'rgba(245, 245, 245, 1)' }} className="flex justify-between p-4"> 
+                <button onClick={handleEdit} className="flex items-center text-blue-600 hover:text-blue-700  px-3 py-1 rounded border border-blue-600">
+                  <i className="fas fa-edit mr-2"></i> Edit
+                </button>
+                <button onClick={handleDelete} className="flex items-center text-red-600 hover:text-red-700   px-3 py-1 rounded border border-red-600">
+                  <i className="fas fa-trash-alt mr-2"></i> Hapus
+                </button>
             </div>
+
           </div>
         ))}
       </div>

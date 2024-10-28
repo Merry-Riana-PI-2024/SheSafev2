@@ -35,7 +35,7 @@ function ListJurnal() {
             <button className="w-full py-2 text-white bg-[#04395e] rounded-b-lg font-semibold">My Jurnal</button>
           </li>
           <li className="flex-1 text-center">
-            <button className="w-full py-2 text-gray-600 bg-gray-100 rounded-b-lg font-semibold">Pengajuan Kasus</button>
+          <button className="w-full py-2 text-gray-600 bg-white rounded-b-lg font-semibold" style={{ border: '1px solid rgba(4, 57, 94, 1)' }}>Pengajuan Kasus</button>
           </li>
         </ul>
 
@@ -57,11 +57,11 @@ function ListJurnal() {
                 <p className="text-gray-600 text-sm mt-2">{item.deskripsi}</p>
               </div>
 
-              <div className="flex justify-between px-4 py-2 border-t bg-[rgba(192,206,215,1)] rounded-b-lg">
-                <button onClick={handleEdit} className="flex items-center text-blue-600 hover:text-blue-700 bg-[rgba(192,206,215,1)]  px-3 py-1 rounded border border-blue-600">
+              <div style={{ backgroundColor: 'rgba(245, 245, 245, 1)' }} className="flex justify-between px-4 py-2 border-t  rounded-b-lg">
+                <button onClick={handleEdit} className="flex items-center text-blue-600 hover:text-blue-700  px-3 py-1 rounded border border-blue-600">
                   <i className="fas fa-edit mr-2"></i> Edit
                 </button>
-                <button onClick={handleDelete} className="flex items-center text-red-600 hover:text-red-700 bg-[rgba(192,206,215,1)]  px-3 py-1 rounded border border-red-600">
+                <button onClick={handleDelete} className="flex items-center text-red-600 hover:text-red-700   px-3 py-1 rounded border border-red-600">
                   <i className="fas fa-trash-alt mr-2"></i> Hapus
                 </button>
               </div>
