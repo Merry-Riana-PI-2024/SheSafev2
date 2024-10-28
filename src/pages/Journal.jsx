@@ -1,4 +1,5 @@
 import { Link, Outlet, useLocation } from "react-router-dom";
+import NavBottom from "../components/NavBottom";
 
 function Journal() {
   const location = useLocation();
@@ -45,6 +46,8 @@ function Journal() {
         <div>
           <Outlet />
         </div>
+
+        <NavBottom />
       </div>
     </>
   );
