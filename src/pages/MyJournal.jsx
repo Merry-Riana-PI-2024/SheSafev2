@@ -8,11 +8,11 @@ function MyJournal() {
           <h4 className={`text-black text-lg font-bold`}>My Jurnal</h4>
           <select
             className={`bg-[#BA324F] rounded-[10px] text-white px-4 py-2`}>
-            <option value="">Pilih Kategori</option>
+            <option value="">Terbaru</option>
           </select>
         </div>
 
-        <div className={`flex flex-col gap-2 items-center px-5`}>
+        <div className={`flex flex-col gap-3 items-center px-5`}>
             <CardJournal />
         </div>
       </div>

@@ -10,10 +10,18 @@ body {
   font-family: "Nunito Sans", sans-serif !important;
 }
 
+.wrapper-mobile {
+  width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  padding: 0px 0px;
+  background-color: var(--white);
+}
+
 /* Responsive */
 @media (max-width: 576px) {
   .wrapper-mobile {
-    max-width: 420px; /* Lebar maksimal container selebar ponsel */
+    max-width: 400px; /* Lebar maksimal container selebar ponsel */
   }
 
   .navbar {
