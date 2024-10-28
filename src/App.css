@@ -15,10 +15,11 @@
 }
 
 .wrapper-mobile {
-  width: 480px;
+  max-width: 480px;
   margin: 0 auto;
   min-height: 100vh;
   padding: 0px 0px;
+  background-color: var(--white);
 }
 
 /* Custom css Slick */

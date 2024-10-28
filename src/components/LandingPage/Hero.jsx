@@ -1,5 +1,6 @@
 import style from '../../assets/css/LandingPage.module.css'
 import image from '../../assets/images/asset_login.png'
+import { Link } from 'react-router-dom';
 
 function Hero() {
   return (
@@ -19,9 +20,9 @@ function Hero() {
         </div>
 
         <div className={`${style['hero-btn']} mt-4`}>
-          <a href="/views/register.html" className="lg-btn-primary">
+          <Link to="/regist" className="lg-btn-primary">
             Daftar Sekarang
-          </a>
+          </Link>
         </div>
 
         <div className={`${style['hero-img']} mt-5`}>
