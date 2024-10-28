@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import BottomNav from "../components/NavBottom"
 
 const mockData = [
   {
@@ -32,7 +33,7 @@ function ListPengajuanKasus() {
 
   useEffect(() => {
     if (selectedDate === "Pilih Tanggal") {
-      setFilteredData(data); // Tampilkan semua data jika tidak ada tanggal yang dipilih
+      setFilteredData(data); 
     } else {
       filterByDate(selectedDate);
     }
@@ -48,7 +49,7 @@ function ListPengajuanKasus() {
 
   return (
     <div className="flex flex-col min-h-screen bg-pink-100 items-center">
-      <div className="flex flex-col w-full max-w-md flex-grow bg-white shadow-lg rounded-lg p-4">
+      <div className="flex flex-col w-full max-w-[480px] flex-grow bg-white shadow-lg rounded-lg p-4 mx-auto">
         <ul className="flex w-full mb-4">
           <li className="flex-1 text-center">
             <button className="w-full py-2 text-gray-600 bg-gray-100 rounded-b-lg font-semibold">My Jurnal</button>
@@ -95,24 +96,7 @@ function ListPengajuanKasus() {
           </div>
         ))}
       </div>
-      <nav className="fixed bottom-0 w-full max-w-md bg-white shadow-lg rounded-t-lg p-3 flex justify-around items-center">
-        <button className="flex flex-col items-center text-gray-600 hover:text-blue-600">
-          <i className="fas fa-home text-lg"></i>
-          <span className="text-xs">Home</span>
-        </button>
-        <button className="flex flex-col items-center text-gray-600 hover:text-blue-600">
-          <i className="fas fa-book text-lg"></i>
-          <span className="text-xs">Jurnal</span>
-        </button>
-        <button className="flex flex-col items-center text-gray-600 hover:text-blue-600">
-          <i className="fas fa-briefcase text-lg"></i>
-          <span className="text-xs">Kasus</span>
-        </button>
-        <button className="flex flex-col items-center text-gray-600 hover:text-blue-600">
-          <i className="fas fa-user text-lg"></i>
-          <span className="text-xs">Profile</span>
-        </button>
-      </nav>
+      <BottomNav />
     </div>
   );
 }
