@@ -36,6 +36,49 @@
   padding: 0 5px;
 }
 
+/* custom texteditor */
+/* Menghilangkan semua efek border di toolbar dan editor */
+.custom-quill-editor .ql-container {
+  border: none !important;
+  outline: none !important;
+  min-height: 200px;
+}
+
+.custom-quill-editor .ql-toolbar {
+  border: none !important;
+  padding: 8px 10px;
+  outline: none !important;
+}
+
+/* Menghilangkan efek border pada toolbar tombol saat fokus */
+.custom-quill-editor .ql-toolbar .ql-picker-label,
+.custom-quill-editor .ql-toolbar button {
+  border: none !important;
+  outline: none !important;
+}
+
+/* Fokus editor khusus dengan warna pink tanpa efek fokus lain */
+.custom-quill-editor .ql-editor {
+  min-height: 300px;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  transition: box-shadow 0.2s ease;
+}
+
+/* Hanya warna pink pada fokus editor */
+.custom-quill-editor .ql-editor:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #ba324f !important;
+  border-radius: 10px;
+}
+
+/* Hover toolbar dengan warna pink */
+.custom-quill-editor .ql-toolbar .ql-picker-label:hover,
+.custom-quill-editor .ql-toolbar button:hover {
+  color: #ba324f !important;
+}
+
 /* style navigation landing page */
 
 .navigation {
