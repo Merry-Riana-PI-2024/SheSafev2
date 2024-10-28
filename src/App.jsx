@@ -15,6 +15,7 @@ import Journal from './pages/Journal'
 import MyJournal from './pages/MyJournal'
 // import MyCases from './pages/MyCases'
 import ListPengajuanKasus from './pages/ListPengajuanKasus'
+import DetailJurnal from './pages/DetailJurnal'
 
 
 function App() {
@@ -37,6 +38,8 @@ function App() {
           <Route path='/journal' element={<MyJournal />}/>
           <Route path='/journal/mycases' element={<ListPengajuanKasus/>}/>
       </Route>
+      <Route path="/journal/detail" element={<DetailJurnal/>}/>
+
 
     </Routes>
     </>
