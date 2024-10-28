@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+ #root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+   
 :root {
   --primary-color: #04395e;
   --secondary-color: #ba324f;
@@ -193,123 +198,40 @@
 }
 .navbar-links li {
   text-align: center;
-  margin: 8px auto;
 }
 
-.toggle-button {
-  display: flex;
+/* .logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
 }
-.navbar {
-  border-radius: 10px;
-  z-index: 9999;
-  box-shadow: 0px 4px 10px 5px rgba(0, 0, 0, 0.1);
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
 }
-
-.navbar .navbar-links.active {
-  max-height: 400px;
-}
-
-/* style navigation landing page */
-
-/* style button */
-.sm-btn-primary {
-  display: inline-flex;
-  padding: 12px 24px;
-  justify-content: center;
-  align-items: center;
-  gap: 14px;
-  border-radius: 10px;
-  background: var(--primary-color);
-  color: var(--white);
-  text-decoration: none;
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
-.sm-btn-secondary {
-  display: inline-flex;
-  padding: 12px 24px;
-  justify-content: center;
-  align-items: center;
-  gap: 14px;
-  border-radius: 10px;
-  background: var(--secondary-color);
-  color: var(--white);
-  text-decoration: none;
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-.lg-btn-primary {
-  display: inline-flex;
-  padding: 12px 40px;
-  justify-content: center;
-  align-items: center;
-  gap: 14px;
-  border-radius: 10px;
-  background: #04395e;
-  color: var(--white);
-  text-decoration: none;
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
 }
 
-.lg-btn-secondary {
-  display: inline-flex;
-  padding: 12px 40px;
-  justify-content: center;
-  align-items: center;
-  gap: 14px;
-  border-radius: 10px;
-  background: var(--secondary-color);
-  color: var(--white);
-  text-decoration: none;
+.card {
+  padding: 2em;
 }
 
-.sm-btn-primary a {
-  text-decoration: none;
-  color: white;
-}
-
-.sm-btn-secondary a {
-  text-decoration: none;
-  color: white;
-}
-
-.lg-btn-primary a {
-  text-decoration: none;
-  color: white;
-}
-
-.lg-btn-secondary a {
-  text-decoration: none;
-  color: white;
-}
-
-.lg-btn-primary:hover {
-  color: white;
-}
-
-.lg-btn-secondary:hover {
-  color: white;
-}
-
-.sm-btn-primary:hover {
-  color: white;
-}
-
-.sm-btn-secondary:hover {
-  color: white;
-}
-
-/* style button */
-
-/* footer */
-.footer {
-  /* margin-top: 3rem; */
-  background-color: var(--primary-color);
-  color: white;
-  text-align: center;
-  padding: 24px 24px;
-}
-
-.footer p {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto !important;
-}
+.read-the-docs {
+  color: #888;
+} */
