@@ -23,8 +23,8 @@ const mockData = [
 function ListJurnal() {
   const [data] = useState(mockData);
 
-  const handleEdit = () => alert('Anda yakin akan edit pengajuan kasus ini');
-  const handleDelete = () => alert('Anda yakin akan hapus pengajuan kasus ini');
+  const handleEdit = () => alert('Anda yakin akan edit jurnal ini');
+  const handleDelete = () => alert('Anda yakin akan hapus jurnal ini');
 
   return (
     <div className="flex flex-col min-h-screen bg-pink-100 items-center">
