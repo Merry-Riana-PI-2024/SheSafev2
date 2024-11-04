@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const regist = createAsyncThunk("users/regist", async (dataUser) => {
   const response = await axios.post(
-    "https://be-peculiar-linnet-shesafe-47ad0121.koyeb.app/auth/register",
+    "https://peculiar-linnet-shesafe-47ad0121.koyeb.app/auth/register",
     dataUser
   );
   return response.data;
@@ -11,7 +11,7 @@ export const regist = createAsyncThunk("users/regist", async (dataUser) => {
 
 export const login = createAsyncThunk("users/login", async (dataUser) => {
   const response = await axios.post(
-    "https://be-peculiar-linnet-shesafe-47ad0121.koyeb.app/auth/login",
+    "https://peculiar-linnet-shesafe-47ad0121.koyeb.app/auth/login",
     dataUser
   );
   return response.data;
@@ -19,7 +19,7 @@ export const login = createAsyncThunk("users/login", async (dataUser) => {
 
 export const checkAuth = createAsyncThunk("users/checkAuth", async () => {
   const response = await axios.post(
-    "https://be-peculiar-linnet-shesafe-47ad0121.koyeb.app/auth/checkAuth",
+    "https://peculiar-linnet-shesafe-47ad0121.koyeb.app/auth/checkAuth",
     {
       withCredentials: true,
     }
