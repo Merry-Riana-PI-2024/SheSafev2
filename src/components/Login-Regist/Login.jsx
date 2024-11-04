@@ -1,10 +1,25 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import logo from "../../assets/images/lg_ss.png"
 import image from '../../assets/images/asset_login.png'
 import style from "../../assets/css/LoginRegist.module.css"
 import Navigation from "../Navigation"
+import { login } from "../../features/userSlice"
+import { useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
 
 function Login() {
+    const dispatch = useDispatch(); 
+    const navigate =useNavigate();
+    const { loading, error } = useSelector((state) => state.users); 
+    const [email, setEmail] = useState(""); 
+    const [password, setPassword] = useState("");
+
+    const handleSubmit = (e) => {
+        e.preventDefault(); 
+
+        dispatch(login({ email, password }));
+        navigate("/home");
+    };
     return(
         <>
         <div className="wrapper-mobile">
@@ -18,7 +33,7 @@ function Login() {
                       <h1 className={`${style['h1']} text-2xl font-bold`}>Masuk Akun</h1>
                       <p className={`${style['p']} mt-3 mb-3`}>Ruang Aman untuk Pemberdayaan dan Keadilan Perempuan</p>
                     </div>
-                    <form action="">
+                    <form onSubmit={handleSubmit}>
                         <div className="mb-4">
                             <label htmlFor="email" className="block mb-2"></label>
                             <input
@@ -27,6 +42,8 @@ function Login() {
                                 id="email"
                                 placeholder="Email"
                                 required
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
                                 className={`${style['form-control']} w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-#8c263b-500`} />
                         </div>
                         <div className="mb-4">
@@ -37,6 +54,8 @@ function Login() {
                                 id="password"
                                 placeholder="Password"
                                 required
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
                                 className={`${style['form-control']} w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-#8c263b-500`} />
                         </div>
                         <div className="text-center">

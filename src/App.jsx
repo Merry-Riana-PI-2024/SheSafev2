@@ -16,6 +16,7 @@ import MyJournal from './pages/MyJournal'
 // import MyCases from './pages/MyCases'
 import ListPengajuanKasus from './pages/ListPengajuanKasus'
 import DetailJurnal from './pages/DetailJurnal'
+import ProtectedRoutes from './components/ProtectedRoutes'
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
       <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/regist" element={<Register />} />
+      <Route element={<ProtectedRoutes/>}>
       <Route path="/addJurnal" element={<AddJurnal />} />
       <Route path="/home" element={<HomePage />}/>
       <Route path="/community" element={<Community />}/>
@@ -39,7 +41,7 @@ function App() {
           <Route path='/journal/mycases' element={<ListPengajuanKasus/>}/>
       </Route>
       <Route path="/journal/detail" element={<DetailJurnal/>}/>
-
+    </Route>
 
     </Routes>
     </>
