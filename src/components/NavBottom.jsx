@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import style from "../assets/css/NavBottom.module.css";
+import style from "../assets/css/Navbottom.module.css";
 import { Link, useLocation } from "react-router-dom";
 import { Icon } from "@iconify/react/dist/iconify.js";
 
