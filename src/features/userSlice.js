@@ -18,8 +18,8 @@ export const login = createAsyncThunk("users/login", async (dataUser) => {
 });
 
 export const checkAuth = createAsyncThunk("users/checkAuth", async () => {
-  const response = await axios.post(
-    "https://peculiar-linnet-shesafe-47ad0121.koyeb.app/auth/checkAuth",
+  const response = await axios.get(
+    "https://peculiar-linnet-shesafe-47ad0121.koyeb.app/auth/check",
     {
       withCredentials: true,
     }
@@ -30,7 +30,7 @@ export const checkAuth = createAsyncThunk("users/checkAuth", async () => {
 const userSlice = createSlice({
   name: "users",
   initialState: {
-    // isLoggedin: false,
+    isLoggedin: false,
     userData: null,
     loading: false,
     error: null,
