@@ -4,7 +4,7 @@ axios.defaults.withCredentials = true;
 
 export const regist = createAsyncThunk("users/regist", async (dataUser) => {
   const response = await axios.post(
-    "http://localhost:3000/auth/register",
+    "https://peculiar-linnet-shesafe-47ad0121.koyeb.app/auth/register",
     dataUser
   );
   return response.data;
@@ -12,16 +12,19 @@ export const regist = createAsyncThunk("users/regist", async (dataUser) => {
 
 export const login = createAsyncThunk("users/login", async (dataUser) => {
   const response = await axios.post(
-    "http://localhost:3000/auth/login",
+    "https://peculiar-linnet-shesafe-47ad0121.koyeb.app/auth/login",
     dataUser
   );
   return response.data;
 });
 
 export const checkAuth = createAsyncThunk("users/checkAuth", async () => {
-  const response = await axios.get("http://localhost:3000/check", {
-    withCredentials: true,
-  });
+  const response = await axios.get(
+    "https://peculiar-linnet-shesafe-47ad0121.koyeb.app/check",
+    {
+      withCredentials: true,
+    }
+  );
   return response.data;
 });
 
