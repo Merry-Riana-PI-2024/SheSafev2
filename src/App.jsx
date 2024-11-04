@@ -17,9 +17,18 @@ import MyJournal from './pages/MyJournal'
 import ListPengajuanKasus from './pages/ListPengajuanKasus'
 import DetailJurnal from './pages/DetailJurnal'
 import ProtectedRoutes from './components/ProtectedRoutes'
+import { useDispatch } from 'react-redux'
+import { checkAuth } from './features/userSlice'
+import { useEffect } from 'react'
 
 
 function App() {
+  const dispatch =useDispatch();
+
+   useEffect(() => {
+    dispatch(checkAuth());
+  }, [dispatch]);
+
 
   return (
     <>

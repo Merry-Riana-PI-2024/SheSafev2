@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-axios.defaults.withCredentials = true; //ini jangan sampe lupaa
+axios.defaults.withCredentials = true;
 
 export const regist = createAsyncThunk("users/regist", async (dataUser) => {
   const response = await axios.post(
-    "https://peculiar-linnet-shesafe-47ad0121.koyeb.app/auth/register",
+    "http://localhost:3000/auth/register",
     dataUser
   );
   return response.data;
@@ -12,26 +12,23 @@ export const regist = createAsyncThunk("users/regist", async (dataUser) => {
 
 export const login = createAsyncThunk("users/login", async (dataUser) => {
   const response = await axios.post(
-    "https://peculiar-linnet-shesafe-47ad0121.koyeb.app/auth/login",
+    "http://localhost:3000/auth/login",
     dataUser
   );
   return response.data;
 });
 
 export const checkAuth = createAsyncThunk("users/checkAuth", async () => {
-  const response = await axios.get(
-    "https://peculiar-linnet-shesafe-47ad0121.koyeb.app/check",
-    {
-      withCredentials: true,
-    }
-  );
+  const response = await axios.get("http://localhost:3000/check", {
+    withCredentials: true,
+  });
   return response.data;
 });
 
 const userSlice = createSlice({
   name: "users",
   initialState: {
-    isLoggedin: false,
+    isLoggedin: false, // Bisa diupdate setelah memanggil checkAuth
     userData: null,
     loading: false,
     error: null,
@@ -45,7 +42,6 @@ const userSlice = createSlice({
       })
       .addCase(regist.fulfilled, (state, action) => {
         state.loading = false;
-        state.isLoggedin = true;
         state.userData = action.payload;
       })
       .addCase(regist.rejected, (state, action) => {
@@ -70,6 +66,7 @@ const userSlice = createSlice({
         state.error = null;
       })
       .addCase(checkAuth.fulfilled, (state, action) => {
+        console.log("Check Auth Response:", action.payload); // Debugging
         state.loading = false;
         state.isLoggedin = action.payload.isAuthenticated;
         state.userData = action.payload.user;
@@ -77,6 +74,7 @@ const userSlice = createSlice({
       .addCase(checkAuth.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
+        state.isLoggedin = false;
       });
   },
 });
