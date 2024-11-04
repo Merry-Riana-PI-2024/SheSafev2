@@ -1,5 +1,5 @@
 import { Icon } from "@iconify/react/dist/iconify.js"
-import AddForm from "../components/Cases/addForm"
+import AddForm from "../components/Cases/AddForm"
 import asset from "../assets/images/asset_login.png";
 
 
