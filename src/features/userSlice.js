@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+axios.defaults.withCredentials = true; //ini jangan sampe lupaa
 
 export const regist = createAsyncThunk("users/regist", async (dataUser) => {
   const response = await axios.post(
@@ -19,7 +20,7 @@ export const login = createAsyncThunk("users/login", async (dataUser) => {
 
 export const checkAuth = createAsyncThunk("users/checkAuth", async () => {
   const response = await axios.get(
-    "https://peculiar-linnet-shesafe-47ad0121.koyeb.app/auth/check",
+    "https://peculiar-linnet-shesafe-47ad0121.koyeb.app/check",
     {
       withCredentials: true,
     }
