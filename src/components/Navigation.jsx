@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import logo from '../assets/images/lg_ss.png';
+import { Link } from 'react-router-dom';
 
 function Navigation() {
   // State untuk menentukan apakah menu sedang aktif atau tidak
@@ -41,7 +42,7 @@ function Navigation() {
         {/* Tombol login */}
         <div>
           <li className="sm-btn-secondary btn-join">
-            <a href="/views/login.html">Masuk</a>
+            <Link to="/login">Masuk</Link>
           </li>
         </div>
 

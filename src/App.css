@@ -14,11 +14,70 @@
   --white: #ffffff;
 }
 
-.wrapper-mobile {
+/* .wrapper-mobile {
   width: 480px;
   margin: 0 auto;
   min-height: 100vh;
   padding: 0px 0px;
+  background-color: var(--white);
+} */
+
+/* Custom css Slick */
+.slick-prev:before,
+.slick-next:before {
+  font-size: 30px !important;
+  color: #ba3451 !important;
+}
+
+.slider-container .slick-list {
+  margin: 0 -5px;
+}
+
+.slider-container .slick-slide {
+  padding: 0 5px;
+}
+
+/* custom texteditor */
+/* Menghilangkan semua efek border di toolbar dan editor */
+.custom-quill-editor .ql-container {
+  border: none !important;
+  outline: none !important;
+  min-height: 200px;
+}
+
+.custom-quill-editor .ql-toolbar {
+  border: none !important;
+  padding: 8px 10px;
+  outline: none !important;
+}
+
+/* Menghilangkan efek border pada toolbar tombol saat fokus */
+.custom-quill-editor .ql-toolbar .ql-picker-label,
+.custom-quill-editor .ql-toolbar button {
+  border: none !important;
+  outline: none !important;
+}
+
+/* Fokus editor khusus dengan warna pink tanpa efek fokus lain */
+.custom-quill-editor .ql-editor {
+  min-height: 300px;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  transition: box-shadow 0.2s ease;
+}
+
+/* Hanya warna pink pada fokus editor */
+.custom-quill-editor .ql-editor:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #ba324f !important;
+  border-radius: 10px;
+}
+
+/* Hover toolbar dengan warna pink */
+.custom-quill-editor .ql-toolbar .ql-picker-label:hover,
+.custom-quill-editor .ql-toolbar button:hover {
+  color: #ba324f !important;
 }
 
 /* style navigation landing page */
@@ -254,3 +313,41 @@
   justify-content: center;
   margin: 0 auto !important;
 }
+
+/* Uncomment if using animations
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+*/
+
+/* .card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+} */
