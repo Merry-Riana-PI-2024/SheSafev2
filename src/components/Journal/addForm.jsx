@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import style from "../../assets/css/AddJurnal.module.css"
 import image from '../../assets/images/asset_login.png'
 
@@ -8,9 +9,11 @@ function AddForm() {
         <div className="container mx-auto flex justify-center items-center min-h-screen p-4">
                 <div className="w-full max-w-lg">
                     <div className="text-center mb-10 gap-4 flex cols-2 justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="0.9em" height="5rem" viewBox="0 0 12 24">
+                      <Link to="/journal">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="5rem" viewBox="0 0 12 24">
                             <path fill="#8c263b" fillRule="evenodd" d="m3.343 12l7.071 7.071L9 20.485l-7.778-7.778a1 1 0 0 1 0-1.414L9 3.515l1.414 1.414z" />
                         </svg>
+                      </Link>
                         <h1 className={`${style['h1']} font-bold`}>Formulir Jurnal Baru</h1>
                     </div>
                     <form action="">

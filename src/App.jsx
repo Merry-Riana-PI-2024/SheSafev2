@@ -16,6 +16,7 @@ import MyJournal from './pages/MyJournal'
 // import MyCases from './pages/MyCases'
 import ListPengajuanKasus from './pages/ListPengajuanKasus'
 import DetailJurnal from './pages/DetailJurnal'
+import EditJurnal from './pages/EditJurnal'
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/regist" element={<Register />} />
       <Route path="/addJurnal" element={<AddJurnal />} />
+      <Route path='/editJurnal' element={<EditJurnal />} />
       <Route path="/home" element={<HomePage />}/>
       <Route path="/community" element={<Community />}/>
       <Route path="/community/detail" element={<DetailCom />}/>
