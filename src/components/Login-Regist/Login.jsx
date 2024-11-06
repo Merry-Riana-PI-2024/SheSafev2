@@ -1,10 +1,44 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import logo from "../../assets/images/lg_ss.png"
 import image from '../../assets/images/asset_login.png'
 import style from "../../assets/css/LoginRegist.module.css"
 import Navigation from "../Navigation"
+import { useState } from "react"
+import axios from "axios"
 
 function Login() {
+
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+    const navigate = useNavigate() //navigate
+    // const [error, setError] = useState(false)
+    // const [loading, setLoading] = useState(false)
+    // const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+    const API_BASE_URL = "http://localhost:4000"
+
+    const submitHandler = async (e) => {
+        e.preventDefault()
+        console.log(email, password);
+
+        try {
+            const response = await axios.post(
+                `${API_BASE_URL}/auth/login`,
+                { email, password },
+                { withCredentials: true } //important
+            )
+
+            if(response.status === 201) {
+                console.log("Login berhasil", response.data);
+                navigate("/home")
+            }else{
+                console.log("Login failed", response.data)
+            }
+        } catch (error) {
+            console.log("Error during login: ", error)
+        }
+        
+    }
+
     return(
         <>
         <div className="wrapper-mobile">
@@ -18,7 +52,7 @@ function Login() {
                       <h1 className={`${style['h1']} text-2xl font-bold`}>Masuk Akun</h1>
                       <p className={`${style['p']} mt-3 mb-3`}>Ruang Aman untuk Pemberdayaan dan Keadilan Perempuan</p>
                     </div>
-                    <form action="">
+                    <form onSubmit={submitHandler}>
                         <div className="mb-4">
                             <label htmlFor="email" className="block mb-2"></label>
                             <input
@@ -27,7 +61,10 @@ function Login() {
                                 id="email"
                                 placeholder="Email"
                                 required
-                                className={`${style['form-control']} w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-#8c263b-500`} />
+                                className={`${style['form-control']} w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-#8c263b-500`}
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />    
                         </div>
                         <div className="mb-4">
                             <label htmlFor="password" className="block mb-2"></label>
@@ -37,7 +74,10 @@ function Login() {
                                 id="password"
                                 placeholder="Password"
                                 required
-                                className={`${style['form-control']} w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-#8c263b-500`} />
+                                className={`${style['form-control']} w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-#8c263b-500`}
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
                         </div>
                         <div className="text-center">
                             <button

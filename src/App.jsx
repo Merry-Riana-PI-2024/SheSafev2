@@ -40,7 +40,7 @@ function App() {
           <Route path='/journal' element={<MyJournal />}/>
           <Route path='/journal/mycases' element={<ListPengajuanKasus/>}/>
       </Route>
-      <Route path="/journal/detail" element={<DetailJurnal/>}/>
+      <Route path="/journal/:id" element={<DetailJurnal/>}/>
 
 
     </Routes>
