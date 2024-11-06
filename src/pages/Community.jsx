@@ -2,31 +2,64 @@ import { useEffect, useState } from "react";
 import Card from "../components/Community/Card";
 import NavBottom from "../components/NavBottom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCommunity } from "../features/communitySlice";
-import { fetchCategories, selectCategories } from "../features/categoriesSlice";
+import { fetchCommunity, resetCommunity } from "../features/communitySlice";
+import { fetchCategories } from "../features/categoriesSlice";
 
 function Community() {
   const dispatch = useDispatch();
-  const { loading, error } = useSelector((state) => state.communities);
-  const community = useSelector((state) => state.communities.community);
-  const category = useSelector((state) => state.categories.category);
+  const { loading, error, community, pagination } = useSelector(
+    (state) => state.communities
+  );
+  const categories = useSelector((state) => state.categories.category);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [itemsPerPage] = useState(6);
+
+  // Fetch data komunitas dan kategori
   useEffect(() => {
-    dispatch(fetchCommunity());
+    // Reset halaman dan community saat kategori berubah
+    dispatch(resetCommunity());
+
+    // Fetch komunitas berdasarkan kategori yang dipilih
+    dispatch(
+      fetchCommunity({
+        page: currentPage,
+        perPage: itemsPerPage,
+        category: selectedCategory,
+      })
+    );
+  }, [dispatch, currentPage, selectedCategory, itemsPerPage]);
+
+  // Fetch kategori
+  useEffect(() => {
     dispatch(fetchCategories());
   }, [dispatch]);
 
+  // Handle perubahan kategori
+  const handleCategoryChange = (e) => {
+    setSelectedCategory(e.target.value);
+    setCurrentPage(1);
+  };
+
+  // Handle pagination
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
+
   return (
     <>
-      <div className={`bg-white wrapper-mobile `}>
-        <div className={`flex justify-between mx-5 pt-10`}>
-          <h2 className={`text-black text-xl font-bold`}>Postingan</h2>
+      <div className="bg-white wrapper-mobile">
+        <div className="flex justify-between mx-5 pt-10">
+          <h2 className="text-black text-xl font-bold">Postingan</h2>
           <select
-            className={`bg-[#BA324F] rounded-[10px] text-white px-4 py-2`}>
+            className="bg-[#BA324F] rounded-[10px] text-white px-4 py-2"
+            value={selectedCategory}
+            onChange={handleCategoryChange}>
             <option value="">Pilih Kategori</option>
-            {category && category.length > 0 ? (
-              category.map((cat) => (
-                <option value={cat._id} key={cat._id}>
+            {categories && categories.length > 0 ? (
+              categories.map((cat) => (
+                <option value={cat.name} key={cat._id}>
                   {cat.name}
                 </option>
               ))
@@ -35,24 +68,18 @@ function Community() {
             )}
           </select>
         </div>
-        <div className={`pb-[5rem]`}>
+
+        <div className="pb-[5rem]">
           {loading ? (
+            // Loading state
             <div>
-              {new Array(community.length).fill(null).map((_, index) => (
+              {new Array(itemsPerPage).fill(null).map((_, index) => (
                 <div key={index}>
                   <div className="space-y-4 mx-5 mt-10">
-                    <div className="flex justify-between gap-4 w-full">
-                      <div className="h-[60px] w-[80px] bg-gray-300 animate-pulse rounded-md"></div>
-                      <div className="h-[60px] w-full bg-gray-300 animate-pulse rounded-md"></div>
-                    </div>
-                    <div className="flex justify-between gap-4 w-full">
-                      <div className="h-[20px] w-[100px] bg-gray-300 animate-pulse rounded-md"></div>
-                      <div className="h-[20px] w-[100px] bg-gray-300 animate-pulse rounded-md"></div>
-                    </div>
+                    <div className="h-[60px] w-[80px] bg-gray-300 animate-pulse rounded-md"></div>
+                    <div className="h-[60px] w-full bg-gray-300 animate-pulse rounded-md"></div>
                     <div className="h-8 bg-gray-300 animate-pulse rounded-md"></div>
                     <div className="h-[200px] bg-gray-300 animate-pulse rounded-md"></div>
-                    <div className="h-8 bg-gray-300 animate-pulse rounded-md"></div>
-                    <div className="h-6 bg-gray-300 animate-pulse rounded-md"></div>
                   </div>
                 </div>
               ))}
@@ -62,8 +89,26 @@ function Community() {
           ) : (
             community.map((items) => <Card data={items} key={items._id} />)
           )}
+
+          {/* Pagination */}
+          <div className="flex justify-center items-center mb-5">
+            <button
+              disabled={currentPage === 1}
+              onClick={() => handlePageChange(currentPage - 1)}
+              className="px-4 py-2 border bg-[#BA324F] text-white rounded-md">
+              Prev
+            </button>
+            <span className="mx-3">{`Page ${currentPage} of ${pagination.total_pages}`}</span>
+            <button
+              disabled={currentPage === pagination.total_pages}
+              onClick={() => handlePageChange(currentPage + 1)}
+              className="px-4 py-2 border bg-[#BA324F] text-white rounded-md">
+              Next
+            </button>
+          </div>
         </div>
       </div>
+
       <NavBottom />
     </>
   );

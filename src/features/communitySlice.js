@@ -4,9 +4,19 @@ axios.defaults.withCredentials = true;
 
 export const fetchCommunity = createAsyncThunk(
   "community/fetchCommunity",
-  async () => {
-    const response = await axios.get("http://localhost:3000/community");
-    return response.data.data;
+  async ({ category, page, perPage, c }) => {
+    const response = await axios.get("http://localhost:3000/community", {
+      params: {
+        category,
+        page,
+        perPage,
+      },
+    });
+    // console.log("API Response:", response.data.data);
+    return {
+      community: response.data.data,
+      pagination: response.data.pagination,
+    };
   }
 );
 
@@ -16,7 +26,7 @@ export const fetchSupport = createAsyncThunk(
     const response = await axios.get(
       `http://localhost:3000/community/support/${casesID}`
     );
-    console.log("API Response for fetchSupport:", response.data);
+    // console.log("API Response for fetchSupport:", response.data);
     return response.data.data;
   }
 );
@@ -50,7 +60,6 @@ export const detailCommunity = createAsyncThunk(
   }
 );
 
-// Slice untuk komunitas
 const communitySlice = createSlice({
   name: "community",
   initialState: {
@@ -58,8 +67,24 @@ const communitySlice = createSlice({
     error: null,
     community: [],
     support: [],
+    pagination: {
+      total_data: 0,
+      per_page: 10,
+      current_page: 1,
+      total_pages: 1,
+    },
   },
-  reducers: {},
+  reducers: {
+    resetCommunity: (state) => {
+      state.community = [];
+      state.pagination = {
+        total_data: 0,
+        per_page: 6,
+        current_page: 1,
+        total_pages: 0,
+      };
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchCommunity.pending, (state) => {
@@ -68,7 +93,13 @@ const communitySlice = createSlice({
       })
       .addCase(fetchCommunity.fulfilled, (state, action) => {
         state.loading = false;
-        state.community = action.payload;
+        state.community = action.payload.community || [];
+        state.pagination = action.payload.pagination || {
+          total_data: 0,
+          per_page: 10,
+          current_page: 1,
+          total_pages: 1,
+        };
       })
       .addCase(fetchCommunity.rejected, (state, action) => {
         state.loading = false;
@@ -92,4 +123,5 @@ const communitySlice = createSlice({
   },
 });
 
+export const { resetCommunity } = communitySlice.actions;
 export default communitySlice.reducer;
