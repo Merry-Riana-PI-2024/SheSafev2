@@ -34,14 +34,16 @@ function NavBottom() {
             className={`${style["nav-content"]} ${
               location.pathname === "/home" ? style.active : ""
             }`}>
-            <Icon
-              icon="fluent:home-28-regular"
-              width="33"
-              height="33"
-              style={{
-                color: location.pathname === "/home" ? "#ba324f" : "#8c8c8c",
-              }}
-            />
+            <div className="w-[30px] h-[30px]">
+              <Icon
+                icon="fluent:home-28-regular"
+                width="33"
+                height="33"
+                style={{
+                  color: location.pathname === "/home" ? "#ba324f" : "#8c8c8c",
+                }}
+              />
+            </div>
             <p className="text-sm">Home</p>
           </Link>
 
@@ -53,18 +55,20 @@ function NavBottom() {
                 ? style.active
                 : ""
             }`}>
-            <Icon
-              icon="material-symbols-light:history-edu-outline"
-              width="33"
-              height="33"
-              style={{
-                color:
-                  location.pathname === "/journal" ||
-                  location.pathname === "/journal/mycases"
-                    ? "#ba324f"
-                    : "#8c8c8c",
-              }}
-            />
+            <div className="w-[30px] h-[30px]">
+              <Icon
+                icon="material-symbols-light:history-edu-outline"
+                width="33"
+                height="33"
+                style={{
+                  color:
+                    location.pathname === "/journal" ||
+                    location.pathname === "/journal/mycases"
+                      ? "#ba324f"
+                      : "#8c8c8c",
+                }}
+              />
+            </div>
             <p className="text-sm">Jurnal</p>
           </Link>
 
@@ -89,15 +93,17 @@ function NavBottom() {
             className={`${style["nav-content"]} ${
               location.pathname === "/community" ? style.active : ""
             }`}>
-            <Icon
-              icon="fluent:people-chat-24-regular"
-              width="30"
-              height="30"
-              style={{
-                color:
-                  location.pathname === "/community" ? "#ba324f" : "#8c8c8c",
-              }}
-            />
+            <div className="w-[30px] h-[30px]">
+              <Icon
+                icon="fluent:people-chat-24-regular"
+                width="30"
+                height="30"
+                style={{
+                  color:
+                    location.pathname === "/community" ? "#ba324f" : "#8c8c8c",
+                }}
+              />
+            </div>
             <p className="text-sm">Community</p>
           </Link>
 
@@ -106,14 +112,17 @@ function NavBottom() {
             className={`${style["nav-content"]} ${
               location.pathname === "/profile" ? style.active : ""
             }`}>
-            <Icon
-              icon="iconamoon:profile-light"
-              width="33"
-              height="33"
-              style={{
-                color: location.pathname === "/profile" ? "#ba324f" : "#8c8c8c",
-              }}
-            />
+            <div className="w-[30px] h-[30px]">
+              <Icon
+                icon="iconamoon:profile-light"
+                width="33"
+                height="33"
+                style={{
+                  color:
+                    location.pathname === "/profile" ? "#ba324f" : "#8c8c8c",
+                }}
+              />
+            </div>
             <p className="text-sm">Profile</p>
           </Link>
         </div>

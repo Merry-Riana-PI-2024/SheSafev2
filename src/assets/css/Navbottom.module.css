@@ -44,7 +44,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 8px auto;
+  /* padding: 8px auto; */
+  gap: 8px;
   width: 50px; /*tamabhin width weii lupa*/
 }
 
@@ -64,14 +65,14 @@
 }
 
 .nav-content p {
-  margin-top: 8px;
+  /* margin-top: 8px; */
   /* font-size: 1rem; */
   color: var(--light-grey);
   font-weight: 700;
 }
 
 .nav-content.active p {
-  margin-top: 8px;
+  /* margin-top: 8px; */
   /* font-size: 1rem; */
   color: var(--secondary-color) !important;
   font-weight: 700 !important;
@@ -84,11 +85,11 @@
   }
 
   .nav-content p {
-    font-size: 12px;
+    /* font-size: 12px; */
   }
 
   .nav-content.active p {
-    font-size: 12px;
+    /* font-size: 12px; */
   }
 }
 
