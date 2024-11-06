@@ -1,6 +1,7 @@
 import { Icon } from "@iconify/react/dist/iconify.js"
 import AddForm from "../components/Cases/addForm"
 import asset from "../assets/images/asset_login.png";
+import { Link } from "react-router-dom";
 
 
 function AddCases (){
@@ -8,12 +9,14 @@ function AddCases (){
         <>
          <div className={`wrapper-mobile bg-white `}>
     <div className={`flex pt-10 px-5 items-center justify-between`}>
+        <Link to="/journal/mycases">
           <Icon
             icon="ep:arrow-left-bold"
             width="32"
             height="32"
             style={{ color: "#BA324F" }}
           />
+        </Link>
           <p className="text-black text-xl">Formulir Pengajuan Kasus</p>
           <div> </div>
         </div>

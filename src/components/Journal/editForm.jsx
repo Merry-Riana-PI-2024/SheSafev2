@@ -2,7 +2,7 @@ import { Link } from "react-router-dom"
 import style from "../../assets/css/AddJurnal.module.css"
 import image from '../../assets/images/asset_login.png'
 
-function EdiForm() {
+function EditForm() {
     return(
         <>
         
@@ -107,4 +107,4 @@ function EdiForm() {
     )
 }
 
-export default EdiForm
+export default EditForm
