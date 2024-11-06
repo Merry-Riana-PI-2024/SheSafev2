@@ -29,8 +29,9 @@
   display: flex;
   padding: 8px 12px;
   justify-content: space-around;
-  flex-direction: row;
   width: 480px;
+  flex-direction: row;
+  max-width: 100%;
   align-items: center;
   border-radius: 10px 10px 0px 0px;
   background: #fff;
@@ -44,6 +45,7 @@
   justify-content: center;
   align-items: center;
   padding: 8px auto;
+  width: 50px; /*tamabhin width weii lupa*/
 }
 
 .nav-content p {
@@ -63,14 +65,14 @@
 
 .nav-content p {
   margin-top: 8px;
-  font-size: 1rem;
+  /* font-size: 1rem; */
   color: var(--light-grey);
   font-weight: 700;
 }
 
 .nav-content.active p {
   margin-top: 8px;
-  font-size: 1rem;
+  /* font-size: 1rem; */
   color: var(--secondary-color) !important;
   font-weight: 700 !important;
 }

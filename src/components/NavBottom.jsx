@@ -42,7 +42,7 @@ function NavBottom() {
                 color: location.pathname === "/home" ? "#ba324f" : "#8c8c8c",
               }}
             />
-            <p>Home</p>
+            <p className="text-sm">Home</p>
           </Link>
 
           <Link
@@ -65,10 +65,10 @@ function NavBottom() {
                     : "#8c8c8c",
               }}
             />
-            <p>Jurnal</p>
+            <p className="text-sm">Jurnal</p>
           </Link>
 
-          <div className={`${style["nav-content"]}`} onClick={showMenuPopUp}>
+          <div className={`${style["nav-content"]} `} onClick={showMenuPopUp}>
             <div className={`${style["pop-button"]}`}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -91,14 +91,14 @@ function NavBottom() {
             }`}>
             <Icon
               icon="fluent:people-chat-24-regular"
-              width="33"
-              height="33"
+              width="30"
+              height="30"
               style={{
                 color:
                   location.pathname === "/community" ? "#ba324f" : "#8c8c8c",
               }}
             />
-            <p>Community</p>
+            <p className="text-sm">Community</p>
           </Link>
 
           <Link
@@ -114,7 +114,7 @@ function NavBottom() {
                 color: location.pathname === "/profile" ? "#ba324f" : "#8c8c8c",
               }}
             />
-            <p>Profile</p>
+            <p className="text-sm">Profile</p>
           </Link>
         </div>
       </div>
@@ -134,7 +134,7 @@ function NavBottom() {
                 height="36"
                 style={{ color: "#BA324F" }}
               />
-              <p>Ajukan Kasus</p>
+              <p className="text-sm">Ajukan Kasus</p>
             </Link>
             <Link to="/addJurnal" className={`${style["popup-content"]}`}>
               <Icon
@@ -143,7 +143,7 @@ function NavBottom() {
                 height="36"
                 style={{ color: "#BA324F" }}
               />
-              <p>Buat Jurnal</p>
+              <p className="text-sm">Buat Jurnal</p>
             </Link>
           </div>
         </div>
