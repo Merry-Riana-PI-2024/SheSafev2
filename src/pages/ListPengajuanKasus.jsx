@@ -16,7 +16,7 @@ function ListPengajuanKasus() {
   const fetchData = async (page = 1, statusFilter = "") => {
     try {
       const response = await axios.get(
-        `https://peculiar-linnet-shesafe-47ad0121.koyeb.app/cases/?status=${statusFilter}&page=${page}&perPage=${perPage}`
+        `http://localhost:4000/cases/?status=${statusFilter}&page=${page}&perPage=${perPage}`
       );
       const { cases, totalPages } = response.data;
       setData(cases);
@@ -30,9 +30,10 @@ function ListPengajuanKasus() {
     fetchData(currentPage, status);
   }, [currentPage, status]);
 
-  const handleEdit = (id) => {
-    // Arahkan ke halaman edit dengan ID pengajuan kasus
-    navigate(`/journal/mycases/edit`);
+  const handleEditClick = (caseId) => {
+    console.log("caseId:", caseId); // Debug: Memastikan caseId diterima
+    localStorage.setItem("caseId", caseId); // Simpan caseId ke localStorage
+    navigate(`/journal/mycases/edit/${caseId}`);
   };
 
   const handleDelete = () => alert("Anda yakin akan hapus pengajuan kasus ini");
@@ -76,39 +77,39 @@ function ListPengajuanKasus() {
       </div>
 
       {data.map((item) => (
-        <div key={item._id} className="bg-white border rounded-lg shadow-sm mb-3 mx-5 ">
-          <div className="flex justify-between items-center px-4 mt-5">
-            <span className={`${item.isApproved === "draft" ? "text-red-600 bg-red-100" : "text-pink-600 bg-pink-100"} text-sm font-semibold px-2 py-2 rounded`}>
-              {item.isApproved === "draft" ? "Draft" : item.isApproved}
-            </span>
-            <span className="text-sm text-[#04395E] px-2 py-2 rounded mr-2">
-              {new Date(item.created).toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" })}
-            </span>
-          </div>
+  <div key={item._id} className="bg-white border rounded-lg shadow-sm mb-3 mx-5">
+    <div className="flex justify-between items-center px-4 mt-5">
+      <span className={`${item.isApproved === "draft" ? "text-red-600 bg-red-100" : "text-pink-600 bg-pink-100"} text-sm font-semibold px-2 py-2 rounded`}>
+        {item.isApproved === "draft" ? "Draft" : item.isApproved}
+      </span>
+      <span className="text-sm text-[#04395E] px-2 py-2 rounded mr-2">
+        {new Date(item.created).toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" })}
+      </span>
+    </div>
 
-          <div className="px-4 py-3">
-            <h4 className="font-semibold text-lg text-gray-800">{item.title}</h4>
-            <p className="text-gray-600 mt-2">{item.description}</p>
-          </div>
+    <div className="px-4 py-3">
+      <h4 className="font-semibold text-lg text-gray-800">{item.title}</h4>
+      <p className="text-gray-600 mt-2">{item.description}</p>
+    </div>
 
-          <div style={{ backgroundColor: "rgba(245, 245, 245, 1)" }} className="flex justify-between px-4 py-2">
-            <button
-              onClick={() => handleEdit(item._id)} // Pass the ID to handleEdit
-              className="flex gap-2 items-center text-[#04395E] hover:text-blue-700 px-3 py-1 rounded border border-[#04395E]"
-            >
-              <Icon icon="tabler:edit" width="24" height="24" style={{ color: "#04395E" }} />
-              Edit
-            </button>
-            <button
-              onClick={handleDelete}
-              className="flex gap-2 items-center text-[#BA324F] hover:text-red-700 px-3 py-1 rounded border border-red-600"
-            >
-              <Icon icon="mi:delete" width="24" height="24" style={{ color: "#BA324F" }} />
-              Hapus
-            </button>
-          </div>
-        </div>
-      ))}
+    <div style={{ backgroundColor: "rgba(245, 245, 245, 1)" }} className="flex justify-between px-4 py-2">
+      <button
+        onClick={() => handleEditClick(item._id)} // Menggunakan item._id yang sesuai
+        className="flex gap-2 items-center text-[#04395E] hover:text-blue-700 px-3 py-1 rounded border border-[#04395E]"
+      >
+        <Icon icon="tabler:edit" width="24" height="24" style={{ color: "#04395E" }} />
+        Edit
+      </button>
+      <button
+        onClick={handleDelete}
+        className="flex gap-2 items-center text-[#BA324F] hover:text-red-700 px-3 py-1 rounded border border-red-600"
+      >
+        <Icon icon="mi:delete" width="24" height="24" style={{ color: "#BA324F" }} />
+        Hapus
+      </button>
+    </div>
+  </div>
+))}
 
       <div className="flex justify-center my-4">
         <button

@@ -4,12 +4,12 @@ import EditForm from "../components/Cases/EditForm";
 import asset from "../assets/images/asset_login.png";
 
 function EditCases() {
-    const { caseId } = useParams();  
+    const { caseId } = useParams();
 
     return (
         <>
-            <div className={`wrapper-mobile bg-white`}>
-                <div className={`flex pt-10 px-5 items-center justify-between`}>
+            <div className="wrapper-mobile bg-white">
+                <div className="flex pt-10 px-5 items-center justify-between">
                     <Icon
                         icon="ep:arrow-left-bold"
                         width="32"
@@ -17,14 +17,14 @@ function EditCases() {
                         style={{ color: "#BA324F" }}
                     />
                     <p className="text-black text-xl">Formulir Pengajuan Kasus</p>
-                    <div> </div>
+                    <div></div>
                 </div>
 
-                <div className={`px-5 mt-10 pb-[6rem]`}>
+                <div className="px-5 mt-10 pb-[6rem]">
                     <EditForm caseId={caseId} />
                 </div>
                 
-                <div className={`flex flex-col justify-center items-center gap-4`}>
+                <div className="flex flex-col justify-center items-center gap-4">
                     <img src={asset} alt="" />
                 </div>
             </div>

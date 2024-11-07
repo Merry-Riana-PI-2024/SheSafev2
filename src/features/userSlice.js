@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 axios.defaults.withCredentials = true;  
 
-const BASE_URL = "https://peculiar-linnet-shesafe-47ad0121.koyeb.app/";
+const BASE_URL = "http://localhost:4000";
 
 
 export const regist = createAsyncThunk("users/regist", async (dataUser) => {

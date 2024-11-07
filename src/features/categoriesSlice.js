@@ -1,12 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 axios.defaults.withCredentials = true;
+const BASE_URL = "http://localhost:4000";
 
 // Thunk untuk mendapatkan kategori
 export const fetchCategories = createAsyncThunk(
   "category/fetchCategories",
   async () => {
-    const response = await axios.get(`/api/category`, {
+    const response = await axios.get(`${BASE_URL}/category`, {
       withCredentials: true,
     });
     return response.data.data;
