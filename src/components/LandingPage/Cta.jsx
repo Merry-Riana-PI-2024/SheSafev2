@@ -1,12 +1,15 @@
-import style from '../../assets/css/LandingPage.module.css'
-import logo from '../../assets/images/lg_ss.png'
-import { Link } from 'react-router-dom';
+import { useSelector } from "react-redux";
+import style from "../../assets/css/LandingPage.module.css";
+import logo from "../../assets/images/lg_ss.png";
+import { Link } from "react-router-dom";
 
 function Cta() {
+  const { isLoggedin, loading } = useSelector((state) => state.users);
+
   return (
     <>
-      <div className={`${style['contact-section']}`} id="contact-section">
-        <div className={`${style['contact-content']}`}>
+      <div className={`${style["contact-section"]}`} id="contact-section">
+        <div className={`${style["contact-content"]}`}>
           <div className={`${style.image}`}>
             <img className="img-fluid" src={logo} alt="" width="30%" />
           </div>
@@ -17,9 +20,13 @@ function Cta() {
               dukungan
             </p>
           </div>
-          <Link to="/regist" className="lg-btn-secondary">
-            Daftar Sekarang
-          </Link>
+          {!isLoggedin ? (
+            <Link to="/regist" className="lg-btn-secondary">
+              Daftar Sekarang
+            </Link>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </>

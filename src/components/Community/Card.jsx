@@ -4,33 +4,45 @@ import { useNavigate } from "react-router-dom";
 
 function Card({ data }) {
   const navigate = useNavigate();
-
+  const formattedDate = new Date(data.approved).toLocaleDateString();
+  const formattedTime = new Date(data.approved).toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+  const truncatedTitle =
+    data.title.length > 100 ? data.title.slice(0, 100) + "..." : data.title;
+  const truncatedDesc =
+    data.title.length > 200 ? data.title.slice(0, 200) + "..." : data.title;
   return (
     <>
       <div className={`px-5 py-2 my-2`}>
         <div
           className={`px-5 py-6  bg-white rounded-t-[10px] box-shadow: shadow-sm shadow-md; `}>
           <div className={`flex flex-row gap-8  items-center justify-start `}>
-            {/* {!data.createdBy.avatar ? (  <img src={foto} />) : (<img className={`rounded w-[50px]`} src={`https://res.cloudinary.com/dut3hehdr/image/upload/v1730657531/${data.createdBy.avatar}`}/>)} */}
-            <img src={foto} />
+            {!data.createdBy.avatar ? (
+              <img src={foto} />
+            ) : (
+              <img className={`rounded w-[50px]`} src={data.createdBy.avatar} />
+            )}
             <div className={`flex flex-col gap-1`}>
               <h6 className={`text-[#BA324F] font-bold text-md`}>
                 {data.isAnonimous}
               </h6>
               <p className={`text-[#8c8c8c] font-light`}>
                 {/* 11 Oktober 2024 | 02:40pm */}
-                {data.approved}
+                {formattedDate} | {formattedTime}
               </p>
             </div>
           </div>
 
-          <div className={`flex flex-col gap-2 ustify-items-start mt-5 `}>
-            <h5
-              className={`text-black text-md font-bold`}
-              onClick={() => navigate(`${data._id}`)}>
-              {data.title}
+          <div
+            className={`flex flex-col gap-2 ustify-items-start mt-5 cursor-pointer `}
+            onClick={() => navigate(`${data._id}`)}>
+            <h5 className={`text-black text-md font-bold`}>
+              {/* {data.title} */}
+              {truncatedTitle}
             </h5>
-            <p className={`text-[#8c8c8c] font-medium`}>{data.description}</p>
+            <p className={`text-[#8c8c8c] font-medium`}>{truncatedDesc}</p>
             <h5 className={`text-[#BA324F] font-bold text-md text-left`}>
               #{data.category.name}
             </h5>

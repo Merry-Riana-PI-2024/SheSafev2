@@ -56,15 +56,26 @@ function DetailContent({ data }) {
     });
   };
 
+  const formattedDate = new Date(data.approved).toLocaleDateString();
+  const formattedTime = new Date(data.approved).toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
   return (
     <>
       <div className="flex flex-row gap-8 items-center justify-start">
-        <img src={foto} alt="User Avatar" />
+        {!data.createdBy.avatar ? (
+          <img src={foto} />
+        ) : (
+          <img className={`rounded w-[50px]`} src={data.createdBy.avatar} />
+        )}{" "}
         <div className="flex flex-col gap-1">
           <h6 className="text-[#BA324F] font-bold text-md">
             {data.isAnonimous}
           </h6>
-          <p className="text-[#8c8c8c] font-light">{data.approved}</p>
+          <p className="text-[#8c8c8c] font-light">
+            {formattedDate} | {formattedTime}
+          </p>
         </div>
       </div>
 

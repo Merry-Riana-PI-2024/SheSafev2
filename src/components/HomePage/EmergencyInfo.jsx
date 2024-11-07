@@ -82,7 +82,7 @@ function EmergencyInfo() {
     <>
       <div className="relative p-4">
         <div className="mb-4">
-          <h4 className="text-xl">Info Pusat Bantuan</h4>
+          <h4 className="text-xl font-bold">Info Pusat Bantuan</h4>
         </div>
 
         <div
