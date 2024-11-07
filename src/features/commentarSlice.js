@@ -7,15 +7,12 @@ export const fetchCommentar = createAsyncThunk(
   "commentar/fetchCommentar",
   async ({ id, page, perPage }) => {
     try {
-      const response = await axios.get(
-        `http://localhost:3000/community/commentar/${id}`,
-        {
-          params: {
-            page,
-            perPage,
-          },
-        }
-      );
+      const response = await axios.get(`/api/community/commentar/${id}`, {
+        params: {
+          page,
+          perPage,
+        },
+      });
 
       // console.log("API Response for fetchCommentar:", response.data);
       return {
@@ -33,11 +30,29 @@ export const fetchCommentar = createAsyncThunk(
 export const postCommentar = createAsyncThunk(
   "commentar/postCommentar",
   async ({ casesID, description }) => {
-    const response = await axios.post(
-      `http://localhost:3000/community/commentar/${casesID}`,
-      { description }
-    );
+    const response = await axios.post(`/api/community/commentar/${casesID}`, {
+      description,
+    });
     return response.data.commentar;
+  }
+);
+
+//thunk untuk delete
+export const deleteComment = createAsyncThunk(
+  "commentar/deleteComment",
+  async ({ _id, casesID }) => {
+    try {
+      const response = await axios.delete(
+        `/api/community/commentar/${casesID}`,
+        {
+          data: { _id },
+        }
+      );
+      return response.data.data;
+    } catch (error) {
+      console.error("Error deleting comment:", error);
+      throw error;
+    }
   }
 );
 
@@ -88,6 +103,10 @@ const commentarSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(postCommentar.fulfilled, (state, action) => {
+        state.loading = false;
+        state.commentar = action.payload;
+      })
+      .addCase(deleteComment.fulfilled, (state, action) => {
         state.loading = false;
         state.commentar = action.payload;
       });

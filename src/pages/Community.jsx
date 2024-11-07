@@ -18,9 +18,7 @@ function Community() {
 
   // Fetch data komunitas dan kategori
   useEffect(() => {
-    // Reset halaman dan community saat kategori berubah
     dispatch(resetCommunity());
-
     // Fetch komunitas berdasarkan kategori yang dipilih
     dispatch(
       fetchCommunity({
@@ -87,22 +85,40 @@ function Community() {
           ) : community.length === 0 ? (
             <h1 className="mx-5 my-3">Belum ada kasus yang dibagikan</h1>
           ) : (
-            community.map((items) => <Card data={items} key={items._id} />)
+            community.map((items) => {
+              return <Card data={items} key={items._id} />;
+            })
           )}
 
           {/* Pagination */}
           <div className="flex justify-center items-center mb-5">
+            {/* Prev Button */}
             <button
               disabled={currentPage === 1}
               onClick={() => handlePageChange(currentPage - 1)}
-              className="px-4 py-2 border bg-[#BA324F] text-white rounded-md">
+              className="px-4 py-2 border bg-[#BA324F] text-white rounded-md disabled:opacity-50">
               Prev
             </button>
-            <span className="mx-3">{`Page ${currentPage} of ${pagination.total_pages}`}</span>
+
+            {/* Page info */}
+            <span className="mx-3">
+              {`Page ${currentPage} of ${
+                pagination && pagination.total_pages
+                  ? pagination.total_pages
+                  : 1
+              }`}
+            </span>
+
+            {/* Next Button */}
             <button
-              disabled={currentPage === pagination.total_pages}
+              disabled={
+                currentPage ===
+                (pagination && pagination.total_pages
+                  ? pagination.total_pages
+                  : 1)
+              }
               onClick={() => handlePageChange(currentPage + 1)}
-              className="px-4 py-2 border bg-[#BA324F] text-white rounded-md">
+              className="px-4 py-2 border bg-[#BA324F] text-white rounded-md disabled:opacity-50">
               Next
             </button>
           </div>

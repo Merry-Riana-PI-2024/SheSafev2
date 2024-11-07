@@ -3,23 +3,19 @@ import axios from "axios";
 // axios.defaults.withCredentials = true;
 
 export const regist = createAsyncThunk("users/regist", async (dataUser) => {
-  const response = await axios.post(
-    "http://localhost:3000/auth/register",
-    dataUser
-  );
+  const response = await axios.post(`/api/auth/register`, dataUser);
   return response.data;
 });
 
 export const login = createAsyncThunk("users/login", async (dataUser) => {
-  const response = await axios.post(
-    "http://localhost:3000/auth/login",
-    dataUser
-  );
+  const response = await axios.post(`/api/auth/login`, dataUser, {
+    withCredentials: true,
+  });
   return response.data;
 });
 
 export const checkAuth = createAsyncThunk("users/checkAuth", async () => {
-  const response = await axios.get("http://localhost:3000/check", {
+  const response = await axios.get(`/api/check`, {
     withCredentials: true,
   });
   return response.data;

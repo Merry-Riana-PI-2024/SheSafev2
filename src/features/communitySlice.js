@@ -5,7 +5,7 @@ axios.defaults.withCredentials = true;
 export const fetchCommunity = createAsyncThunk(
   "community/fetchCommunity",
   async ({ category, page, perPage, c }) => {
-    const response = await axios.get("http://localhost:3000/community", {
+    const response = await axios.get(`/api/community`, {
       params: {
         category,
         page,
@@ -13,6 +13,7 @@ export const fetchCommunity = createAsyncThunk(
       },
     });
     // console.log("API Response:", response.data.data);
+    // console.log("API Pagination:", response.data.pagination);
     return {
       community: response.data.data,
       pagination: response.data.pagination,
@@ -23,9 +24,7 @@ export const fetchCommunity = createAsyncThunk(
 export const fetchSupport = createAsyncThunk(
   "community/fetchSupport",
   async (casesID) => {
-    const response = await axios.get(
-      `http://localhost:3000/community/support/${casesID}`
-    );
+    const response = await axios.get(`/api/community/support/${casesID}`);
     // console.log("API Response for fetchSupport:", response.data);
     return response.data.data;
   }
@@ -34,10 +33,9 @@ export const fetchSupport = createAsyncThunk(
 export const postSupport = createAsyncThunk(
   "community/postSupport",
   async ({ casesID, count }) => {
-    const response = await axios.post(
-      `http://localhost:3000/community/support/${casesID}`,
-      { count }
-    );
+    const response = await axios.post(`/api/community/support/${casesID}`, {
+      count,
+    });
     return response.data;
   }
 );
@@ -45,9 +43,7 @@ export const postSupport = createAsyncThunk(
 export const deleteSupportById = createAsyncThunk(
   "community/deleteSupportById",
   async (casesID) => {
-    const response = await axios.delete(
-      `http://localhost:3000/community/support/${casesID}`
-    );
+    const response = await axios.delete(`/api/community/support/${casesID}`);
     return response.data;
   }
 );
@@ -55,7 +51,7 @@ export const deleteSupportById = createAsyncThunk(
 export const detailCommunity = createAsyncThunk(
   "community/detailCommunity",
   async (id) => {
-    const response = await axios.get(`http://localhost:3000/community/${id}`);
+    const response = await axios.get(`/api/community/${id}`);
     return response.data.data;
   }
 );
@@ -69,7 +65,7 @@ const communitySlice = createSlice({
     support: [],
     pagination: {
       total_data: 0,
-      per_page: 10,
+      per_page: 6,
       current_page: 1,
       total_pages: 1,
     },
@@ -96,7 +92,7 @@ const communitySlice = createSlice({
         state.community = action.payload.community || [];
         state.pagination = action.payload.pagination || {
           total_data: 0,
-          per_page: 10,
+          per_page: 6,
           current_page: 1,
           total_pages: 1,
         };

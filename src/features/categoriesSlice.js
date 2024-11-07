@@ -6,7 +6,7 @@ axios.defaults.withCredentials = true;
 export const fetchCategories = createAsyncThunk(
   "category/fetchCategories",
   async () => {
-    const response = await axios.get("http://localhost:3000/category", {
+    const response = await axios.get(`/api/category`, {
       withCredentials: true,
     });
     return response.data.data;

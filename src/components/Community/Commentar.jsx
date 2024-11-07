@@ -1,6 +1,6 @@
 import foto from "../../assets/images/fp1.png";
 
-function Commentar({ commentar }) {
+function Commentar({ commentar, delCom }) {
   return (
     <>
       <div className={`mt-5 bg-[#f5f5f5] rounded-[10px] px-4 py-3`}>
@@ -17,6 +17,12 @@ function Commentar({ commentar }) {
         <p className={`text-black text-sm font-light mt-3`}>
           {commentar.description}
         </p>
+        <div className="flex justify-between">
+          <div></div>
+          <div></div>
+
+          <div>{delCom}</div>
+        </div>
       </div>
     </>
   );

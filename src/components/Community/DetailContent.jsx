@@ -3,15 +3,20 @@ import foto from "../../assets/images/fp1.png";
 import Commentar from "./Commentar";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { fetchCommentar, resetCommentar } from "../../features/commentarSlice";
+import {
+  deleteComment,
+  fetchCommentar,
+  resetCommentar,
+} from "../../features/commentarSlice";
 import { useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 
 function DetailContent({ data }) {
   const { id } = useParams();
   const dispatch = useDispatch();
   const comment = useSelector((state) => state.commentars.commentar);
   const pagination = useSelector((state) => state.commentars.pagination);
-
+  const { userData } = useSelector((state) => state.users);
   const { total_data, per_page, current_page, total_pages } = pagination;
 
   const validComments = Array.isArray(comment) ? comment : [];
@@ -19,7 +24,7 @@ function DetailContent({ data }) {
 
   // Ambil komentar berdasarkan halaman yang aktif
   useEffect(() => {
-    dispatch(resetCommentar()); // Reset data komentar sebelumnya
+    dispatch(resetCommentar());
     dispatch(fetchCommentar({ id, page, perPage: per_page }));
   }, [dispatch, id, page, per_page]);
 
@@ -29,9 +34,27 @@ function DetailContent({ data }) {
       setPage(newPage);
     }
   };
+  const handleDeleteComment = (idcomment) => {
+    Swal.fire({
+      title: "Apakah Anda yakin?",
+      text: "Komentar ini akan dihapus dan tidak bisa dikembalikan!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Ya, hapus komentar!",
+      cancelButtonText: "Batal",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        console.log("Deleting comment with ID:", idcomment);
+        dispatch(deleteComment({ _id: idcomment, casesID: id }));
+        dispatch(fetchCommentar({ id, page, perPage: per_page }));
 
-  // console.log("Comments:", validComments);
-  // console.log("Pagination:", pagination);
+        Swal.fire("Terhapus!", "Komentar telah dihapus.", "success");
+      } else {
+        Swal.fire("Dibatalkan", "Komentar tidak dihapus.", "info");
+      }
+    });
+  };
 
   return (
     <>
@@ -95,8 +118,23 @@ function DetailContent({ data }) {
             <Commentar
               commentar={item}
               key={item._id}
-              page={page}
+              page={current_page}
+              totalPages={total_pages}
               perPage={per_page}
+              delCom={
+                userData &&
+                item &&
+                item.createdBy &&
+                item.createdBy._id === userData.userId ? (
+                  <Icon
+                    icon="mi:delete"
+                    width="24"
+                    height="24"
+                    style={{ color: "#BA324F" }}
+                    onClick={() => handleDeleteComment(item._id)}
+                  />
+                ) : null
+              }
             />
           ))
         ) : (
@@ -111,7 +149,7 @@ function DetailContent({ data }) {
                 <button
                   onClick={() => handlePageChange(page - 1)}
                   disabled={page <= 1}
-                  className="px-3 py-1 text-sm font-medium text-white bg-[#BA324F] rounded-md disabled:opacity-50">
+                  className="px-4 py-2 text-sm font-medium text-white bg-[#BA324F] rounded-md disabled:opacity-50">
                   Previous
                 </button>
               </li>
@@ -124,7 +162,7 @@ function DetailContent({ data }) {
                 <button
                   onClick={() => handlePageChange(page + 1)}
                   disabled={page >= total_pages}
-                  className="px-3 py-1 text-sm font-medium text-white bg-[#BA324F] rounded-md disabled:opacity-50">
+                  className="px-4 py-2 text-sm font-medium text-white bg-[#BA324F] rounded-md disabled:opacity-50">
                   Next
                 </button>
               </li>

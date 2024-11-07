@@ -1,7 +1,7 @@
 import { Icon } from "@iconify/react";
 import Swal from "sweetalert2";
 import { useDispatch, useSelector } from "react-redux";
-import { postCommentar, fetchCommentar } from "../../features/commentarSlice";
+import { postCommentar } from "../../features/commentarSlice";
 import { useEffect } from "react";
 import {
   deleteSupportById,
@@ -10,8 +10,9 @@ import {
   detailCommunity,
 } from "../../features/communitySlice";
 
-function NavCom({ casesID }) {
+function NavCom({ casesID, page }) {
   const dispatch = useDispatch();
+  const pagination = useSelector((state) => state.commentars.pagination);
 
   const { support } = useSelector((state) => state.communities);
 
@@ -72,7 +73,6 @@ function NavCom({ casesID }) {
               description: text,
             })
           );
-
           // Tampilkan pesan sukses setelah komentar terkirim
           Swal.fire({
             title: "Komentar Anda Terkirim",

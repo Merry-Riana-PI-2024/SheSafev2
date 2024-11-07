@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 function Card({ data }) {
   const navigate = useNavigate();
+
   return (
     <>
       <div className={`px-5 py-2 my-2`}>
@@ -45,18 +46,19 @@ function Card({ data }) {
               height="24"
               style={{ color: "#8c8c8c" }}
             />
-            <p className={`text-[#8c8c8c]`}>100 Komentar</p>
+            <p className={`text-[#8c8c8c]`}>
+              {data.commentCounter || 0} Komentar
+            </p>
           </div>
 
-          <div
-            className={`flex gap-2 border-2 border-[#BA324F] rounded-[10px] px-2 py-2`}>
+          <div className={`flex gap-2 rounded-[10px] px-2 py-2`}>
             <Icon
               icon="mingcute:love-line"
               width="24"
               height="24"
               style={{ color: "#BA324F" }}
             />
-            <p className={`text-[#BA324F]`}>100 Dukungan</p>
+            <p className={`text-[#BA324F]`}>{data.supportCounter} Dukungan</p>
           </div>
         </div>
       </div>
