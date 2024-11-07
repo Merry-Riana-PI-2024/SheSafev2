@@ -11,22 +11,29 @@ body {
 }
 
 .wrapper-mobile {
-  width: 480px;
+  width: 100%;
+  max-width: 470px;
   margin: 0 auto;
   min-height: 100vh;
-  padding: 0px 0px;
+  padding: 0;
   background-color: var(--white);
 }
 
-/* Responsive */
 @media (max-width: 576px) {
   .wrapper-mobile {
-    max-width: 400px; /* Lebar maksimal container selebar ponsel */
+    max-width: 100%;
+    padding: 0;
   }
 
   .navbar {
-    max-width: 385px;
+    max-width: 100%;
+    padding: 0 10px;
   }
 }
 
+@media (min-width: 577px) and (max-width: 1024px) {
+  .wrapper-mobile {
+    padding: 0 20px;
+  }
+}
 /* Responsive */
