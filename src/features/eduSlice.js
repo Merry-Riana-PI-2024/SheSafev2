@@ -1,17 +1,18 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 axios.defaults.withCredentials = true;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 // Thunk untuk mendapatkan data pendidikan (edu)
 export const fetchEdu = createAsyncThunk("edu/fetchEdu", async () => {
-  const response = await axios.get(`/api/education/`, {
+  const response = await axios.get(`${API_BASE_URL}/education/`, {
     withCredentials: true,
   });
   return response.data.data;
 });
 
 export const fetchEduById = createAsyncThunk("edu/fetchEduById", async (id) => {
-  const response = await axios.get(`/api/education/${id}`, {
+  const response = await axios.get(`${API_BASE_URL}/education/${id}`, {
     withCredentials: true,
   });
   return response.data.findModule;

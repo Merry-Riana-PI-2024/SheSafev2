@@ -1,18 +1,22 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 axios.defaults.withCredentials = true;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 // Thunk untuk mendapatkan kategori
 export const fetchCommentar = createAsyncThunk(
   "commentar/fetchCommentar",
   async ({ id, page, perPage }) => {
     try {
-      const response = await axios.get(`/api/community/commentar/${id}`, {
-        params: {
-          page,
-          perPage,
-        },
-      });
+      const response = await axios.get(
+        `${API_BASE_URL}/community/commentar/${id}`,
+        {
+          params: {
+            page,
+            perPage,
+          },
+        }
+      );
 
       // console.log("API Response for fetchCommentar:", response.data);
       return {
@@ -30,9 +34,12 @@ export const fetchCommentar = createAsyncThunk(
 export const postCommentar = createAsyncThunk(
   "commentar/postCommentar",
   async ({ casesID, description }) => {
-    const response = await axios.post(`/api/community/commentar/${casesID}`, {
-      description,
-    });
+    const response = await axios.post(
+      `${API_BASE_URL}/community/commentar/${casesID}`,
+      {
+        description,
+      }
+    );
     return response.data.commentar;
   }
 );
@@ -43,7 +50,7 @@ export const deleteComment = createAsyncThunk(
   async ({ _id, casesID }) => {
     try {
       const response = await axios.delete(
-        `/api/community/commentar/${casesID}`,
+        `${API_BASE_URL}/community/commentar/${casesID}`,
         {
           data: { _id },
         }

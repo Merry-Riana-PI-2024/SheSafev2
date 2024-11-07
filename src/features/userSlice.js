@@ -1,14 +1,19 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 // axios.defaults.withCredentials = true;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const regist = createAsyncThunk("users/regist", async (dataUser) => {
   try {
-    const response = await axios.post("/api/auth/register", dataUser, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    const response = await axios.post(
+      `${API_BASE_URL}/auth/register`,
+      dataUser,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     throw new Error(
@@ -21,7 +26,10 @@ export const login = createAsyncThunk(
   "users/login",
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      const response = await axios.post("/api/auth/login", { email, password });
+      const response = await axios.post(`${API_BASE_URL}/auth/login`, {
+        email,
+        password,
+      });
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || "Gagal login");
@@ -30,7 +38,7 @@ export const login = createAsyncThunk(
 );
 
 export const checkAuth = createAsyncThunk("users/checkAuth", async () => {
-  const response = await axios.get(`/api/check`, {
+  const response = await axios.get(`${API_BASE_URL}/check`, {
     withCredentials: true,
   });
   return response.data;

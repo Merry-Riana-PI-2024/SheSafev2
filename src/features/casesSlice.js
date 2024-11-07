@@ -1,10 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 axios.defaults.withCredentials = true;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 // Thunk untuk mendapatkan jurnal
 export const fetchJournal = createAsyncThunk("case/fetchJournal", async () => {
-  const response = await axios.get(`/api/journal/`, {
+  const response = await axios.get(`${API_BASE_URL}/journal/`, {
     withCredentials: true,
   });
   return response.data.data;
@@ -12,7 +13,7 @@ export const fetchJournal = createAsyncThunk("case/fetchJournal", async () => {
 
 // Thunk untuk mengirimkan kasus
 export const postCase = createAsyncThunk("case/postCase", async (dataCase) => {
-  const response = await axios.post(`/api/cases/`, dataCase);
+  const response = await axios.post(`${API_BASE_URL}/cases/`, dataCase);
   return response.data;
 });
 
@@ -20,7 +21,7 @@ export const postCase = createAsyncThunk("case/postCase", async (dataCase) => {
 export const postCaseDraft = createAsyncThunk(
   "case/postCaseDraft",
   async (dataCase) => {
-    const response = await axios.post(`/api/cases/draft`, dataCase);
+    const response = await axios.post(`${API_BASE_URL}/cases/draft`, dataCase);
     return response.data;
   }
 );
