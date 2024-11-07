@@ -5,11 +5,10 @@ import { useNavigate, useParams } from "react-router-dom"
 import axios from "axios"
 import { useState, useEffect } from "react"
 
-function EditForm() {
-
-  const navigate = useNavigate();
-  const { id } = useParams()
+const EditForm = () => {
   const API_BASE_URL = "http://localhost:4000"
+  const { id } = useParams()
+  const navigate = useNavigate()
 
   //define state untuk form dan kategori
   const [title, setTitle] = useState("")
@@ -17,40 +16,41 @@ function EditForm() {
   const [endDate, setEndDate] = useState("")
   const [category, setCategory] = useState("")
   const [description, setDescription] = useState("")
-  const [file, setFile] = useState("")
-  const [categories, setCategories] = useState([]) //list category
+  const [file, setFile] = useState(null)
+  const [categories, setCategories] = useState([])
 
   useEffect(() => {
-    //fetch data journal by id
-    axios.get(
-      `${API_BASE_URL}/journal/${id}`,
-      { withCredentials: true }
-    )
-    .then((response) => {
-      console.log("response from journal fetch: ", response.data)
-      const data = response.data.findJournal
-      if(data){
-        setTitle(data.title)
-        setStartDate(data.startDate)
-        setEndDate(data.endDate)
-        setCategory(data.category)
-        setDescription(data.description)
-      }else{
-        console.log("No journal data found for id: ", id)
-      }
-    })
-    .catch((error) => console.error("Error fetching data journal sebelumnya: ", error))
+    console.log("Journal id: ", id)
+    const fetchData = async () => {
+      if(!id) return //avoid fetching if id is undefined
+      try {
+        const journalResponse = await axios.get(
+          `${API_BASE_URL}/journal/${id}`,
+          { withCredentials: true }
+        )
+        const data = journalResponse.data.findJournal
+        if(data){
+          setTitle(data.title)
+          //convert ISO dates to "yy-mm-dd" format
+          setStartDate(new Date(data.startDate).toISOString().split("T")[0])
+          setEndDate(new Date(data.endDate).toISOString().split("T")[0])
+          setCategory(data.category)
+          setDescription(data.description)
+        } else {
+          console.log("No journal data found for id: ", id)
+        }
 
-    //fetch category list
-    axios.get(
-      `${API_BASE_URL}/category`,
-      { withCredentials: true }
-    )
-    .then((response) => {
-      console.log("Berhasil fetching category: ", response.data)
-      setCategories(response.data.data)
-    })
-    .catch((error) => console.error("Error fetching categories: ", error))
+        const categoryResponse = await axios.get(
+          `${API_BASE_URL}/category/`,
+          { withCredentials: true }
+        )
+        setCategories(Array.isArray(categoryResponse.data.data) ? categoryResponse.data.data : [])
+      } catch (error) {
+        console.error("error fetching data: ", error)
+      }
+    }
+
+    fetchData()
   }, [id])
 
   //form submission
@@ -63,31 +63,26 @@ function EditForm() {
     formData.append("endDate", endDate)
     formData.append("category", category)
     formData.append("description", description)
-    if(file){
-      formData.append("file", file)
-    }
+    if(file) formData.append("file", file)
 
     try {
       await axios.put(
         `${API_BASE_URL}/journal/${id}`,
         formData,
-        {
-          headers: { "Content-Type": "multipart/form-data" }, //content-type untuk form
-          withCredentials: true, //untuk memastikan cookie dikirim
-        }
+        { withCredentials: true }
       )
-      console.log("berhasil edit journalL ", formData)
-      //navigate(-1)
+      console.log("berhasil edit journal")
+      navigate(-1)
     } catch (error) {
-      console.error("error edit journal" , error)
+      console.error("gagal edit journal: ", error)
     }
     
   }
 
 
+
     return(
-        <>
-        
+        <> 
         <div className="container mx-auto flex justify-center items-center min-h-screen p-4">
                 <div className="w-full max-w-lg">
                     <div className="text-center mb-10 gap-4 flex cols-2 justify-center">
@@ -167,17 +162,17 @@ function EditForm() {
                             rows="4"
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
-                            required></textarea>
+                            required>
+                          </textarea>
                         </div>
                         <small className={`${style['small']}`}>**Hindari menggunakan nama asli atau informasi pribadi orang lain tanpa izin</small>
                         <div className="mb-1 mt-3">
-                          <label htmlFor="bukti" className="text-sm font-bold">Lampirkan Bukti (Optional)</label>
+                          <label htmlFor="file" className="text-sm font-bold">Lampirkan Bukti (Optional)</label>
                           <input
                             type="file"
-                            id="bukti"
+                            id="file"
                             className={`${style['form-control']} mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-#8c263b-500`}
                             onChange={(e) => setFile(e.target.files[0])}
-                            required
                           />
                         </div>
                         <small className={`${style['small']}`}>**Anda dapat melampirkan gambar, video, atau dokumen pendukung </small>

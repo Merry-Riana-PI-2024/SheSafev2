@@ -93,7 +93,7 @@ function CardJournal() {
           <div
             style={{ backgroundColor: "rgba(245, 245, 245, 1)" }}
             className="flex justify-between px-4 py-2 border-t  rounded-b-lg">
-            <Link to="/editJurnal">
+            <Link to={`/editJurnal/${item._id}`}>
               <button
                 onClick={handleEdit}
                 className="flex gap-2 items-center text-[#04395E] hover:text-blue-700  px-3 py-1 rounded border border-[#04395E]">

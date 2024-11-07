@@ -1,5 +1,5 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, } from "react-router-dom";
 import axios from "axios"
 import { useState, useEffect } from "react";
 
@@ -69,7 +69,7 @@ const DetailJurnal = () => {
       "Anda akan mengedit jurnal ini. Lanjutkan?"
     );
     if (confirmEdit) {
-      navigate("/editJurnal")
+      navigate(`/editJurnal/${data._id}`)
     }
   };
 
@@ -108,8 +108,9 @@ const DetailJurnal = () => {
             />{" "}
             Hapus
           </button>
+          {/* <Link to={`/editJurnal/${data._id}`}> */}
           <button
-            onClick={handleEdit}
+            onClick={() => handleEdit(data._id)}
             className="flex gap-2 items-center text-[#04395E] hover:text-blue-700  px-3 py-1 rounded border border-[#04395E]">
             <Icon
               icon="tabler:edit"
@@ -119,6 +120,7 @@ const DetailJurnal = () => {
             />
             Edit
           </button>
+          {/* </Link> */}
         </div>
       </div>
 

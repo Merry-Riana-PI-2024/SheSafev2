@@ -28,7 +28,7 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/regist" element={<Register />} />
       <Route path="/addJurnal" element={<AddJurnal />} />
-      <Route path='/editJurnal' element={<EditJurnal />} />
+      <Route path='/editJurnal/:id' element={<EditJurnal />} />
       <Route path="/home" element={<HomePage />}/>
       <Route path="/community" element={<Community />}/>
       <Route path="/community/detail" element={<DetailCom />}/>
