@@ -18,12 +18,10 @@
 
 .hero-title h6 {
   color: var(--secondary-color);
-  font-weight: lighter;
-  margin-top: 2rem;
 }
 
 .hero-desc {
-  padding: 12px 8px;
+  padding: 12px 16px;
   background: var(--light-secondary);
   margin-top: 2rem;
   text-align: center;
@@ -65,12 +63,16 @@
 .guide-card {
   text-align: left;
   padding: 12px 12px;
-  border: 2px dashed var(--secondary-color);
-  background: #fff;
+  /* border: 2px dashed var(--secondary-color); */
+  background: #f5f5f5;
   border-radius: 10px;
   display: flex;
-  justify-content: space-between;
-  margin: 0 1rem;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  /* margin: 0 1rem; */
 }
 
 .guide-card .title h5 {
@@ -102,12 +104,16 @@
 }
 
 .benefits-card {
-  text-align: left;
+  text-align: center;
   padding: 12px 12px;
-  border: 2px dashed var(--secondary-color);
+  /* border: 2px dashed var(--secondary-color); */
   background: var(--light-secondary);
+  /* background: #ffffff; */
   border-radius: 10px;
   display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
   justify-content: space-between;
   margin: 0 1rem;
 }

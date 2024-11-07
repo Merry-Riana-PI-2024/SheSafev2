@@ -1,42 +1,55 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-axios.defaults.withCredentials = true;
+// axios.defaults.withCredentials = true;
 
 export const regist = createAsyncThunk("users/regist", async (dataUser) => {
-  const response = await axios.post(
-    "https://peculiar-linnet-shesafe-47ad0121.koyeb.app/auth/register",
-    dataUser
-  );
-  return response.data;
+  try {
+    const response = await axios.post("/api/auth/register", dataUser, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message || "Terjadi kesalahan saat registrasi."
+    );
+  }
 });
 
-export const login = createAsyncThunk("users/login", async (dataUser) => {
-  const response = await axios.post(
-    "https://peculiar-linnet-shesafe-47ad0121.koyeb.app/auth/login",
-    dataUser
-  );
-  return response.data;
-});
+export const login = createAsyncThunk(
+  "users/login",
+  async ({ email, password }, { rejectWithValue }) => {
+    try {
+      const response = await axios.post("/api/auth/login", { email, password });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || "Gagal login");
+    }
+  }
+);
 
 export const checkAuth = createAsyncThunk("users/checkAuth", async () => {
-  const response = await axios.get(
-    "https://peculiar-linnet-shesafe-47ad0121.koyeb.app/check",
-    {
-      withCredentials: true,
-    }
-  );
+  const response = await axios.get(`/api/check`, {
+    withCredentials: true,
+  });
   return response.data;
 });
 
 const userSlice = createSlice({
   name: "users",
   initialState: {
-    isLoggedin: false, // Bisa diupdate setelah memanggil checkAuth
+    isLoggedin: localStorage.getItem("isLoggedin") === "true",
     userData: null,
     loading: false,
     error: null,
   },
-  reducers: {},
+  reducers: {
+    setLoginStatus(state, action) {
+      state.isLoggedin = action.payload;
+      localStorage.setItem("isLoggedin", action.payload); // Menyimpan status ke localStorage
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(regist.pending, (state) => {
@@ -57,7 +70,7 @@ const userSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.loading = false;
-        state.isLoggedin = true;
+        localStorage.setItem("isLoggedin", true); // Simpan status login saat berhasil login
         state.userData = action.payload;
       })
       .addCase(login.rejected, (state, action) => {
@@ -78,8 +91,9 @@ const userSlice = createSlice({
         state.loading = false;
         state.error = action.error.message;
         state.isLoggedin = false;
+        localStorage.removeItem("isLoggedin"); // Simpan status login saat berhasil login
       });
   },
 });
-
+export const { setLoginStatus } = userSlice.actions;
 export default userSlice.reducer;

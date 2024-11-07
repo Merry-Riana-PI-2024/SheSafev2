@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
-import logo from '../assets/images/lg_ss.png';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import logo from "../assets/images/lg_ss.png";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Icon } from "@iconify/react";
 
 function Navigation() {
   // State untuk menentukan apakah menu sedang aktif atau tidak
   const [isMenuActive, setIsMenuActive] = useState(false);
+  const { isLoggedin, loading } = useSelector((state) => state.users);
 
   // Fungsi untuk toggle menu ketika ikon burger diklik
   const handleMenu = () => {
-    setIsMenuActive(!isMenuActive); 
+    setIsMenuActive(!isMenuActive);
   };
 
   return (
@@ -16,13 +19,16 @@ function Navigation() {
       <div className="navbar">
         {/* Logo */}
         <div className="logo">
-          <a href="#landing-page">
+          <Link to="/">
+            {" "}
             <img className="img-fluid" src={logo} alt="SheSafe Logo" />
-          </a>
+          </Link>
         </div>
 
         {/* Link navigasi */}
-        <div className={`navbar-links ${isMenuActive ? 'active' : ''}`} id="nav-links">
+        <div
+          className={`navbar-links ${isMenuActive ? "active" : ""}`}
+          id="nav-links">
           <ul>
             <li>
               <a href="/#hero-section">Tentang SheSafe</a>
@@ -41,9 +47,22 @@ function Navigation() {
 
         {/* Tombol login */}
         <div>
-          <li className="sm-btn-secondary btn-join">
-            <Link to="/login">Masuk</Link>
-          </li>
+          {!isLoggedin ? (
+            <li className="sm-btn-secondary btn-join">
+              <Link to="/login">Masuk</Link>
+            </li>
+          ) : (
+            <li className="sm-btn-secondary btn-join">
+              <Link to="/home">
+                <Icon
+                  icon="iconamoon:profile-light"
+                  width="20"
+                  height="20"
+                  style={{ color: "#ffffff" }}
+                />
+              </Link>
+            </li>
+          )}
         </div>
 
         {/* Toggle button (burger menu) */}

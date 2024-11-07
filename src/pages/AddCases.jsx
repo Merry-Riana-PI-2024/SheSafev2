@@ -1,14 +1,16 @@
-import { Icon } from "@iconify/react/dist/iconify.js"
-import AddForm from "../components/Cases/AddForm"
+import { Icon } from "@iconify/react/dist/iconify.js";
+import AddForm from "../components/Cases/AddForm";
 import asset from "../assets/images/asset_login.png";
+import { useNavigate } from "react-router-dom";
 
-
-function AddCases (){
-    return (
-        <>
-         <div className={`wrapper-mobile bg-white `}>
-    <div className={`flex pt-10 px-5 items-center justify-between`}>
+function AddCases() {
+  const navigate = useNavigate();
+  return (
+    <>
+      <div className={`wrapper-mobile bg-white `}>
+        <div className={`flex pt-10 px-5 items-center justify-between`}>
           <Icon
+            onClick={() => navigate(-1)}
             icon="ep:arrow-left-bold"
             width="32"
             height="32"
@@ -19,16 +21,15 @@ function AddCases (){
         </div>
 
         <div className={`px-5 mt-10 pb-[6rem]`}>
-            <AddForm />
+          <AddForm />
         </div>
-        
+
         <div className={`flex flex-col justify-center items-center gap-4`}>
           <img src={asset} alt="" />
         </div>
-        
-    </div>
-        </>
-    )
+      </div>
+    </>
+  );
 }
 
-export default AddCases
+export default AddCases;

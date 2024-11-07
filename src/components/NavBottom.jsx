@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import style from "../assets/css/Navbottom.module.css";
 import { Link, useLocation } from "react-router-dom";
-import { Icon } from "@iconify/react/dist/iconify.js";
+import { Icon } from "@iconify/react";
 
 function NavBottom() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -34,15 +34,17 @@ function NavBottom() {
             className={`${style["nav-content"]} ${
               location.pathname === "/home" ? style.active : ""
             }`}>
-            <Icon
-              icon="fluent:home-28-regular"
-              width="33"
-              height="33"
-              style={{
-                color: location.pathname === "/home" ? "#ba324f" : "#8c8c8c",
-              }}
-            />
-            <p>Home</p>
+            <div className="w-[30px] h-[30px]">
+              <Icon
+                icon="fluent:home-28-regular"
+                width="33"
+                height="33"
+                style={{
+                  color: location.pathname === "/home" ? "#ba324f" : "#8c8c8c",
+                }}
+              />
+            </div>
+            <p className="text-sm">Home</p>
           </Link>
 
           <Link
@@ -53,22 +55,24 @@ function NavBottom() {
                 ? style.active
                 : ""
             }`}>
-            <Icon
-              icon="material-symbols-light:history-edu-outline"
-              width="33"
-              height="33"
-              style={{
-                color:
-                  location.pathname === "/journal" ||
-                  location.pathname === "/journal/mycases"
-                    ? "#ba324f"
-                    : "#8c8c8c",
-              }}
-            />
-            <p>Jurnal</p>
+            <div className="w-[30px] h-[30px]">
+              <Icon
+                icon="material-symbols-light:history-edu-outline"
+                width="33"
+                height="33"
+                style={{
+                  color:
+                    location.pathname === "/journal" ||
+                    location.pathname === "/journal/mycases"
+                      ? "#ba324f"
+                      : "#8c8c8c",
+                }}
+              />
+            </div>
+            <p className="text-sm">Jurnal</p>
           </Link>
 
-          <div className={`${style["nav-content"]}`} onClick={showMenuPopUp}>
+          <div className={`${style["nav-content"]} `} onClick={showMenuPopUp}>
             <div className={`${style["pop-button"]}`}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -89,16 +93,18 @@ function NavBottom() {
             className={`${style["nav-content"]} ${
               location.pathname === "/community" ? style.active : ""
             }`}>
-            <Icon
-              icon="fluent:people-chat-24-regular"
-              width="33"
-              height="33"
-              style={{
-                color:
-                  location.pathname === "/community" ? "#ba324f" : "#8c8c8c",
-              }}
-            />
-            <p>Community</p>
+            <div className="w-[30px] h-[30px]">
+              <Icon
+                icon="fluent:people-chat-24-regular"
+                width="30"
+                height="30"
+                style={{
+                  color:
+                    location.pathname === "/community" ? "#ba324f" : "#8c8c8c",
+                }}
+              />
+            </div>
+            <p className="text-sm">Community</p>
           </Link>
 
           <Link
@@ -106,15 +112,18 @@ function NavBottom() {
             className={`${style["nav-content"]} ${
               location.pathname === "/profile" ? style.active : ""
             }`}>
-            <Icon
-              icon="iconamoon:profile-light"
-              width="33"
-              height="33"
-              style={{
-                color: location.pathname === "/profile" ? "#ba324f" : "#8c8c8c",
-              }}
-            />
-            <p>Profile</p>
+            <div className="w-[30px] h-[30px]">
+              <Icon
+                icon="iconamoon:profile-light"
+                width="33"
+                height="33"
+                style={{
+                  color:
+                    location.pathname === "/profile" ? "#ba324f" : "#8c8c8c",
+                }}
+              />
+            </div>
+            <p className="text-sm">Profile</p>
           </Link>
         </div>
       </div>
@@ -134,7 +143,7 @@ function NavBottom() {
                 height="36"
                 style={{ color: "#BA324F" }}
               />
-              <p>Ajukan Kasus</p>
+              <p className="text-sm">Ajukan Kasus</p>
             </Link>
             <Link to="/addJurnal" className={`${style["popup-content"]}`}>
               <Icon
@@ -143,7 +152,7 @@ function NavBottom() {
                 height="36"
                 style={{ color: "#BA324F" }}
               />
-              <p>Buat Jurnal</p>
+              <p className="text-sm">Buat Jurnal</p>
             </Link>
           </div>
         </div>
