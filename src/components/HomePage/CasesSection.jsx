@@ -6,6 +6,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { fetchCommunity } from "../../features/communitySlice";
+import { Link } from "react-router-dom";
 
 function CasesSection() {
   const dispatch = useDispatch();
@@ -54,7 +55,7 @@ function CasesSection() {
     <div className={`${style["cases-section"]}`}>
       <div className={`${style["cases-heading"]}`}>
         <h4 className={`text-xl`}>Cerita Perempuan</h4>
-        <a href="">Selengkapnya</a>
+        <Link to="/community"> Selengkapnya</Link>
       </div>
 
       <div className={`${style["cases-info"]} mt-2`}>
