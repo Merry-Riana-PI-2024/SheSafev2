@@ -3,16 +3,31 @@ import axios from "axios";
 // axios.defaults.withCredentials = true;
 
 export const regist = createAsyncThunk("users/regist", async (dataUser) => {
-  const response = await axios.post(`/api/auth/register`, dataUser);
-  return response.data;
+  try {
+    const response = await axios.post("/api/auth/register", dataUser, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message || "Terjadi kesalahan saat registrasi."
+    );
+  }
 });
 
-export const login = createAsyncThunk("users/login", async (dataUser) => {
-  const response = await axios.post(`/api/auth/login`, dataUser, {
-    withCredentials: true,
-  });
-  return response.data;
-});
+export const login = createAsyncThunk(
+  "users/login",
+  async ({ email, password }, { rejectWithValue }) => {
+    try {
+      const response = await axios.post("/api/auth/login", { email, password });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || "Gagal login");
+    }
+  }
+);
 
 export const checkAuth = createAsyncThunk("users/checkAuth", async () => {
   const response = await axios.get(`/api/check`, {

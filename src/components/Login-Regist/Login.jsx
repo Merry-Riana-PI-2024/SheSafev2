@@ -6,6 +6,7 @@ import Navigation from "../Navigation";
 import { login, setLoginStatus } from "../../features/userSlice";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Swal from "sweetalert2"; // Import SweetAlert2
 
 function Login() {
   const dispatch = useDispatch();
@@ -17,14 +18,38 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const result = await dispatch(login({ email, password }));
-    if (result.meta.requestStatus === "fulfilled") {
-      dispatch(setLoginStatus(true)); // Set status login ke true
-      navigate("/home");
-      window.location.reload();
-    } else {
-      // Anda bisa menambahkan penanganan kesalahan di sini
-      console.error("Login failed:", error);
+    try {
+      const result = await dispatch(login({ email, password }));
+
+      if (result.meta.requestStatus === "fulfilled") {
+        dispatch(setLoginStatus(true));
+        navigate("/home");
+        window.location.reload();
+      } else {
+        const errorMessage =
+          result.payload?.message ||
+          "Email atau password yang Anda masukkan salah.";
+
+        if (errorMessage === "Akun Anda belum tervalidasi identitasnya") {
+          Swal.fire({
+            icon: "error",
+            title: "Login Gagal",
+            text: "Identitas anda belum tervalidasi",
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Login Gagal",
+            text: errorMessage,
+          });
+        }
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Login Gagal",
+        text: "Terjadi kesalahan saat memproses login.",
+      });
     }
   };
 
@@ -77,16 +102,13 @@ function Login() {
                   type="submit"
                   className="px-6 py-2 sm-btn-primary mt-5"
                   disabled={loading}>
-                  {" "}
-                  {/* Disable button saat loading */}
                   {loading ? "Memuat..." : "Masuk"}
                 </button>
               </div>
             </form>
             {error && (
               <div className="text-red-500 text-center mt-2">{error}</div>
-            )}{" "}
-            {/* Tampilkan error jika ada */}
+            )}
             <div className="mt-5 text-center mb-10">
               <small className={`${style["small"]}`}>
                 Belum Punya Akun?{" "}

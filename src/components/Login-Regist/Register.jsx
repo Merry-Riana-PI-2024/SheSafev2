@@ -6,13 +6,13 @@ import Navigation from "../Navigation";
 import { regist } from "../../features/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
-import Swal from 'sweetalert2';
-
+import Swal from "sweetalert2";
 
 function Register() {
   const dispatch = useDispatch();
-  const navigate =useNavigate();
+  const navigate = useNavigate();
   const { loading, error } = useSelector((state) => state.users);
+
   // Local state for form fields
   const [nama, setNama] = useState("");
   const [email, setEmail] = useState("");
@@ -22,39 +22,62 @@ function Register() {
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
 
-  const handleSubmit =async (e) => {
+  // Handle form submission
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Frontend validation
+    if (password !== passwordConfirm) {
+      Swal.fire({
+        icon: "error",
+        title: "Password Tidak Cocok",
+        text: "Password dan konfirmasi password tidak cocok!",
+        confirmButtonText: "OK",
+      });
+      return;
+    }
+
+    // File upload validation (limit size to 2MB)
+    if (identitas && identitas.size > 2 * 1024 * 1024) {
+      Swal.fire({
+        icon: "error",
+        title: "File Terlalu Besar",
+        text: "Bukti identitas tidak boleh lebih dari 2MB.",
+        confirmButtonText: "OK",
+      });
+      return;
+    }
 
     const formData = new FormData();
     formData.append("fullName", nama);
     formData.append("email", email);
     formData.append("gender", gender);
-    formData.append("birthDate", ttl); 
-    formData.append("fileIdentity", identitas); 
+    formData.append("birthDate", ttl);
+    formData.append("fileIdentity", identitas);
     formData.append("password", password);
-    // formData.append("passwordConfirm", passwordConfirm);
-    // dispatch(regist(formData));
+
     try {
-      const resultAction = await dispatch(regist(formData)).unwrap(); // Menunggu hasil dari dispatch
+      const resultAction = await dispatch(regist(formData)).unwrap();
       if (resultAction) {
         Swal.fire({
-          icon: 'success',
-          title: 'Registrasi Berhasil',
-          text: 'Registrasi Anda berhasil. Silakan tunggu hingga identitas Anda tervalidasi untuk bisa login.',
-          confirmButtonText: 'OK'
+          icon: "success",
+          title: "Registrasi Berhasil",
+          text: "Registrasi Anda berhasil. Silakan tunggu hingga identitas Anda tervalidasi untuk bisa login.",
+          confirmButtonText: "OK",
         }).then(() => {
-          navigate('/login'); 
+          navigate("/login");
         });
       }
     } catch (error) {
       Swal.fire({
-        icon: 'error',
-        title: 'Registrasi Gagal',
+        icon: "error",
+        title: "Registrasi Gagal",
         text: `Terjadi kesalahan: ${error}`,
-        confirmButtonText: 'Coba Lagi'
+        confirmButtonText: "Coba Lagi",
       });
     }
   };
+
   return (
     <>
       <div className="wrapper-mobile">
@@ -72,7 +95,7 @@ function Register() {
                 Ruang Aman untuk Pemberdayaan dan Keadilan Perempuan
               </p>
             </div>
-            {error && <div className="text-red-500 text-center">{error}</div>}{" "}
+            {error && <div className="text-red-500 text-center">{error}</div>}
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
                 <label htmlFor="nama" className="text-sm font-bold">
@@ -85,7 +108,7 @@ function Register() {
                   className={`${style["form-control"]} mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-#8c263b-500`}
                   required
                   value={nama}
-                  onChange={(e) => setNama(e.target.value)} 
+                  onChange={(e) => setNama(e.target.value)}
                 />
               </div>
               <div className="mb-4">
@@ -99,7 +122,7 @@ function Register() {
                   className={`${style["form-control"]} mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-#8c263b-500`}
                   required
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)} 
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div className="flex gap-4 mb-4">
@@ -112,8 +135,7 @@ function Register() {
                     className={`${style["form-control"]} mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-#8c263b-500`}
                     required
                     value={gender}
-                    onChange={(e) => setGender(e.target.value)} 
-                  >
+                    onChange={(e) => setGender(e.target.value)}>
                     <option disabled value="Pilih">
                       Pilih
                     </option>
@@ -131,7 +153,7 @@ function Register() {
                     className={`${style["form-control"]} mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-#8c263b-500`}
                     required
                     value={ttl}
-                    onChange={(e) => setTtl(e.target.value)} 
+                    onChange={(e) => setTtl(e.target.value)}
                   />
                 </div>
               </div>
@@ -144,10 +166,10 @@ function Register() {
                   id="identitas"
                   className={`${style["form-control"]} mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-#8c263b-500`}
                   required
-                  onChange={(e) => setIdentitas(e.target.files[0])} 
+                  onChange={(e) => setIdentitas(e.target.files[0])}
                 />
               </div>
-              <small className={`${style["small"]}`}>**Maximum file 2mb</small>
+              <small className={`${style["small"]}`}>**Maximum file 2MB</small>
               <div className="mb-4 mt-3">
                 <label htmlFor="password" className="text-sm font-bold">
                   Password
@@ -159,7 +181,7 @@ function Register() {
                   className={`${style["form-control"]} mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-#8c263b-500`}
                   required
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)} 
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
               <div className="mb-4">
@@ -173,7 +195,7 @@ function Register() {
                   className={`${style["form-control"]} mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-#8c263b-500`}
                   required
                   value={passwordConfirm}
-                  onChange={(e) => setPasswordConfirm(e.target.value)} 
+                  onChange={(e) => setPasswordConfirm(e.target.value)}
                 />
               </div>
               <div className="flex justify-center">
@@ -182,8 +204,7 @@ function Register() {
                   className={`px-6 py-2 sm-btn-primary mt-5 ${
                     loading ? "opacity-50 cursor-not-allowed" : ""
                   }`}
-                  disabled={loading} 
-                >
+                  disabled={loading}>
                   {loading ? "Memuat..." : "Daftar"}
                 </button>
               </div>
