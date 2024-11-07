@@ -41,7 +41,7 @@ function App() {
           <Route path="/community/:id" element={<DetailCom />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/education" element={<Education />} />
-          <Route path="/education/detail" element={<DetailEdu />} />
+          <Route path="/education/:id" element={<DetailEdu />} />
           <Route path="/addCases" element={<AddCases />} />
           <Route path="/journal" element={<Journal />}>
             <Route path="/journal" element={<MyJournal />} />

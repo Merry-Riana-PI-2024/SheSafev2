@@ -1,18 +1,22 @@
+import { useNavigate } from "react-router-dom";
 import style from "../../assets/css/HomePage.module.css";
 
-function CardEdu() {
+function CardEdu({ data }) {
+  const navigate = useNavigate();
   return (
     <>
       <div className={`${style["tips-card"]}  `}>
-        <div className={`${style.image}`}>
+        <div
+          className={`${style.image}`}
+          onClick={() => navigate(`/education/${data._id}`)}>
           <img
-            className="img-fluid"
-            src="https://img.freepik.com/free-vector/flat-women-s-history-month-illustration_23-2149301501.jpg?t=st=1726025478~exp=1726029078~hmac=72d4b65f1ee84b90f2ce7a72951155f5f7429a7fc225f3e4b5fa5d2bfee2a7e7&w=740"
+            className={`w-[300px] rounded-[10px] object-cover`}
+            src={data.file}
           />
         </div>
 
         <div className={`${style.title}`}>
-          <h6>Strategi Menghindari Situasi Beresiko</h6>
+          <h6>{data.title}</h6>
         </div>
       </div>
     </>

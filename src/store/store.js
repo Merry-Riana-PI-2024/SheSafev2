@@ -4,6 +4,7 @@ import categoriesSlice from "../features/categoriesSlice";
 import communitySlice from "../features/communitySlice";
 import commentarSlice from "../features/commentarSlice";
 import casesSlice from "../features/casesSlice";
+import eduSlice from "../features/eduSlice";
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     communities: communitySlice,
     commentars: commentarSlice,
     cases: casesSlice,
+    educations: eduSlice,
   },
 });
 
