@@ -18,7 +18,7 @@ const DetailJurnal = () => {
           `${API_BASE_URL}/journal/${id}`,
           { withCredentials: true },
         )
-        console.log("Journal id: ", id)
+        console.log("Berhasil fetch journal id: ", id)
         setData(response.data.findJournal)
       } catch (e) {
         console.log("Error fetching detail journal ", e)
@@ -55,7 +55,7 @@ const DetailJurnal = () => {
           `${API_BASE_URL}/journal/${id}`,
           { withCredentials: true }
         )
-        console.log("Journal dihapus", id, response)
+        console.log("berhasil hapus journal ", id, response)
         navigate("/journal")
       } catch (error) {
         console.error("error deleting journal: ", error)
@@ -69,6 +69,7 @@ const DetailJurnal = () => {
       "Anda akan mengedit jurnal ini. Lanjutkan?"
     );
     if (confirmEdit) {
+      console.log("berhasil edit journal")
       navigate(`/editJurnal/${data._id}`)
     }
   };
@@ -189,7 +190,7 @@ const DetailJurnal = () => {
         <div className={`flex flex-col gap-4`}>
           <h4 className="font-semibold mb-1 text-[#BA324F]">
               Lampiran Bukti :</h4>
-          {data.file ? (
+          {data.file && data.file.originalname ? (
             <table className="w-full mb-6 border rounded">
                 <thead>
                   <tr className="bg-gray-100">
@@ -200,20 +201,22 @@ const DetailJurnal = () => {
                 <tbody>
                     <tr>
                       <td className="border px-4 py-2 text-center">
-                        {data.file.originalname || "No File" }
+                        {data.file?.originalname || "No File" }
                       </td>
                       <td className="border px-4 py-2 text-center">
                         <a
-                          href={data.file.path}
-                          className="text-blue-500 hover:underline">
-                          Download
+                          href={`${API_BASE_URL}/${data.file.path || ""}`}
+                          className="text-blue-500 hover:underline"
+                          target="_blank"
+                          rel="noopener noreferrer">
+                          {data.file?.originalname || "No file path available"}
                         </a>
                       </td>
                     </tr>
                 </tbody>
             </table>
           ) : (
-            <p>No Attachments</p>
+            <p>No File Attached</p>
           )}
         </div>
       </div>

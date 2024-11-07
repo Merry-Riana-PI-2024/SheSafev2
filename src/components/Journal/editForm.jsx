@@ -34,7 +34,7 @@ const EditForm = () => {
           //convert ISO dates to "yy-mm-dd" format
           setStartDate(new Date(data.startDate).toISOString().split("T")[0])
           setEndDate(new Date(data.endDate).toISOString().split("T")[0])
-          setCategory(data.category)
+          setCategory(data.category._id)
           setDescription(data.description)
         } else {
           console.log("No journal data found for id: ", id)
@@ -174,6 +174,7 @@ const EditForm = () => {
                             className={`${style['form-control']} mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-#8c263b-500`}
                             onChange={(e) => setFile(e.target.files[0])}
                           />
+                          {file && <p className="text-sm font-bold text-green mt-2 mb-3">File uploaded: {file.originalname || file.name}</p>}
                         </div>
                         <small className={`${style['small']}`}>**Anda dapat melampirkan gambar, video, atau dokumen pendukung </small>
                         <small className={`${style['small']}`}>**Format yang didukung: JPG, PNG, MP4, PDF</small>

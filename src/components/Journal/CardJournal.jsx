@@ -1,7 +1,8 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios"
+import PropTypes from "prop-types"
 
 // const mockData = [
 //   {
@@ -22,28 +23,9 @@ import axios from "axios"
 //   },
 // ];
 
-function CardJournal() {
-  const [data, setData] = useState([]);
+function CardJournal({ journal }) {
   const [error, setError] = useState(null)
   const API_BASE_URL = "http://localhost:4000"
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `${API_BASE_URL}/journal/`,
-          { withCredentials: true }
-        )
-        console.log("Berhasil fetching journal: ", response.data)
-        setData(response.data.data) //set data ke state
-      } catch (e) {
-        console.log("Error fetching journal: ", e)
-        setError("Error loading journal: " + e.message)
-      }
-    }
-
-    fetchData()
-  }, [])
 
   const handleEdit = () => alert("Anda yakin akan edit jurnal ini");
   
@@ -55,45 +37,42 @@ function CardJournal() {
           { withCredentials: true }
         )
         console.log("Journal dihapus", response.data)
-        setData((prevData) => prevData.filter((item) => item._id !== id))
       } catch (error) {
         console.error("error deleting journal: ", error)
-        setError("delete journal failed")
+        setError("gagal hapus journal")
       }
     }
   } 
-
 
 
   if(error) return <p>{error}</p>
 
   return (
     <>
-      {data.length > 0 ? ( data.map((item) => (
-        <div key={item._id} className="bg-white border w-full rounded-lg ">
+        <div key={journal._id} className="bg-white border w-full rounded-lg ">
           <div className="flex justify-between items-center items-center px-4 mt-5">
             <span
               className={`text-[#BA324F] bg-red-100 text-sm font-semibold px-2 py-2 rounded`}>
-              {item.category.name || "No Category"}
+              {journal.category.name || "No Category"}
             </span>
             <span className="text-sm text-[#04395E]  px-2 py-2 rounded mr-2">
-              {item.created ? new Date(item.created).toLocaleDateString() : "No date"}
+              {journal.created ? new Date(journal.created).toLocaleDateString() : "No date"}
             </span>
           </div>
 
           <div className="px-4 py-3">
-            <Link to={`/journal/${item._id}`}>
+            <Link to={`/journal/${journal._id}`}>
             <h4 className="font-semibold text-gray-900 text-lg">
-              {item.title}
+              {journal.title}
             </h4>
             </Link>
-            <p className="text-gray-600 text-sm mt-2">{item.description}</p>
+            <p className="text-gray-600 text-sm mt-2">{journal.description}</p>
           </div>
 
           <div
             style={{ backgroundColor: "rgba(245, 245, 245, 1)" }}
             className="flex justify-between px-4 py-2 border-t  rounded-b-lg">
-            <Link to={`/editJurnal/${item._id}`}>
+            <Link to={`/editJurnal/${journal._id}`}>
               <button
                 onClick={handleEdit}
                 className="flex gap-2 items-center text-[#04395E] hover:text-blue-700  px-3 py-1 rounded border border-[#04395E]">
@@ -107,25 +86,24 @@ function CardJournal() {
               </button>
             </Link>
             <button
-              onClick={() => handleDelete(item._id)} //pass id ke handleDelete
+              onClick={() => handleDelete(journal._id)} //pass id ke handleDelete
               className="flex gap-2 items-center text-[#BA324F] hover:text-red-700   px-3 py-1 rounded border border-red-600">
               <Icon
                 icon="mi:delete"
                 width="24"
                 height="24"
                 style={{ color: "#BA324F" }}
-              />{" "}
+              />
               Hapus
             </button>
           </div>
         </div>
-        ))
-      ) : (
-        <p>Loading...</p>
-      )
-    }
     </>
   );
 }
+
+CardJournal.propTypes = {
+  journal: PropTypes.object.isRequired,
+};
 
 export default CardJournal;
