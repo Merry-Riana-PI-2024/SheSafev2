@@ -22,18 +22,20 @@ function DetailContent({ data }) {
   const validComments = Array.isArray(comment) ? comment : [];
   const [page, setPage] = useState(current_page);
 
-  // Ambil komentar berdasarkan halaman yang aktif
+  // Fetch comments when page changes
   useEffect(() => {
     dispatch(resetCommentar());
     dispatch(fetchCommentar({ id, page, perPage: per_page }));
   }, [dispatch, id, page, per_page]);
 
-  // Fungsi untuk mengubah halaman
+  // Page change handler
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= total_pages) {
       setPage(newPage);
     }
   };
+
+  // Handle comment deletion
   const handleDeleteComment = (idcomment) => {
     Swal.fire({
       title: "Apakah Anda yakin?",
@@ -45,11 +47,15 @@ function DetailContent({ data }) {
       reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log("Deleting comment with ID:", idcomment);
         dispatch(deleteComment({ _id: idcomment, casesID: id }));
-        dispatch(fetchCommentar({ id, page, perPage: per_page, current_page }));
+        dispatch(
+          fetchCommentar({
+            id,
+            page,
+            perPage: per_page,
+          })
+        );
         Swal.fire("Terhapus!", "Komentar telah dihapus.", "success");
-        window.location.reload();
       } else {
         Swal.fire("Dibatalkan", "Komentar tidak dihapus.", "info");
       }
@@ -65,17 +71,15 @@ function DetailContent({ data }) {
     hour: "2-digit",
     minute: "2-digit",
   });
+
   return (
     <>
+      {/* Content rendering */}
       <div className="flex flex-row gap-8 items-center justify-start">
-        {!data.createdBy.avatar ? (
-          <img src={foto} className={`rounded w-[50px] object-cover`} />
-        ) : (
-          <img
-            className={`rounded-full w-[50px] h-[50px] object-cover`}
-            src={data.createdBy.avatar}
-          />
-        )}{" "}
+        <img
+          src={data.createdBy.avatar || foto}
+          className="rounded-full w-[50px] h-[50px] object-cover"
+        />
         <div className="flex flex-col gap-1">
           <h6 className="text-[#BA324F] font-bold text-md">
             {data.isAnonimous}
@@ -119,16 +123,7 @@ function DetailContent({ data }) {
         </div>
       </div>
 
-      <div className="flex flex-col gap-1 mt-10 px-4 py-2 rounded-[10px] bg-[#F8EBED]">
-        <p className="font-bold text-sm text-[#BA324F]">Catatan:</p>
-        <p className="font-light text-sm text-[#BA324F]">
-          Kasus ini telah diajukan oleh pengguna berdasarkan jurnal pribadi yang
-          telah ditulis beberapa kali terkait pengalaman kekerasan yang
-          dialaminya. Setelah diverifikasi oleh admin, kasus ini dipublikasikan
-          untuk mendapatkan dukungan dan saran dari komunitas SheSafe.
-        </p>
-      </div>
-
+      {/* Comments section */}
       <div className="mt-10 pb-[5rem]">
         <h6 className="text-black font-bold text-lg">
           Komentar ({total_data || 0})
@@ -142,10 +137,7 @@ function DetailContent({ data }) {
               totalPages={total_pages}
               perPage={per_page}
               delCom={
-                userData &&
-                item &&
-                item.createdBy &&
-                item.createdBy._id === userData.userId ? (
+                userData?.userId === item.createdBy._id ? (
                   <Icon
                     icon="mi:delete"
                     width="24"

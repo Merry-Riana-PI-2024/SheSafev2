@@ -18,14 +18,18 @@ export const fetchCommentar = createAsyncThunk(
         }
       );
 
-      // console.log("API Response for fetchCommentar:", response.data);
       return {
-        commentar: response.data.commentar,
-        pagination: response.data.pagination,
+        commentar: response.data.commentar || [],
+        pagination: response.data.pagination || {
+          total_data: 0,
+          per_page: 6,
+          current_page: 1,
+          total_pages: 1,
+        },
       };
     } catch (error) {
       console.error("Error fetching comments:", error);
-      throw error;
+      return rejectWithValue("Failed to fetch comments.");
     }
   }
 );
@@ -40,7 +44,7 @@ export const postCommentar = createAsyncThunk(
         description,
       }
     );
-    return response.data.commentar;
+    return response.data.commentar || {};
   }
 );
 
@@ -55,7 +59,7 @@ export const deleteComment = createAsyncThunk(
           data: { _id },
         }
       );
-      return response.data.data;
+      return response.data.commentar || {};
     } catch (error) {
       console.error("Error deleting comment:", error);
       throw error;
@@ -95,10 +99,10 @@ const commentarSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchCommentar.fulfilled, (state, action) => {
-        // console.log("Action Payload:", action.payload);
         state.loading = false;
-        state.commentar = action.payload.commentar || [];
-        state.pagination = action.payload.pagination || {
+
+        state.commentar = action.payload?.commentar || [];
+        state.pagination = action.payload?.pagination || {
           total_data: 0,
           per_page: 6,
           current_page: 1,
@@ -108,14 +112,15 @@ const commentarSlice = createSlice({
       .addCase(fetchCommentar.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
+        state.commentar = [];
       })
       .addCase(postCommentar.fulfilled, (state, action) => {
         state.loading = false;
-        state.commentar = action.payload;
+        state.commentar = action.payload || [];
       })
       .addCase(deleteComment.fulfilled, (state, action) => {
         state.loading = false;
-        state.commentar = action.payload;
+        state.commentar = action.payload || [];
       });
   },
 });

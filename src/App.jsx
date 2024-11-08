@@ -18,20 +18,20 @@ import ListPengajuanKasus from "./pages/ListPengajuanKasus";
 import DetailJurnal from "./pages/DetailJurnal";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import EditJurnal from "./pages/EditJurnal";
-import { useDispatch } from "react-redux";
-import { checkAuth } from "./features/userSlice";
-import { useEffect } from "react";
+// import { useDispatch } from "react-redux";
+// import { checkAuth } from "./features/userSlice";
+// import { useEffect } from "react";
 import DetailCase from "./pages/DetailCase";
-import Edit from "./components/Cases/Edit";
+// import Edit from "./components/Cases/Edit";
 import EditCases from "./pages/EditCases";
 // import EditCases from "./pages/EditCases";
 
 function App() {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(checkAuth());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(checkAuth());
+  // }, [dispatch]);
 
   return (
     <>

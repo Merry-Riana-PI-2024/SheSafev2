@@ -134,9 +134,7 @@ const DetailJurnal = () => {
             className={`font-bold bg-[#F8EBED] px-3 py-2 rounded-[10px] text-md text-[#BA324F]`}>
             # {data.category.name}
           </h6>
-          <div
-            className="text-gray-500  p-2 rounded text-center text-sm"
-            style={{ width: "100px", marginLeft: "0", fontSize: "14px" }}>
+          <div className="text-gray-500  p-2 rounded text-center text-sm">
             {new Date(data.created).toLocaleDateString("id-ID", {
               day: "numeric",
               month: "long",
@@ -145,14 +143,14 @@ const DetailJurnal = () => {
           </div>
         </div>
 
-        <div className={`flex items-center justify-between gap-4`}>
+        <div className={`flex flex-col  justify-between gap-4`}>
           <h4 className="font-semibold mb-1 text-[#BA324F]">
             Tanggal Kejadian
           </h4>
           <div className="flex items-center gap-2 ">
             <div
               className="bg-gray-100 text-gray-700 p-2 rounded text-center text-sm"
-              style={{ width: "100px", fontSize: "14px" }}>
+              style={{ width: "100%", fontSize: "14px" }}>
               {new Date(data.startDate).toLocaleDateString("id-ID", {
                 day: "numeric",
                 month: "long",
@@ -162,7 +160,7 @@ const DetailJurnal = () => {
             <span>-</span>
             <div
               className="bg-gray-100 text-gray-700 p-2 rounded text-center text-sm"
-              style={{ width: "100px", fontSize: "14px" }}>
+              style={{ width: "100%", fontSize: "14px" }}>
               {new Date(data.endDate).toLocaleDateString("id-ID", {
                 day: "numeric",
                 month: "long",

@@ -89,8 +89,9 @@ const userSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.loading = false;
-        localStorage.setItem("isLoggedin", true); // Simpan status login saat berhasil login
         state.userData = action.payload;
+        localStorage.setItem("isLoggedin", "true");
+        state.isLoggedin = true;
       })
       .addCase(login.rejected, (state, action) => {
         state.loading = false;
