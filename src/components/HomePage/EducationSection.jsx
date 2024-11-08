@@ -83,7 +83,7 @@ function EducationSection() {
   };
 
   return (
-    <div className={`${style["tips-section"]} pb-[7rem]`}>
+    <div className={`${style["tips-section"]} pb-[2rem]`}>
       <div className={`${style["tips-title"]} flex justify-between`}>
         <h4 className={`text-xl`}>Tips dan Panduan</h4>
         <p

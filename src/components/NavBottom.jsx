@@ -44,7 +44,7 @@ function NavBottom() {
                 }}
               />
             </div>
-            <p className="text-sm">Home</p>
+            <p className="text-sm">Beranda</p>
           </Link>
 
           <Link
@@ -104,7 +104,7 @@ function NavBottom() {
                 }}
               />
             </div>
-            <p className="text-sm">Community</p>
+            <p className="text-sm">Komunitas</p>
           </Link>
 
           <Link
@@ -123,7 +123,7 @@ function NavBottom() {
                 }}
               />
             </div>
-            <p className="text-sm">Profile</p>
+            <p className="text-sm">Akun</p>
           </Link>
         </div>
       </div>

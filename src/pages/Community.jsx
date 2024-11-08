@@ -74,8 +74,10 @@ function Community() {
               {new Array(itemsPerPage).fill(null).map((_, index) => (
                 <div key={index}>
                   <div className="space-y-4 mx-5 mt-10">
-                    <div className="h-[60px] w-[80px] bg-gray-300 animate-pulse rounded-md"></div>
-                    <div className="h-[60px] w-full bg-gray-300 animate-pulse rounded-md"></div>
+                    <div className="flex gap-4 ">
+                      <div className="h-[60px] w-[80px] bg-gray-300 animate-pulse rounded-md"></div>
+                      <div className="h-[60px] w-full bg-gray-300 animate-pulse rounded-md"></div>
+                    </div>
                     <div className="h-8 bg-gray-300 animate-pulse rounded-md"></div>
                     <div className="h-[200px] bg-gray-300 animate-pulse rounded-md"></div>
                   </div>

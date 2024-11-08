@@ -32,7 +32,14 @@ function Education() {
         <div
           className={`px-5 mt-10 pb-[6rem] columns-2 justify-center items-center`}>
           {loading ? (
-            <p>Loading...</p>
+            <div className="flex flex-wrap gap-4">
+              {[...Array(6)].map((_, index) => (
+                <div key={index} className="w-full mb-4">
+                  <Skeleton height={200} width="100%" />
+                  <Skeleton height={20} width="60%" />
+                </div>
+              ))}
+            </div>
           ) : error ? (
             <p>Error: {error}</p>
           ) : Array.isArray(edu) && edu.length > 0 ? (
