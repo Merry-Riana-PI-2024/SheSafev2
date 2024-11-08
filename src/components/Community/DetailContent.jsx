@@ -68,7 +68,7 @@ function DetailContent({ data }) {
           <img src={foto} className={`rounded w-[50px] object-cover`} />
         ) : (
           <img
-            className={`rounded-full w-[50px] object-cover`}
+            className={`rounded-full w-[50px] h-[50px] object-cover`}
             src={data.createdBy.avatar}
           />
         )}{" "}

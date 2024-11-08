@@ -14,7 +14,7 @@ function Commentar({ commentar, delCom }) {
             <img src={foto} className={`rounded w-[40px] object-cover`} />
           ) : (
             <img
-              className={`rounded-full w-[40px] object-cover`}
+              className={`rounded-full w-[40px] h-[40px] object-cover`}
               src={commentar.createdBy.avatar}
             />
           )}

@@ -158,7 +158,7 @@ function Profile() {
               <img src={foto} className={`rounded w-[80px] object-cover`} />
             ) : (
               <img
-                className={`rounded-full w-[80px] object-cover`}
+                className={`rounded-full w-[80px] h-[80px] object-cover`}
                 src={profileData.avatar}
               />
             )}
