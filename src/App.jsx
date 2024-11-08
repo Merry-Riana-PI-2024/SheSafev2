@@ -21,6 +21,10 @@ import EditJurnal from "./pages/EditJurnal";
 import { useDispatch } from "react-redux";
 import { checkAuth } from "./features/userSlice";
 import { useEffect } from "react";
+import DetailCase from "./pages/DetailCase";
+import Edit from "./components/Cases/Edit";
+import EditCases from "./pages/EditCases";
+// import EditCases from "./pages/EditCases";
 
 function App() {
   const dispatch = useDispatch();
@@ -49,6 +53,11 @@ function App() {
             <Route path="/journal" element={<MyJournal />} />
             <Route path="/journal/mycases" element={<ListPengajuanKasus />} />
           </Route>
+          <Route
+            path="/journal/mycases/edit/:casesId"
+            element={<EditCases />}
+          />
+          <Route path="/journal/mycases/detail/:id" element={<DetailCase />} />
           <Route path="/journal/:id" element={<DetailJurnal />} />
         </Route>
       </Routes>

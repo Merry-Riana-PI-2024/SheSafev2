@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-const DetailJurnal = () => {
+const DetailCase = () => {
   const navigate = useNavigate();
   // const API_BASE_URL = "http://localhost:4000"
   const { id } = useParams(); //get id dari route
@@ -15,11 +15,11 @@ const DetailJurnal = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/journal/${id}`, {
+        const response = await axios.get(`${API_BASE_URL}/cases/${id}`, {
           withCredentials: true,
         });
         console.log("Berhasil fetch journal id: ", id);
-        setData(response.data.findJournal);
+        setData(response.data.data);
       } catch (e) {
         console.log("Error fetching detail journal ", e);
       }
@@ -94,13 +94,13 @@ const DetailJurnal = () => {
             />
           </svg>
         </button>
-        <h2 className="text-xl font-medium">Detail Jurnal</h2>
+        <h2 className="text-xl font-medium">Detail Case</h2>
         <div></div>
       </div>
 
       <div className="flex w-full px-5 mb-2 py-5 justify-end items-center  ">
         <div className="flex gap-2 ">
-          <button
+          {/* <button
             onClick={() => handleDelete(data._id)}
             className="flex gap-2 items-center text-[#BA324F] hover:text-red-700   px-3 py-1 rounded border border-red-600">
             <Icon
@@ -110,9 +110,8 @@ const DetailJurnal = () => {
               style={{ color: "#BA324F" }}
             />{" "}
             Hapus
-          </button>
-          {/* <Link to={`/editJurnal/${data._id}`}> */}
-          <button
+          </button> */}
+          {/* <button
             onClick={() => handleEdit(data._id)}
             className="flex gap-2 items-center text-[#04395E] hover:text-blue-700  px-3 py-1 rounded border border-[#04395E]">
             <Icon
@@ -122,8 +121,7 @@ const DetailJurnal = () => {
               style={{ color: "#04395E" }}
             />
             Edit
-          </button>
-          {/* </Link> */}
+          </button> */}
         </div>
       </div>
 
@@ -134,46 +132,19 @@ const DetailJurnal = () => {
             className={`font-bold bg-[#F8EBED] px-3 py-2 rounded-[10px] text-md text-[#BA324F]`}>
             # {data.category.name}
           </h6>
-          <div
-            className="text-gray-500  p-2 rounded text-center text-sm"
-            style={{ width: "100px", marginLeft: "0", fontSize: "14px" }}>
+          <div className="text-[#BA324F] p-2 rounded text-center text-sm">
             {new Date(data.created).toLocaleDateString("id-ID", {
               day: "numeric",
               month: "long",
               year: "numeric",
-            })}
-          </div>
-        </div>
-
-        <div className={`flex items-center justify-between gap-4`}>
-          <h4 className="font-semibold mb-1 text-[#BA324F]">
-            Tanggal Kejadian
-          </h4>
-          <div className="flex items-center gap-2 ">
-            <div
-              className="bg-gray-100 text-gray-700 p-2 rounded text-center text-sm"
-              style={{ width: "100px", fontSize: "14px" }}>
-              {new Date(data.startDate).toLocaleDateString("id-ID", {
-                day: "numeric",
-                month: "long",
-                year: "numeric",
-              })}
-            </div>
-            <span>-</span>
-            <div
-              className="bg-gray-100 text-gray-700 p-2 rounded text-center text-sm"
-              style={{ width: "100px", fontSize: "14px" }}>
-              {new Date(data.endDate).toLocaleDateString("id-ID", {
-                day: "numeric",
-                month: "long",
-                year: "numeric",
-              })}
-            </div>
+            })}{" "}
           </div>
         </div>
 
         <div className={`flex flex-col gap-2`}>
-          <h4 className="font-semibold mb-1 text-[#BA324F]">Judul Jurnal :</h4>
+          <h4 className="font-semibold mb-1 text-[#BA324F]">
+            Judul Pengajuan Kasus :
+          </h4>
           <h3 className="font-semibold text-lg">{data.title}</h3>
           {/* <p className="text-gray-500 ">{mockupData.deskripsi}</p> */}
         </div>
@@ -183,7 +154,9 @@ const DetailJurnal = () => {
             Ringkasan Kejadian :
           </h4>
           {/* <h3 className="font-semibold text-lg">{mockupData.judul}</h3> */}
-          <p className="text-gray-500 ">{data.description}</p>
+          <p
+            className="text-gray-500 "
+            dangerouslySetInnerHTML={{ __html: data.description }}></p>
         </div>
 
         {/* <div className={`flex flex-col gap-4`}>
@@ -199,43 +172,9 @@ const DetailJurnal = () => {
           <h4 className="font-semibold ">Kronologi Kejadian</h4>
           <p className="text-gray-500 ">{mockupData.kronologi}</p>
         </div> */}
-
-        <div className={`flex flex-col gap-4`}>
-          <h4 className="font-semibold mb-1 text-[#BA324F]">
-            Lampiran Bukti :
-          </h4>
-          {data.file && data.file.originalname ? (
-            <table className="w-full mb-6 border rounded">
-              <thead>
-                <tr className="bg-gray-100">
-                  <th className="border px-4 py-2">Nama File</th>
-                  <th className="border px-4 py-2">File</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="border px-4 py-2 text-center">
-                    {data.file?.originalname || "No File"}
-                  </td>
-                  <td className="border px-4 py-2 text-center">
-                    <a
-                      href={`${API_BASE_URL}/${data.file.path || ""}`}
-                      className="text-blue-500 hover:underline"
-                      target="_blank"
-                      rel="noopener noreferrer">
-                      {data.file?.originalname || "No file path available"}
-                    </a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          ) : (
-            <p>No File Attached</p>
-          )}
-        </div>
       </div>
     </div>
   );
 };
 
-export default DetailJurnal;
+export default DetailCase;
