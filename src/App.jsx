@@ -17,6 +17,7 @@ import MyJournal from "./pages/MyJournal";
 import ListPengajuanKasus from "./pages/ListPengajuanKasus";
 import DetailJurnal from "./pages/DetailJurnal";
 import ProtectedRoutes from "./components/ProtectedRoutes";
+import EditJurnal from "./pages/EditJurnal";
 import { useDispatch } from "react-redux";
 import { checkAuth } from "./features/userSlice";
 import { useEffect } from "react";
@@ -36,6 +37,7 @@ function App() {
         <Route path="/regist" element={<Register />} />
         <Route element={<ProtectedRoutes />}>
           <Route path="/addJurnal" element={<AddJurnal />} />
+          <Route path="/editJurnal/:id" element={<EditJurnal />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/community" element={<Community />} />
           <Route path="/community/:id" element={<DetailCom />} />
@@ -47,7 +49,7 @@ function App() {
             <Route path="/journal" element={<MyJournal />} />
             <Route path="/journal/mycases" element={<ListPengajuanKasus />} />
           </Route>
-          <Route path="/journal/detail" element={<DetailJurnal />} />
+          <Route path="/journal/:id" element={<DetailJurnal />} />
         </Route>
       </Routes>
     </>

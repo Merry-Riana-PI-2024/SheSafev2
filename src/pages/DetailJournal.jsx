@@ -3,7 +3,7 @@ function DetailJournal() {
     <>
       <div className="detailjurnal-section container min-vh-100 wrapper-mobile">
         <div className="header py-5 d-flex align-items-center justify-content-center">
-          <a href="#" className="button-back col-1" onclick="window.history.go(-1)">
+          <a href="#" className="button-back col-1" onClick="window.history.go(-1)">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="32"
