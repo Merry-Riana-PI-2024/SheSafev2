@@ -53,11 +53,11 @@ function Register() {
     formData.append("email", email);
     formData.append("gender", gender);
     formData.append("birthDate", ttl);
-    // formData.append("fileIdentity", identitas);
+    formData.append("fileIdentity", identitas);
     formData.append("password", password);
-    if (identitas) {
-    formData.append("fileIdentity", identitas.name);  // Mengambil hanya nama file
-  }
+  //   if (identitas) {
+  //   formData.append("fileIdentity", identitas.name);  // Mengambil hanya nama file
+  // }
 
     try {
       const resultAction = await dispatch(regist(formData)).unwrap();
