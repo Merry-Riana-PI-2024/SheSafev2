@@ -65,9 +65,12 @@ function DetailContent({ data }) {
     <>
       <div className="flex flex-row gap-8 items-center justify-start">
         {!data.createdBy.avatar ? (
-          <img src={foto} />
+          <img src={foto} className={`rounded w-[50px] object-cover`} />
         ) : (
-          <img className={`rounded w-[50px]`} src={data.createdBy.avatar} />
+          <img
+            className={`rounded-full w-[50px] object-cover`}
+            src={data.createdBy.avatar}
+          />
         )}{" "}
         <div className="flex flex-col gap-1">
           <h6 className="text-[#BA324F] font-bold text-md">

@@ -44,6 +44,15 @@ export const checkAuth = createAsyncThunk("users/checkAuth", async () => {
   return response.data;
 });
 
+export const logout = createAsyncThunk("users/logout", async () => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/auth/logout`);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || "Gagal logout");
+  }
+});
+
 const userSlice = createSlice({
   name: "users",
   initialState: {
@@ -90,7 +99,7 @@ const userSlice = createSlice({
         state.error = null;
       })
       .addCase(checkAuth.fulfilled, (state, action) => {
-        console.log("Check Auth Response:", action.payload); // Debugging
+        console.log("Check Auth Response:", action.payload);
         state.loading = false;
         state.isLoggedin = action.payload.isAuthenticated;
         state.userData = action.payload.user;
@@ -99,7 +108,22 @@ const userSlice = createSlice({
         state.loading = false;
         state.error = action.error.message;
         state.isLoggedin = false;
-        localStorage.removeItem("isLoggedin"); // Simpan status login saat berhasil login
+        localStorage.removeItem("isLoggedin");
+      })
+      //ini logout
+      .addCase(logout.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(logout.fulfilled, (state) => {
+        state.loading = false;
+        state.isLoggedin = false;
+        state.userData = null;
+        localStorage.removeItem("isLoggedin");
+      })
+      .addCase(logout.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
       });
   },
 });
