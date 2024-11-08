@@ -6,7 +6,7 @@ function Journal() {
 
   return (
     <>
-      <div className={`wrapper-mobile bg-white`}>
+      <div className={`wrapper-mobile bg-white mb-10`}>
         <div className="flex justify-between items-center">
         <Link
             to="/journal"
