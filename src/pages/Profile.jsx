@@ -120,7 +120,7 @@ function Profile() {
         // if (response.data.message === "Berhasil logout") {
         dispatch(logout());
         navigate("/");
-        window.location.reload();
+        // window.location.reload();
         // }
       } catch (error) {
         console.error("Gagal logout:", error);
