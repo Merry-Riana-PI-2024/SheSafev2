@@ -46,7 +46,9 @@ export const checkAuth = createAsyncThunk("users/checkAuth", async () => {
 
 export const logout = createAsyncThunk("users/logout", async () => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/auth/logout`);
+    const response = await axios.post(`${API_BASE_URL}/auth/logout`, {
+      withCredentials: true,
+    });
     return response.data;
   } catch (error) {
     throw new Error(error.response?.data?.message || "Gagal logout");
