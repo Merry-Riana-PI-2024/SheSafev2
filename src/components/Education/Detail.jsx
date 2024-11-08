@@ -14,7 +14,9 @@ function Detail({ module }) {
 
         {/* Menampilkan Deskripsi Modul */}
         <div className={`mt-5`}>
-          <p className="text-black text-sm">{module.description}</p>
+          <p
+            className="text-black text-sm"
+            dangerouslySetInnerHTML={{ __html: module.description }}></p>
         </div>
 
         {/* Menampilkan File (jika ada) */}

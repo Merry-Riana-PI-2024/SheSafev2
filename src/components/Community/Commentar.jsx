@@ -1,7 +1,14 @@
 import foto from "../../assets/images/fp1.png";
 
 function Commentar({ commentar, delCom }) {
-  const formattedDate = new Date(commentar.created).toLocaleDateString();
+  const formattedDate = new Date(commentar.created).toLocaleDateString(
+    "id-ID",
+    {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    }
+  );
   const formattedTime = new Date(commentar.created).toLocaleTimeString([], {
     hour: "2-digit",
     minute: "2-digit",

@@ -26,6 +26,12 @@ export const postCaseDraft = createAsyncThunk(
   }
 );
 
+//ThunkDetail
+// export const detailCase = createAsyncThunk("case/detailCase", async (id) => {
+//   const response = await axios.post(`${API_BASE_URL}/cases/${id}`, dataCase);
+//   return response.data.data;
+// });
+
 // Slice untuk komunitas
 const casesSlice = createSlice({
   name: "case",

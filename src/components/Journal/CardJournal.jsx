@@ -64,7 +64,11 @@ function CardJournal({ journal }) {
           </span>
           <span className="text-sm text-[#04395E]  px-2 py-2 rounded mr-2">
             {journal.created
-              ? new Date(journal.created).toLocaleDateString()
+              ? new Date(journal.created).toLocaleDateString("id-ID", {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                })
               : "No date"}
           </span>
         </div>
@@ -75,7 +79,9 @@ function CardJournal({ journal }) {
               {journal.title}
             </h4>
           </Link>
-          <p className="text-gray-600 text-sm mt-2">{journal.description}</p>
+          <p
+            className="text-gray-600 text-sm mt-2"
+            dangerouslySetInnerHTML={{ __html: journal.description }}></p>
         </div>
 
         <div

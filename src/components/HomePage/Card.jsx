@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import style from "../../assets/css/HomePage.module.css";
-import { formatDate } from "../../utils/formatDate";
+// import { formatDate } from "../../utils/formatDate";
 
 function Card({ data }) {
   const navigate = useNavigate();
@@ -14,7 +14,11 @@ function Card({ data }) {
           <p className={`${style.username} `}>{data.isAnonimous}</p>
           {/* <p>11 Oktober 2024 | 02:40pm</p> */}
           <p className="font-light text-[#8C8C8C]">
-            {formatDate(data.approved)}
+            {new Date(data.approved).toLocaleDateString("id-ID", {
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+            })}
           </p>
         </div>
         <div

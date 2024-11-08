@@ -4,7 +4,11 @@ import { useNavigate } from "react-router-dom";
 
 function Card({ data }) {
   const navigate = useNavigate();
-  const formattedDate = new Date(data.approved).toLocaleDateString();
+  const formattedDate = new Date(data.approved).toLocaleDateString("id-ID", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
   const formattedTime = new Date(data.approved).toLocaleTimeString([], {
     hour: "2-digit",
     minute: "2-digit",

@@ -21,7 +21,11 @@ function DetailEdu() {
   if (error) return <div>Error: {error}</div>;
 
   // Format the date
-  const formattedDate = new Date(edu.created).toLocaleDateString();
+  const formattedDate = new Date(edu.created).toLocaleDateString("id-ID", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
   const formattedTime = new Date(edu.created).toLocaleTimeString([], {
     hour: "2-digit",
     minute: "2-digit",
@@ -61,7 +65,9 @@ function DetailEdu() {
               </div>
             )}
             <div className="mt-5">
-              <p className="text-black text-sm">{edu.description}</p>
+              <p
+                className="text-black text-sm"
+                dangerouslySetInnerHTML={{ __html: edu.description }}></p>
             </div>
           </div>
         </div>

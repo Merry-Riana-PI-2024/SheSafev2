@@ -56,7 +56,11 @@ function DetailContent({ data }) {
     });
   };
 
-  const formattedDate = new Date(data.approved).toLocaleDateString();
+  const formattedDate = new Date(data.approved).toLocaleDateString("id-ID", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
   const formattedTime = new Date(data.approved).toLocaleTimeString([], {
     hour: "2-digit",
     minute: "2-digit",
@@ -101,7 +105,9 @@ function DetailContent({ data }) {
 
       <div className="flex flex-col gap-4 mt-3">
         <h5 className="text-black text-lg font-bold">{data.title}</h5>
-        <p className="text-black font-light text-sm">{data.description}</p>
+        <p
+          className="text-black font-light text-sm"
+          dangerouslySetInnerHTML={{ __html: data.description }}></p>
 
         <div className="flex flex-col gap-2">
           <h5 className="text-black text-md font-bold">
