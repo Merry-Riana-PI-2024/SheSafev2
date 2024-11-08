@@ -11,10 +11,10 @@ function Commentar({ commentar, delCom }) {
       <div className={`mt-5 bg-[#f5f5f5] rounded-[10px] px-4 py-3`}>
         <div className={`flex flex-row gap-8  items-center justify-start `}>
           {!commentar.createdBy.avatar ? (
-            <img src={foto} />
+            <img src={foto} className={`rounded w-[40px] object-cover`} />
           ) : (
             <img
-              className={`rounded w-[30px]`}
+              className={`rounded-full w-[40px] object-cover`}
               src={commentar.createdBy.avatar}
             />
           )}
