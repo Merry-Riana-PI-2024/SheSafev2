@@ -3,6 +3,7 @@ import image from "../../assets/images/asset_login.png";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 function AddForm() {
@@ -63,6 +64,12 @@ function AddForm() {
         withCredentials: true,
       });
       console.log("Berhasil tambah jurnal: ", response.data);
+      Swal.fire({
+        title: "Jurnal Berhasil Ditambahkan",
+        text: "Jurnal Anda telah berhasil ditambahkan.",
+        icon: "success",
+        confirmButtonText: "OK",
+      });
 
       if (response.data.journal && response.data.journal.file) {
         setFileInfo({
@@ -81,7 +88,7 @@ function AddForm() {
     <>
       <div className="container mx-auto flex justify-center items-center min-h-screen p-4">
         <div className="w-full max-w-lg">
-          <div className="text-center mb-10 gap-4 flex cols-2 justify-center">
+          <div className="text-center mb-10 gap-4 flex cols-2 justify-between">
             <button onClick={() => navigate(-1)}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -95,7 +102,8 @@ function AddForm() {
                 />
               </svg>
             </button>
-            <h1 className={`${style["h1"]} font-bold`}>Formulir Jurnal Baru</h1>
+            <h1 className={`${style["h1"]} font-bold`}>Formulir Jurnal</h1>
+            <div></div>
           </div>
 
           <form onSubmit={handleSubmit}>

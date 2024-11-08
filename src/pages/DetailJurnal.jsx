@@ -2,6 +2,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import Swal from "sweetalert2";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const DetailJurnal = () => {
@@ -26,46 +27,52 @@ const DetailJurnal = () => {
     fetchData();
   }, [id]);
 
-  // const mockupData = {
-  //   date: "10/28/2024",
-  //   judul: "Hidup dalam Bayang-Bayang : Kekerasan yang Saya Hadapi",
-  //   deskripsi:
-  //     "Dalam jurnal ini, saya menceritakan pengalaman saya menghadapi kekerasan dalam rumah tangga yang semakin tak tertahankan. Setiap harinya, rasa takut dan kecemasan menguasai hidup saya, namun saya masih mencari cara untuk bisa bertahan",
-  //   tanggalKejadian: {
-  //     mulai: "2024-10-25",
-  //     akhir: "2024-10-31",
-  //   },
-  //   klasifikasi: "Kekerasan Verbal",
-  //   kronologi:
-  //     "Saya sering mengalami kekerasan verbal yang diberikan oleh sekelompok pria sejak saya pindah rumah",
-  //   lampiran: [
-  //     { namaFile: "Nama File 1", filePath: "/path/to/file1" },
-  //     { namaFile: "Nama File 2", filePath: "/path/to/file2" },
-  //   ],
-  // };
-
   const handleDelete = async (id) => {
-    if (window.confirm("Anda yakin akan hapus jurnal ini ?")) {
+    const result = await Swal.fire({
+      title: "Anda yakin?",
+      text: "Jurnal ini akan dihapus.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Hapus",
+      cancelButtonText: "Batal",
+      reverseButtons: true,
+    });
+
+    if (result.isConfirmed) {
       try {
         const response = await axios.delete(`${API_BASE_URL}/journal/${id}`, {
           withCredentials: true,
         });
+        Swal.fire("Dihapus!", "Jurnal Anda telah dihapus.", "success");
         console.log("berhasil hapus journal ", id, response);
         navigate("/journal");
       } catch (error) {
         console.error("error deleting journal: ", error);
-        alert("terjadi kesalahan saat menghapus jurnal");
+        Swal.fire("Gagal!", "Gagal menghapus jurnal.", "error");
       }
     }
   };
 
-  const handleEdit = () => {
-    const confirmEdit = window.confirm(
-      "Anda akan mengedit jurnal ini. Lanjutkan?"
-    );
-    if (confirmEdit) {
-      console.log("berhasil edit journal");
-      navigate(`/editJurnal/${data._id}`);
+  const handleEdit = async () => {
+    // const confirmEdit = window.confirm(
+    //   "Anda akan mengedit jurnal ini. Lanjutkan?"
+    // );
+    // if (confirmEdit) {
+    //   console.log("berhasil edit journal");
+    //   navigate(`/editJurnal/${data._id}`);
+    // }
+    const result = await Swal.fire({
+      title: "Anda yakin?",
+      text: "Anda akan mengedit jurnal ini.",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Edit",
+      cancelButtonText: "Batal",
+      reverseButtons: true,
+    });
+
+    if (result.isConfirmed) {
+      window.location.href = `/editJurnal/${data._id}`;
     }
   };
 

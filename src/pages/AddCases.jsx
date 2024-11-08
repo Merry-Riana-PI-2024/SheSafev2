@@ -1,9 +1,10 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import AddForm from "../components/Cases/AddForm";
 import asset from "../assets/images/asset_login.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function AddCases() {
+  const navigate = useNavigate();
   return (
     <>
       <div className={`wrapper-mobile bg-white `}>
