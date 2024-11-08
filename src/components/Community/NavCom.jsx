@@ -159,7 +159,7 @@ function NavCom({ casesID, page }) {
           <div
             className={`${
               currentSupportStatus ? "bg-[#BA324F]" : "bg-transparent"
-            } flex justify-between items-center gap-2 border-2 border-[#BA324F] rounded-[10px] px-2 py-2`}
+            } cursor-pointer flex justify-between items-center gap-2 border-2 border-[#BA324F] rounded-[10px] px-2 py-2`}
             onClick={handleSupport}>
             <Icon
               icon="mingcute:love-line"
@@ -171,7 +171,7 @@ function NavCom({ casesID, page }) {
               className={`${
                 currentSupportStatus ? "text-white" : "text-[#BA324F]"
               }`}>
-              {currentSupportStatus ? "Batalkan Dukungan" : "Berikan Dukungan"}
+              {currentSupportStatus ? "Dukungan" : "Dukungan"}
             </p>
           </div>
 
@@ -184,7 +184,7 @@ function NavCom({ casesID, page }) {
               height="24"
               style={{ color: "#ffffff" }}
             />
-            <p className="text-sm text-[#ffffff]">Tambah Komentar</p>
+            <p className="text-sm text-[#ffffff]">Komentar</p>
           </div>
         </div>
       </div>

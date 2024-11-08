@@ -47,9 +47,9 @@ function DetailContent({ data }) {
       if (result.isConfirmed) {
         console.log("Deleting comment with ID:", idcomment);
         dispatch(deleteComment({ _id: idcomment, casesID: id }));
-        dispatch(fetchCommentar({ id, page, perPage: per_page }));
-
+        // dispatch(fetchCommentar({ id, page, perPage: per_page, current_page }));
         Swal.fire("Terhapus!", "Komentar telah dihapus.", "success");
+        window.location.reload();
       } else {
         Swal.fire("Dibatalkan", "Komentar tidak dihapus.", "info");
       }

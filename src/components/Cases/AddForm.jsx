@@ -50,16 +50,29 @@ function AddForm() {
   const handleJournalSelect = (event) => {
     const selectedJournal = journal.find((j) => j._id === event.target.value);
     if (selectedJournal) {
-      quillRef.current.getEditor().setText(selectedJournal.description);
+      quillRef.current.getEditor().root.innerHTML = selectedJournal.description;
       setTitle(selectedJournal.title);
       setMessage(selectedJournal.message);
-      setSelectedCategory(selectedJournal.category._id); // Set category based on selected journal
+      setSelectedCategory(selectedJournal.category._id);
     }
   };
+
   const handleSubmit = async (isDraft = false) => {
+    // Validasi untuk memastikan input wajib telah diisi
+    const description = quillRef.current.getEditor().root.innerHTML;
+    if (!title || !description || !selectedCategory) {
+      Swal.fire({
+        icon: "warning",
+        title: "Input Tidak Lengkap",
+        text: "Pastikan semua input wajib (Judul Kasus, Ringkasan Kasus, dan Kategori) sudah diisi.",
+        confirmButtonText: "OK",
+      });
+      return;
+    }
+
     const dataCase = {
       title,
-      description: quillRef.current.getEditor().getText(),
+      description,
       category: selectedCategory,
       message,
       isApproved: isDraft ? "Draft" : "Submitted",
@@ -90,6 +103,20 @@ function AddForm() {
         confirmButtonText: "OK",
       });
     }
+  };
+
+  const confirmSubmit = () => {
+    Swal.fire({
+      title: "Apakah Anda ingin mengajukan kasus ini?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Ya, Ajukan",
+      cancelButtonText: "Batal",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleSubmit(false);
+      }
+    });
   };
 
   return (
@@ -202,27 +229,10 @@ function AddForm() {
           Simpan Draft
         </button>
         <button
-          onClick={() => handleSubmit(false)}
-          className="border-2 bg-[#04395E] px-5 py-3 rounded-[10px] text-[#ffffff]">
+          onClick={confirmSubmit}
+          className="bg-[#BA324F] px-5 py-3 rounded-[10px] text-white">
           Ajukan Kasus
         </button>
-      </div>
-
-      {/* Instructions */}
-      <div className="flex flex-col items-center justify-start gap-4">
-        <div className="px-5 py-3 bg-[#F8EBED]">
-          <p className="text-[#BA324F] text-sm">
-            -Kasus Anda akan ditinjau, dan jika disetujui akan tampil di beranda
-            untuk mendapatkan perhatian
-          </p>
-          <p className="text-[#BA324F] text-sm">
-            -Pastikan semua informasi sudah lengkap dan akurat
-          </p>
-          <p className="text-[#BA324F] text-sm">
-            -Proses pengajuan akan memakan waktu beberapa saat sebelum kasus
-            muncul di beranda
-          </p>
-        </div>
       </div>
     </div>
   );
