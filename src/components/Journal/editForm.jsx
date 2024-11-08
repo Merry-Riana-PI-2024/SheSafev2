@@ -16,6 +16,7 @@ const EditForm = () => {
   const [endDate, setEndDate] = useState("")
   const [category, setCategory] = useState("")
   const [description, setDescription] = useState("")
+  const [cronology, setCronology] = useState("")
   const [file, setFile] = useState(null)
   const [categories, setCategories] = useState([])
 
@@ -36,6 +37,7 @@ const EditForm = () => {
           setEndDate(new Date(data.endDate).toISOString().split("T")[0])
           setCategory(data.category._id)
           setDescription(data.description)
+          setCronology(data.cronology)
         } else {
           console.log("No journal data found for id: ", id)
         }
@@ -63,6 +65,7 @@ const EditForm = () => {
     formData.append("endDate", endDate)
     formData.append("category", category)
     formData.append("description", description)
+    formData.append("cronology", cronology)
     if(file) formData.append("file", file)
 
     try {
@@ -159,13 +162,25 @@ const EditForm = () => {
                             id="deskripsi"
                             placeholder="Deskripsikan kejadian yang anda alami"
                             className={`${style['form-control']} mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-#8c263b-500`}
-                            rows="4"
+                            rows="2"
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
                             required>
                           </textarea>
                         </div>
                         <small className={`${style['small']}`}>**Hindari menggunakan nama asli atau informasi pribadi orang lain tanpa izin</small>
+                        <div className="mb-2 mt-4">
+                          <label htmlFor="cronology" className="text-sm font-bold">Kronologi</label>
+                          <textarea
+                            id="cronology"
+                            placeholder="Deskripsikan kejadian yang anda alami"
+                            className={`${style['form-control']} mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-#8c263b-500`}
+                            rows="6"
+                            value={cronology}
+                            onChange={(e) => setCronology(e.target.value)}
+                            required
+                          />
+                        </div>
                         <div className="mb-1 mt-3">
                           <label htmlFor="file" className="text-sm font-bold">Lampirkan Bukti (Optional)</label>
                           <input
