@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { checkAuth, logout, setLoginStatus } from "../features/userSlice";
+import {  logout, setLoginStatus } from "../features/userSlice";
 import { Link, useNavigate } from "react-router-dom";
 import NavBottom from "../components/NavBottom";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL; // tambahin ini, ganti api
@@ -21,11 +21,11 @@ function Profile() {
     avatar: null,
   });
 
-  useEffect(() => {
-    if (!isLoggedin) {
-      dispatch(checkAuth());
-    }
-  }, [dispatch, isLoggedin]);
+  // useEffect(() => {
+  //   if (!isLoggedin) {
+  //     dispatch(checkAuth());
+  //   }
+  // }, [dispatch, isLoggedin]);
 
   useEffect(() => {
     if (isLoggedin) {
