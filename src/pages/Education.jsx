@@ -35,8 +35,11 @@ function Education() {
             <div className="flex flex-wrap gap-4">
               {[...Array(6)].map((_, index) => (
                 <div key={index} className="w-full mb-4">
-                  <Skeleton height={200} width="100%" />
-                  <Skeleton height={20} width="60%" />
+                  {/* Replace Skeleton with individual divs for loading */}
+                  <div className="w-full bg-gray-300 h-48 mb-4"></div>{" "}
+                  {/* Placeholder for the content */}
+                  <div className="w-3/5 bg-gray-300 h-6"></div>{" "}
+                  {/* Placeholder for text */}
                 </div>
               ))}
             </div>

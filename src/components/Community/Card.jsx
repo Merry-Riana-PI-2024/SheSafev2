@@ -14,9 +14,11 @@ function Card({ data }) {
     minute: "2-digit",
   });
   const truncatedTitle =
-    data.title.length > 100 ? data.title.slice(0, 100) + "..." : data.title;
+    data.title.length > 60 ? data.title.slice(0, 60) + "..." : data.title;
   const truncatedDesc =
-    data.title.length > 200 ? data.title.slice(0, 200) + "..." : data.title;
+    data.description.length > 100
+      ? data.description.slice(0, 80) + "..."
+      : data.description;
   return (
     <>
       <div className={`px-5 py-2 my-2`}>
@@ -49,7 +51,9 @@ function Card({ data }) {
               {/* {data.title} */}
               {truncatedTitle}
             </h5>
-            <p className={`text-[#8c8c8c] font-medium`}>{truncatedDesc}</p>
+            <p
+              className={`text-[#8c8c8c] font-medium`}
+              dangerouslySetInnerHTML={{ __html: truncatedDesc }}></p>
             <h5 className={`text-[#BA324F] font-bold text-md text-left`}>
               #{data.category.name}
             </h5>
