@@ -30,7 +30,7 @@ const DetailCase = () => {
   const handleDelete = async (id) => {
     const result = await Swal.fire({
       title: "Anda yakin?",
-      text: "Jurnal ini akan dihapus.",
+      text: "Pengajuan Kasus ini akan dihapus.",
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Hapus",
@@ -40,40 +40,23 @@ const DetailCase = () => {
 
     if (result.isConfirmed) {
       try {
-        const response = await axios.delete(`${API_BASE_URL}/journal/${id}`, {
+        const response = await axios.delete(`${API_BASE_URL}/cases/${id}`, {
           withCredentials: true,
         });
-        Swal.fire("Dihapus!", "Jurnal Anda telah dihapus.", "success");
-        console.log("berhasil hapus journal ", id, response);
-        navigate("/journal");
+        Swal.fire("Dihapus!", "Pengajuan Kasus Anda telah dihapus.", "success");
+        console.log("Pengajuan KAsus dihapus", response.data);
+        navigate("/journal/mycases");
+        window.location.reload();
       } catch (error) {
-        console.error("error deleting journal: ", error);
-        Swal.fire("Gagal!", "Gagal menghapus jurnal.", "error");
+        console.error("error deleting cases: ", error);
+        setError("gagal hapus pengajuan kasus");
+        Swal.fire("Gagal!", "Gagal menghapus pengajuan kasus.", "error");
       }
     }
   };
 
-  const handleEdit = async () => {
-    // const confirmEdit = window.confirm(
-    //   "Anda akan mengedit jurnal ini. Lanjutkan?"
-    // );
-    // if (confirmEdit) {
-    //   console.log("berhasil edit journal");
-    //   navigate(`/editJurnal/${data._id}`);
-    // }
-    const result = await Swal.fire({
-      title: "Anda yakin?",
-      text: "Anda akan mengedit jurnal ini.",
-      icon: "question",
-      showCancelButton: true,
-      confirmButtonText: "Edit",
-      cancelButtonText: "Batal",
-      reverseButtons: true,
-    });
-
-    if (result.isConfirmed) {
-      window.location.href = `/editJurnal/${data._id}`;
-    }
+  const handleEditClick = (id) => {
+    navigate(`/journal/mycases/edit/${id}`);
   };
 
   if (!data) return <div>Tidak ada data..</div>;
@@ -100,7 +83,7 @@ const DetailCase = () => {
 
       <div className="flex w-full px-5 mb-2 py-5 justify-end items-center  ">
         <div className="flex gap-2 ">
-          {/* <button
+          <button
             onClick={() => handleDelete(data._id)}
             className="flex gap-2 items-center text-[#BA324F] hover:text-red-700   px-3 py-1 rounded border border-red-600">
             <Icon
@@ -110,9 +93,9 @@ const DetailCase = () => {
               style={{ color: "#BA324F" }}
             />{" "}
             Hapus
-          </button> */}
-          {/* <button
-            onClick={() => handleEdit(data._id)}
+          </button>
+          <button
+            onClick={() => handleEditClick(data._id)}
             className="flex gap-2 items-center text-[#04395E] hover:text-blue-700  px-3 py-1 rounded border border-[#04395E]">
             <Icon
               icon="tabler:edit"
@@ -121,7 +104,7 @@ const DetailCase = () => {
               style={{ color: "#04395E" }}
             />
             Edit
-          </button> */}
+          </button>
         </div>
       </div>
 
