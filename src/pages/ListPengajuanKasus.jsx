@@ -2,6 +2,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+axios.defaults.withCredentials = true;
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 function ListPengajuanKasus() {
@@ -102,11 +103,18 @@ function ListPengajuanKasus() {
             className="px-4 py-3 cursor-pointer"
             onClick={() => navigate(`/journal/mycases/detail/${item._id}`)}>
             <h4 className="font-semibold text-lg text-gray-800">
-              {item.title}
+              {item.title.length > 60
+                ? item.title.slice(0, 60) + "..."
+                : item.title}
             </h4>
             <p
               className="text-gray-600 mt-2"
-              dangerouslySetInnerHTML={{ __html: item.description }}></p>
+              dangerouslySetInnerHTML={{
+                __html:
+                  item.description.length > 100
+                    ? item.description.slice(0, 80) + "..."
+                    : item.description,
+              }}></p>
           </div>
 
           <div
