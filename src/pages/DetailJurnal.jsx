@@ -202,7 +202,7 @@ const DetailJurnal = () => {
           <h4 className="font-semibold mb-1 text-[#BA324F]">
             Lampiran Bukti :
           </h4>
-          {data.file && data.file.originalname ? (
+          {data.file ? (
             <table className="w-full mb-6 border rounded">
               <thead>
                 <tr className="bg-gray-100">
@@ -213,15 +213,16 @@ const DetailJurnal = () => {
               <tbody>
                 <tr>
                   <td className="border px-4 py-2 text-center">
-                    {data.file?.originalname || "No File"}
+                    {/* {data.file?.originalname || "No File"} */}
+                    <img src={data.file} alt="" />
                   </td>
                   <td className="border px-4 py-2 text-center">
                     <a
-                      href={`${data.file || ""}`}
+                      href={data.file}
                       className="text-blue-500 hover:underline"
                       target="_blank"
                       rel="noopener noreferrer">
-                      {data.file?.originalname || "No file path available"}
+                      {data.file}
                     </a>
                   </td>
                 </tr>
