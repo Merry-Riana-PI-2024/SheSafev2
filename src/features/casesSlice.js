@@ -26,6 +26,19 @@ export const postCaseDraft = createAsyncThunk(
   }
 );
 
+export const editCase = createAsyncThunk(
+  "case/postCase",
+  async ({ id, dataCase }) => {
+    const response = await axios.put(`${API_BASE_URL}/cases/${id}`, dataCase);
+    return response.data;
+  }
+);
+
+export const deleteCase = createAsyncThunk("case/postCase", async ({ id }) => {
+  const response = await axios.delete(`${API_BASE_URL}/cases/${id}`);
+  return response.data;
+});
+
 //ThunkDetail
 // export const detailCase = createAsyncThunk("case/detailCase", async (id) => {
 //   const response = await axios.post(`${API_BASE_URL}/cases/${id}`, dataCase);

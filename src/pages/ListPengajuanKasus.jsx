@@ -2,10 +2,14 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { deleteCase } from "../features/casesSlice";
+import { useDispatch } from "react-redux";
+import Swal from "sweetalert2";
 axios.defaults.withCredentials = true;
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 function ListPengajuanKasus() {
+  const dispatch = useDispatch();
   const [data, setData] = useState([]);
   const [selectedDate, setSelectedDate] = useState("Pilih Tanggal");
   const [status, setStatus] = useState("");
@@ -32,13 +36,36 @@ function ListPengajuanKasus() {
     fetchData(currentPage, status);
   }, [currentPage, status]);
 
-  const handleEditClick = (caseId) => {
-    console.log("caseId:", caseId); // Debug: Memastikan caseId diterima
-    localStorage.setItem("caseId", caseId); // Simpan caseId ke localStorage
-    navigate(`/journal/mycases/edit/${caseId}`);
+  const handleEditClick = (id) => {
+    navigate(`/journal/mycases/edit/${id}`);
   };
 
-  const handleDelete = () => alert("Anda yakin akan hapus pengajuan kasus ini");
+  const handleDelete = async (id) => {
+    const result = await Swal.fire({
+      title: "Anda yakin?",
+      text: "Pengajuan Kasus ini akan dihapus.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Hapus",
+      cancelButtonText: "Batal",
+      reverseButtons: true,
+    });
+
+    if (result.isConfirmed) {
+      try {
+        const response = await axios.delete(`${API_BASE_URL}/cases/${id}`, {
+          withCredentials: true,
+        });
+        Swal.fire("Dihapus!", "Pengajuan Kasus Anda telah dihapus.", "success");
+        console.log("Pengajuan KAsus dihapus", response.data);
+        window.location.reload();
+      } catch (error) {
+        console.error("error deleting cases: ", error);
+        setError("gagal hapus pengajuan kasus");
+        Swal.fire("Gagal!", "Gagal menghapus pengajuan kasus.", "error");
+      }
+    }
+  };
 
   const goToNextPage = () => {
     if (currentPage < totalPages) setCurrentPage((prevPage) => prevPage + 1);
@@ -63,18 +90,6 @@ function ListPengajuanKasus() {
           <option value="Revisi">Revisi</option>
           <option value="Approved">Disetujui</option>
         </select>
-
-        {/* <div className="relative">
-          <input
-            type="date"
-            className="absolute top-0 left-0 opacity-0 w-full h-full cursor-pointer"
-            onChange={(e) => setSelectedDate(e.target.value)}
-          />
-          <button className="bg-[#BA324F] text-white px-4 py-2 rounded-[10px] inline-flex items-center">
-            <span>{selectedDate}</span>
-            <i className="fas fa-calendar-alt ml-2"></i>
-          </button>
-        </div> */}
       </div>
 
       {data.map((item) => (
@@ -120,19 +135,24 @@ function ListPengajuanKasus() {
           <div
             style={{ backgroundColor: "rgba(245, 245, 245, 1)" }}
             className="flex justify-between px-4 py-2">
-            {/* <button
-              onClick={() => handleEditClick(item._id)} // Menggunakan item._id yang sesuai
-              className="flex gap-2 items-center text-[#04395E] hover:text-blue-700 px-3 py-1 rounded border border-[#04395E]">
-              <Icon
-                icon="tabler:edit"
-                width="24"
-                height="24"
-                style={{ color: "#04395E" }}
-              />
-              Edit
-            </button> */}
-            {/* <button
-              onClick={handleDelete}
+            {item.isApproved === "Approved" ? (
+              <div></div>
+            ) : (
+              <button
+                onClick={() => handleEditClick(item._id)} // Menggunakan item._id yang sesuai
+                className="flex gap-2 items-center text-[#04395E] hover:text-blue-700 px-3 py-1 rounded border border-[#04395E]">
+                <Icon
+                  icon="tabler:edit"
+                  width="24"
+                  height="24"
+                  style={{ color: "#04395E" }}
+                />
+                Edit
+              </button>
+            )}
+
+            <button
+              onClick={() => handleDelete(item._id)}
               className="flex gap-2 items-center text-[#BA324F] hover:text-red-700 px-3 py-1 rounded border border-red-600">
               <Icon
                 icon="mi:delete"
@@ -141,7 +161,7 @@ function ListPengajuanKasus() {
                 style={{ color: "#BA324F" }}
               />
               Hapus
-            </button> */}
+            </button>
           </div>
         </div>
       ))}

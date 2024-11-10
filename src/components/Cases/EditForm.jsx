@@ -3,23 +3,26 @@ import ReactQuill, { Quill } from "react-quill";
 import { useSelector, useDispatch } from "react-redux";
 import "react-quill/dist/quill.snow.css";
 import { fetchCategories } from "../../features/categoriesSlice";
-import { fetchJournal, fetchCaseDetails, postCase, postCaseDraft } from "../../features/casesSlice";
+import axios from "axios";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+import { editCase, postCase, postCaseDraft } from "../../features/casesSlice";
 import Swal from "sweetalert2";
 import { useNavigate, useParams } from "react-router-dom";
 
-function EditForm() {
-  const { caseId } = useParams();
+function EditForm({ caseId }) {
+  // const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { categories } = useSelector((state) => ({
+    categories: state.categories.category,
+  }));
 
-  const journal = useSelector((state) => state.cases?.journal || []);
-  const categories = useSelector((state) => state.categories?.category || []);
-  const selectedCase = useSelector((state) => state.cases?.selectedCase || null);
-
-  const [selectedJournal, setSelectedJournal] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("");
+  // const [selectedCategory, setSelectedCategory] = useState("");
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
+  const [category, setCategory] = useState("");
+  const [description, setDescription] = useState("");
+  const [isApproved, setIsApproved] = useState("");
 
   const quillRef = useRef(null);
   const FontAttributor = Quill.import("attributors/class/font");
@@ -31,51 +34,78 @@ function EditForm() {
       [{ header: [1, 2, 3] }],
       ["bold", "italic", "underline", "strike"],
       [{ align: [] }],
-      [{ list: "ordered" }, { list: "bullet" }, { indent: "-1" }, { indent: "+1" }],
+      [
+        { list: "ordered" },
+        { list: "bullet" },
+        { indent: "-1" },
+        { indent: "+1" },
+      ],
     ],
   };
 
-  // Fetch data once when component mounts or when caseId changes
   useEffect(() => {
     dispatch(fetchCategories());
-    dispatch(fetchJournal());
+  }, [dispatch]);
 
-    // Pastikan caseId ada sebelum memanggil fetchCaseDetails
-    if (caseId) {
-      dispatch(fetchCaseDetails(caseId));
-    }
-  }, [dispatch, caseId]);
-
-  // Update state when selectedCase changes
   useEffect(() => {
-    if (selectedCase) {
-      // Mengupdate state dengan data yang diterima
-      setTitle(selectedCase.title || "");
-      setMessage(selectedCase.message || "");
-      setSelectedCategory(selectedCase.category || "");
-      setSelectedJournal(selectedCase.journal || "");  // Menambahkan jurnal yang terkait
-
-      if (quillRef.current) {
-        quillRef.current.getEditor().setText(selectedCase.description || "");
+    const fetchData = async () => {
+      if (!caseId) return; //avoid fetching if id is undefined
+      try {
+        const CasesResponse = await axios.get(
+          `${API_BASE_URL}/cases/${caseId}`,
+          {
+            withCredentials: true,
+          }
+        );
+        const data = CasesResponse.data.data;
+        if (data) {
+          setTitle(data.title);
+          setIsApproved(data.isApproved);
+          //convert ISO dates to "yy-mm-dd" format
+          setCategory(data.category._id);
+          setMessage(data.message);
+          setDescription(
+            (quillRef.current.getEditor().root.innerHTML = data.description)
+          );
+        } else {
+          console.log("No journal data found for id: ", id);
+        }
+      } catch (error) {
+        console.error("error fetching data: ", error);
       }
-    }
-  }, [selectedCase]);
+    };
+
+    fetchData();
+  }, [caseId]);
 
   const handleSubmit = async (isDraft = false) => {
+    // Validasi untuk memastikan input wajib telah diisi
+    const description = quillRef.current.getEditor().root.innerHTML;
+    if (!title || !description || !category) {
+      Swal.fire({
+        icon: "warning",
+        title: "Input Tidak Lengkap",
+        text: "Pastikan semua input wajib (Judul Kasus, Ringkasan Kasus, dan Kategori) sudah diisi.",
+        confirmButtonText: "OK",
+      });
+      return;
+    }
+
     const dataCase = {
-      title,
-      description: quillRef.current.getEditor().getText(),
-      category: selectedCategory,
-      journal: selectedJournal,
-      message,
+      title: title,
+      description: description,
+      category: category,
+      message: message,
       isApproved: isDraft ? "Draft" : "Submitted",
     };
 
     try {
       if (isDraft) {
-        await dispatch(postCaseDraft(dataCase));
+        await dispatch(
+          editCase({ id: caseId, ...dataCase, isApproved: "Draft" })
+        );
       } else {
-        await dispatch(postCase(dataCase));
+        await dispatch(editCase({ id: caseId, dataCase }));
       }
 
       Swal.fire({
@@ -92,45 +122,45 @@ function EditForm() {
       Swal.fire({
         icon: "error",
         title: "Terjadi Kesalahan",
-        text: error.message || "Terdapat masalah dalam menyimpan atau mengajukan kasus. Silakan coba lagi.",
+        text: "Terdapat masalah dalam menyimpan atau mengajukan kasus. Silakan coba lagi.",
         confirmButtonText: "OK",
       });
     }
   };
 
+  const confirmSubmit = () => {
+    Swal.fire({
+      title: "Apakah Anda ingin mengajukan kasus ini?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Ya, Ajukan",
+      cancelButtonText: "Batal",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleSubmit(false);
+      }
+    });
+  };
+
   return (
     <div className="mt-10 flex flex-col gap-8">
-      <div className="flex flex-col gap-4">
-        <label htmlFor="journal" className="font-bold">
-          Pilih Jurnal Terkait
-        </label>
-        <select
-          value={selectedJournal || ""}
-          onChange={(e) => setSelectedJournal(e.target.value)}
-          className="bg-[#f5f5f5] px-5 py-3 pr-12 rounded-[10px] appearance-none focus:outline-none"
-          id="journal">
-          <option value="">Pilih Jurnal</option>
-          {journal.length > 0 ? (
-            journal.map((item) => (
-              <option key={item._id} value={item._id}>
-                {item.title}
-              </option>
-            ))
-          ) : (
-            <option value="" disabled>Tidak ada jurnal tersedia</option>
-          )}
-        </select>
-      </div>
-
+      {/* Category Selection */}
       <div className="flex flex-col gap-4">
         <label htmlFor="category" className="font-bold">
           Pilih Kategori Kasus Kejadian
         </label>
         <select
+          className="bg-[#f5f5f5] px-5 py-3 pr-12 rounded-[10px] appearance-none focus:outline-none"
+          style={{
+            backgroundImage:
+              "url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27%23ba324f%27%3E%3Cpath d=%27M7 10l5 5 5-5H7z%27/%3E%3C/svg%3E')",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "right 1rem center",
+            backgroundSize: "32px",
+          }}
           id="category"
-          value={selectedCategory}
-          onChange={(e) => setSelectedCategory(e.target.value)}
-          className="bg-[#f5f5f5] px-5 py-3 pr-12 rounded-[10px] appearance-none focus:outline-none">
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}>
           <option value="">Pilih Kategori</option>
           {categories.map((cat) => (
             <option key={cat._id} value={cat._id}>
@@ -140,43 +170,71 @@ function EditForm() {
         </select>
       </div>
 
-      {/* Input untuk Judul */}
+      {/* Title Input */}
       <div className="flex flex-col gap-4">
-        <label htmlFor="title" className="font-bold">Judul Kasus</label>
+        <label htmlFor="title" className="font-bold">
+          Judul Kasus
+        </label>
         <input
           type="text"
           id="title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="px-5 py-3 rounded-[10px] bg-[#f5f5f5] text-black placeholder:text-gray-400 focus:outline-none"
+          className="px-5 py-3 rounded-[10px] bg-[#f5f5f5] text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#ba324f]"
           placeholder="Masukkan judul kasus"
         />
+        <p className="text-sm font-light text-[#BA324F]">
+          **Pilih judul yang menggambarkan kasus Anda secara jelas
+        </p>
       </div>
 
-      {/* Quill Editor untuk Ringkasan */}
+      {/* Rich Text Editor for Description */}
       <div className="flex flex-col gap-4">
-        <label htmlFor="description" className="font-bold">Ringkasan Kasus</label>
-        <ReactQuill ref={quillRef} className="bg-[#f5f5f5] rounded-[10px] border-0" theme="snow" modules={modules} />
+        <label htmlFor="description" className="font-bold">
+          Ringkasan Kasus
+        </label>
+        <ReactQuill
+          ref={quillRef}
+          className="bg-[#f5f5f5] rounded-[10px] border-0 custom-quill-editor"
+          theme="snow"
+          modules={modules}
+        />
+        <p className="text-sm font-light text-[#BA324F]">
+          **Buatlah ringkasan yang padat dan menarik dan fokus pada inti masalah
+        </p>
       </div>
 
+      {/* Message Input */}
       <div className="flex flex-col gap-4">
-        <label htmlFor="message" className="font-bold">Pesan Tambahan (opsional)</label>
+        <label htmlFor="message" className="font-bold">
+          Pesan Tambahan untuk Komunitas (opsional)
+        </label>
         <input
           type="text"
           id="message"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          className="px-5 py-3 rounded-[10px] bg-[#f5f5f5] text-black placeholder:text-gray-400 focus:outline-none"
+          className="px-5 py-3 rounded-[10px] bg-[#f5f5f5] text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#ba324f]"
           placeholder="Masukkan pesan tambahan"
         />
       </div>
 
+      {/* Action Buttons */}
       <div className="flex flex-row justify-between gap-4">
-        <button onClick={() => handleSubmit(true)} className="border-2 border-[#04395E] px-5 py-3 rounded-[10px] text-[#04395E]">
-          Simpan Draft
-        </button>
-        <button onClick={() => handleSubmit()} className="bg-[#ba324f] text-white px-5 py-3 rounded-[10px]">
-          Ajukan Kasus
+        {isApproved === "Draft" ? (
+          <button
+            onClick={() => handleSubmit(true)}
+            className="border-2 border-[#04395E] px-5 py-3 rounded-[10px] text-[#04395E]">
+            Simpan Draft
+          </button>
+        ) : (
+          ""
+        )}
+
+        <button
+          onClick={confirmSubmit}
+          className="bg-[#BA324F] px-5 py-3 rounded-[10px] text-white">
+          Edit & Ajukan Kasus
         </button>
       </div>
     </div>
@@ -184,4 +242,3 @@ function EditForm() {
 }
 
 export default EditForm;
-
