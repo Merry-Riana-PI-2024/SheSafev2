@@ -18,10 +18,7 @@ function ListPengajuanKasus() {
   const fetchData = async (page = 1, statusFilter = "") => {
     try {
       const response = await axios.get(
-        `${API_BASE_URL}/cases/?status=${statusFilter}&page=${page}&perPage=${perPage}`,
-        {
-          withCredentials: true,
-        }
+        `${API_BASE_URL}/cases/?status=${statusFilter}&page=${page}&perPage=${perPage}`
       );
       const { cases, totalPages } = response.data;
       setData(cases);
