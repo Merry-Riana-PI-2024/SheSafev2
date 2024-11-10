@@ -135,17 +135,22 @@ function ListPengajuanKasus() {
           <div
             style={{ backgroundColor: "rgba(245, 245, 245, 1)" }}
             className="flex justify-between px-4 py-2">
-            <button
-              onClick={() => handleEditClick(item._id)} // Menggunakan item._id yang sesuai
-              className="flex gap-2 items-center text-[#04395E] hover:text-blue-700 px-3 py-1 rounded border border-[#04395E]">
-              <Icon
-                icon="tabler:edit"
-                width="24"
-                height="24"
-                style={{ color: "#04395E" }}
-              />
-              Edit
-            </button>
+            {item.isApproved === "Approved" ? (
+              <div></div>
+            ) : (
+              <button
+                onClick={() => handleEditClick(item._id)} // Menggunakan item._id yang sesuai
+                className="flex gap-2 items-center text-[#04395E] hover:text-blue-700 px-3 py-1 rounded border border-[#04395E]">
+                <Icon
+                  icon="tabler:edit"
+                  width="24"
+                  height="24"
+                  style={{ color: "#04395E" }}
+                />
+                Edit
+              </button>
+            )}
+
             <button
               onClick={() => handleDelete(item._id)}
               className="flex gap-2 items-center text-[#BA324F] hover:text-red-700 px-3 py-1 rounded border border-red-600">

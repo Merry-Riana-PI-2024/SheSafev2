@@ -94,17 +94,22 @@ const DetailCase = () => {
             />{" "}
             Hapus
           </button>
-          <button
-            onClick={() => handleEditClick(data._id)}
-            className="flex gap-2 items-center text-[#04395E] hover:text-blue-700  px-3 py-1 rounded border border-[#04395E]">
-            <Icon
-              icon="tabler:edit"
-              width="24"
-              height="24"
-              style={{ color: "#04395E" }}
-            />
-            Edit
-          </button>
+
+          {data.isApproved === "Approved" ? (
+            <div></div>
+          ) : (
+            <button
+              onClick={() => handleEditClick(item._id)} // Menggunakan item._id yang sesuai
+              className="flex gap-2 items-center text-[#04395E] hover:text-blue-700 px-3 py-1 rounded border border-[#04395E]">
+              <Icon
+                icon="tabler:edit"
+                width="24"
+                height="24"
+                style={{ color: "#04395E" }}
+              />
+              Edit
+            </button>
+          )}
         </div>
       </div>
 
