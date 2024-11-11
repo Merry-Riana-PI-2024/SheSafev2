@@ -99,7 +99,7 @@ const DetailCase = () => {
             <div></div>
           ) : (
             <button
-              onClick={() => handleEditClick(item._id)} // Menggunakan item._id yang sesuai
+              onClick={() => handleEditClick(data._id)}
               className="flex gap-2 items-center text-[#04395E] hover:text-blue-700 px-3 py-1 rounded border border-[#04395E]">
               <Icon
                 icon="tabler:edit"
