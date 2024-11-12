@@ -39,6 +39,7 @@ const EditForm = () => {
       description,
     });
   }, [title, startDate, endDate, category, description]);
+
   useEffect(() => {
     console.log("Journal id: ", id);
     const fetchData = async () => {
@@ -119,7 +120,7 @@ const EditForm = () => {
         withCredentials: true,
       });
       console.log("berhasil edit journal");
-      navigate(-1);
+      navigate("/journal");
     } catch (error) {
       console.error("gagal edit journal: ", error);
     }
@@ -127,7 +128,7 @@ const EditForm = () => {
 
   const handleSubmitFile = async () => {
     const { value: file } = await Swal.fire({
-      title: "Select image",
+      title: "Select file",
       input: "file",
     });
 
