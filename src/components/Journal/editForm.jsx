@@ -31,6 +31,15 @@ const EditForm = () => {
   });
 
   useEffect(() => {
+    setEditData({
+      title,
+      startDate,
+      endDate,
+      category,
+      description,
+    });
+  }, [title, startDate, endDate, category, description]);
+  useEffect(() => {
     console.log("Journal id: ", id);
     const fetchData = async () => {
       if (!id) return; //avoid fetching if id is undefined
@@ -98,6 +107,13 @@ const EditForm = () => {
   //form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setEditData({
+      title,
+      startDate,
+      endDate,
+      category,
+      description,
+    });
     try {
       await axios.put(`${API_BASE_URL}/journal/${id}`, editData, {
         withCredentials: true,
@@ -139,7 +155,6 @@ const EditForm = () => {
       });
       Swal.fire("Deleted", "File deleted successfully", "success");
 
-      // Memperbarui data file setelah penghapusan berhasil
       fetchFileData();
     } catch (error) {
       Swal.fire("Error", "Failed to delete file", "error");
