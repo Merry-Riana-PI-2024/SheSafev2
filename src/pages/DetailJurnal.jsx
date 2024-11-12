@@ -184,6 +184,14 @@ const DetailJurnal = () => {
           <p className="text-gray-500 ">{data.description}</p>
         </div>
 
+        <div className={`flex flex-col gap-2`}>
+        <h4 className="font-semibold mb-1 text-[#BA324F]">
+            Kronologi :
+          </h4>
+          {/* <h3 className="font-semibold text-lg">{mockupData.judul}</h3> */}
+          <p className="text-gray-500 ">{data.cronology}</p>
+        </div>
+
         {/* <div className={`flex flex-col gap-4`}>
           <h4 className="font-semibold ">Klasifikasi Kejadian</h4>
           <div
@@ -202,7 +210,7 @@ const DetailJurnal = () => {
           <h4 className="font-semibold mb-1 text-[#BA324F]">
             Lampiran Bukti :
           </h4>
-          {data.file ? (
+          {data.file && data.file.originalname ? (
             <table className="w-full mb-6 border rounded">
               <thead>
                 <tr className="bg-gray-100">
@@ -213,16 +221,15 @@ const DetailJurnal = () => {
               <tbody>
                 <tr>
                   <td className="border px-4 py-2 text-center">
-                    {/* {data.file?.originalname || "No File"} */}
-                    <img src={data.file} alt="" />
+                    {data.file?.originalname || "No File"}
                   </td>
                   <td className="border px-4 py-2 text-center">
                     <a
-                      href={data.file}
+                      href={`${API_BASE_URL}/${data.file.path || ""}`}
                       className="text-blue-500 hover:underline"
                       target="_blank"
                       rel="noopener noreferrer">
-                      {data.file}
+                      {data.file?.originalname || "No file path available"}
                     </a>
                   </td>
                 </tr>

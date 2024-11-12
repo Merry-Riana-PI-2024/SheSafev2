@@ -16,6 +16,7 @@ function AddForm() {
     endDate: "",
     category: "",
     description: "",
+    cronology: "",
     file: null,
   });
   const [categories, setCategories] = useState([]);
@@ -54,6 +55,7 @@ function AddForm() {
     data.append("endDate", formData.endDate);
     data.append("category", formData.category);
     data.append("description", formData.description);
+    data.append("cronology", formData.cronology);
     if (formData.file) {
       data.append("file", formData.file);
     }
@@ -185,7 +187,7 @@ function AddForm() {
                 id="description"
                 placeholder="Deskripsikan kejadian yang anda alami"
                 className={`${style["form-control"]} mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-#8c263b-500`}
-                rows="4"
+                rows="2"
                 value={formData.description}
                 onChange={handleChange}
                 required
@@ -195,6 +197,18 @@ function AddForm() {
               **Hindari menggunakan nama asli atau informasi pribadi orang lain
               tanpa izin
             </small>
+            <div className="mb-2 mt-4">
+              <label htmlFor="cronology" className="text-sm font-bold">Kronologi</label>
+              <textarea
+                id="cronology"
+                placeholder="Deskripsikan kejadian yang anda alami"
+                className={`${style['form-control']} mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-#8c263b-500`}
+                rows="6"
+                value={formData.cronology}
+                onChange={handleChange}
+                required
+              />
+            </div>
             <div className="mb-1 mt-3">
               <label htmlFor="file" className="text-sm font-bold">
                 Lampirkan Bukti (Optional)

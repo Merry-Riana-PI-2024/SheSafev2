@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
@@ -157,6 +158,13 @@ const DetailCase = () => {
           <p
             className="text-gray-500 "
             dangerouslySetInnerHTML={{ __html: data.description }}></p>
+        </div>
+        <div className={`flex flex-col gap-2`}>
+          <h4 className="font-semibold mb-1 text-[#BA324F]">
+            Kronologi :
+          </h4>
+          {/* <h3 className="font-semibold text-lg">{mockupData.judul}</h3> */}
+          <p className="text-gray-500 ">{data.cronology}</p>
         </div>
 
         {/* <div className={`flex flex-col gap-4`}>

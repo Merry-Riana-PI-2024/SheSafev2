@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useRef, useState } from "react";
 import ReactQuill, { Quill } from "react-quill";
 import { useSelector, useDispatch } from "react-redux";
@@ -22,6 +23,7 @@ function AddForm() {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
+  const [description, setDescription] = useState("");
 
   const quillRef = useRef(null);
   const FontAttributor = Quill.import("attributors/class/font");
@@ -50,8 +52,9 @@ function AddForm() {
   const handleJournalSelect = (event) => {
     const selectedJournal = journal.find((j) => j._id === event.target.value);
     if (selectedJournal) {
-      quillRef.current.getEditor().root.innerHTML = selectedJournal.description;
+      quillRef.current.getEditor().root.innerHTML = selectedJournal.cronology;
       setTitle(selectedJournal.title);
+      setDescription(selectedJournal.description);
       setMessage(selectedJournal.message);
       setSelectedCategory(selectedJournal.category._id);
     }
@@ -59,12 +62,12 @@ function AddForm() {
 
   const handleSubmit = async (isDraft = false) => {
     // Validasi untuk memastikan input wajib telah diisi
-    const description = quillRef.current.getEditor().root.innerHTML;
-    if (!title || !description || !selectedCategory) {
+    const cronology = quillRef.current.getEditor().root.innerHTML;
+    if (!title || !description || !cronology || !selectedCategory) {
       Swal.fire({
         icon: "warning",
         title: "Input Tidak Lengkap",
-        text: "Pastikan semua input wajib (Judul Kasus, Ringkasan Kasus, dan Kategori) sudah diisi.",
+        text: "Pastikan semua input wajib (Judul Kasus, Ringkasan Kasus, Kategori dan Kronologi) sudah diisi.",
         confirmButtonText: "OK",
       });
       return;
@@ -73,6 +76,7 @@ function AddForm() {
     const dataCase = {
       title,
       description,
+      cronology,
       category: selectedCategory,
       message,
       isApproved: isDraft ? "Draft" : "Submitted",
@@ -190,10 +194,33 @@ function AddForm() {
         </p>
       </div>
 
-      {/* Rich Text Editor for Description */}
+      {/* Description */}
       <div className="flex flex-col gap-4">
         <label htmlFor="description" className="font-bold">
           Ringkasan Kasus
+        </label>
+          <textarea
+          id="description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          className="px-5 py-5 rounded-[10px] bg-[#f5f5f5] text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#ba324f]"
+          placeholder="Masukkan judul kasus"
+          ></textarea>
+        {/* <ReactQuill
+          ref={quillRef}
+          className="bg-[#f5f5f5] rounded-[10px] border-0 custom-quill-editor"
+          theme="snow"
+          modules={modules}
+        /> */}
+        <p className="text-sm font-light text-[#BA324F]">
+          **Buatlah ringkasan yang padat dan menarik dan fokus pada inti masalah
+        </p>
+      </div>
+
+      {/* Rich Text Editor for Kronologi */}
+      <div className="flex flex-col gap-4">
+        <label htmlFor="cronology" className="font-bold">
+          Kronologi
         </label>
         <ReactQuill
           ref={quillRef}
@@ -201,9 +228,6 @@ function AddForm() {
           theme="snow"
           modules={modules}
         />
-        <p className="text-sm font-light text-[#BA324F]">
-          **Buatlah ringkasan yang padat dan menarik dan fokus pada inti masalah
-        </p>
       </div>
 
       {/* Message Input */}
