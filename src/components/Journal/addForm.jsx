@@ -8,7 +8,6 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 function AddForm() {
   const navigate = useNavigate();
-  // const API_BASE_URL = "http://localhost:4000";
 
   const [formData, setFormData] = useState({
     title: "",
@@ -16,11 +15,8 @@ function AddForm() {
     endDate: "",
     category: "",
     description: "",
-    file: null,
   });
   const [categories, setCategories] = useState([]);
-  // eslint-disable-next-line no-unused-vars
-  const [fileInfo, setFileInfo] = useState(null);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -38,47 +34,50 @@ function AddForm() {
   }, []);
 
   const handleChange = (e) => {
-    const { id, value } = e.target;
-    setFormData({ ...formData, [id]: value });
-  };
-
-  const handleFileChange = (e) => {
-    setFormData({ ...formData, file: e.target.files[0] });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = new FormData();
-    data.append("title", formData.title);
-    data.append("startDate", formData.startDate);
-    data.append("endDate", formData.endDate);
-    data.append("category", formData.category);
-    data.append("description", formData.description);
-    if (formData.file) {
-      data.append("file", formData.file);
-    }
 
     try {
-      const response = await axios.post(`${API_BASE_URL}/journal/`, data, {
-        headers: { "Content-Type": "multipart/form-data" },
+      const response = await axios.post(`${API_BASE_URL}/journal`, formData, {
+        headers: { "Content-Type": "application/json" },
         withCredentials: true,
       });
       console.log("Berhasil tambah jurnal: ", response.data);
-      Swal.fire({
+
+      const result = await Swal.fire({
         title: "Jurnal Berhasil Ditambahkan",
         text: "Jurnal Anda telah berhasil ditambahkan.",
         icon: "success",
         confirmButtonText: "OK",
       });
 
-      if (response.data.journal && response.data.journal.file) {
-        setFileInfo({
-          fileName: response.data.journal.file.originalname,
-          filePath: response.data.journal.file.path,
+      if (result.isConfirmed) {
+        // Menampilkan SweetAlert lagi sebelum navigasi ke halaman edit
+        const editConfirmation = await Swal.fire({
+          title: "Apakah Anda ingin melanjutkan ke halaman edit?",
+          text: "Anda bisa menambahkan Lampiran di sana.",
+          icon: "info",
+          showCancelButton: true,
+          confirmButtonText: "Ya, Edit Sekarang",
+          cancelButtonText: "Tidak",
+          reverseButtons: true,
         });
-      }
 
-      navigate("/journal");
+        if (editConfirmation.isConfirmed) {
+          if (response.data.savedJournal && response.data.savedJournal._id) {
+            const id = response.data.savedJournal._id;
+            navigate(`/editJurnal/${id}`);
+          } else {
+            console.error("ID tidak ditemukan dalam response data.");
+          }
+        } else {
+          navigate("/journal");
+        }
+      }
     } catch (error) {
       console.error("Error adding journal: ", error);
     }
@@ -113,7 +112,7 @@ function AddForm() {
               </label>
               <input
                 type="text"
-                id="title"
+                name="title"
                 placeholder="Masukkan Judul Jurnal Anda"
                 className={`${style["form-control"]} mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-#8c263b-500`}
                 value={formData.title}
@@ -137,7 +136,7 @@ function AddForm() {
                 <div className="flex space-x-9 mt-1">
                   <input
                     type="date"
-                    id="startDate"
+                    name="startDate"
                     className={`${style["form-control"]} w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-#8c263b-500`}
                     value={formData.startDate}
                     onChange={handleChange}
@@ -148,7 +147,7 @@ function AddForm() {
                   </h4>
                   <input
                     type="date"
-                    id="endDate"
+                    name="endDate"
                     className={`${style["form-control"]} w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-#8c263b-500`}
                     value={formData.endDate}
                     onChange={handleChange}
@@ -162,7 +161,7 @@ function AddForm() {
                 Klasifikasi Kasus
               </label>
               <select
-                id="category"
+                name="category"
                 className={`${style["form-control"]} mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-#8c263b-500`}
                 value={formData.category}
                 onChange={handleChange}
@@ -182,7 +181,7 @@ function AddForm() {
                 Deskripsi Kejadian
               </label>
               <textarea
-                id="description"
+                name="description"
                 placeholder="Deskripsikan kejadian yang anda alami"
                 className={`${style["form-control"]} mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-#8c263b-500`}
                 rows="4"
@@ -195,20 +194,7 @@ function AddForm() {
               **Hindari menggunakan nama asli atau informasi pribadi orang lain
               tanpa izin
             </small>
-            <div className="mb-1 mt-3">
-              <label htmlFor="file" className="text-sm font-bold">
-                Lampirkan Bukti (Optional)
-              </label>
-              <input
-                type="file"
-                id="file"
-                onChange={handleFileChange}
-                className={`${style["form-control"]} mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-#8c263b-500`}
-              />
-            </div>
-            <small className={`${style["small"]}`}>
-              **Anda dapat melampirkan gambar, video, atau dokumen pendukung
-            </small>
+
             <div className="flex justify-center">
               <button type="submit" className="px-6 py-2 sm-btn-primary mt-10">
                 Buat Jurnal

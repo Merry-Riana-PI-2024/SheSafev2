@@ -1,13 +1,13 @@
-import AddForm from "../components/Journal/addForm"
+import AddForm from "../components/Journal/addForm";
 
 function AddJurnal() {
-    return(
-        <>
-        <div className="wrapper-mobile">
-            <AddForm />
-        </div>
-        </>
-    )
+  return (
+    <>
+      <div className="wrapper-mobile">
+        <AddForm />
+      </div>
+    </>
+  );
 }
 
-export default AddJurnal
+export default AddJurnal;
