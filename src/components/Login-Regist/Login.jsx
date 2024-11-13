@@ -4,7 +4,7 @@ import image from "../../assets/images/asset_login.png";
 import style from "../../assets/css/LoginRegist.module.css";
 import Navigation from "../Navigation";
 import { login } from "../../features/userSlice";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2"; // Import SweetAlert2
 
@@ -14,6 +14,12 @@ function Login() {
   const { isLoggedin, loading, error } = useSelector((state) => state.users);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    if (isLoggedin) {
+      navigate("/home");
+    }
+  }, [isLoggedin]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,11 +33,11 @@ function Login() {
         result.payload?.message ||
         "Email atau password yang Anda masukkan salah.";
 
-      if (errorMessage === "Akun Anda belum tervalidasi identitasnya") {
+      if (errorMessage.includes("belum tervalidasi identitasnya")) {
         Swal.fire({
           icon: "error",
           title: "Login Gagal",
-          text: "Identitas anda belum tervalidasi",
+          text: "Identitas Anda belum tervalidasi",
         });
       } else {
         Swal.fire({
@@ -44,9 +50,9 @@ function Login() {
   };
 
   // Redirect jika pengguna sudah login
-  if (isLoggedin) {
-    return <Navigate to="/home" />;
-  }
+  // if (isLoggedin) {
+  //   return <Navigate to="/home" />;
+  // }
 
   return (
     <div className="wrapper-mobile">

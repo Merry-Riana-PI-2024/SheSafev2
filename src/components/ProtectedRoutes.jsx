@@ -5,12 +5,11 @@ import { checkAuth } from "../features/userSlice";
 
 function ProtectedRoutes() {
   const dispatch = useDispatch();
+  const { isLoggedin, loading } = useSelector((state) => state.users);
 
   useEffect(() => {
     dispatch(checkAuth());
   }, [dispatch]);
-
-  const { isLoggedin, loading } = useSelector((state) => state.users);
 
   if (loading) {
     return <div>Loading...</div>;
