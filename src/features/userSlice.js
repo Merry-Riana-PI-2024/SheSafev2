@@ -62,6 +62,7 @@ const userSlice = createSlice({
     userData: null,
     loading: false,
     error: null,
+    isLoginChecked: false,
   },
   reducers: {
     setLoginStatus(state, action) {
@@ -104,12 +105,14 @@ const userSlice = createSlice({
       .addCase(checkAuth.fulfilled, (state, action) => {
         console.log("Check Auth Response:", action.payload);
         state.loading = false;
+        state.isLoginChecked = true;
         state.isLoggedin = action.payload.isAuthenticated;
         state.userData = action.payload.user;
       })
       .addCase(checkAuth.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
+        state.isLoginChecked = true;
         state.isLoggedin = false;
         localStorage.removeItem("isLoggedin");
       })
