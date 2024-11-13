@@ -3,7 +3,7 @@ import logo from "../../assets/images/lg_ss.png";
 import image from "../../assets/images/asset_login.png";
 import style from "../../assets/css/LoginRegist.module.css";
 import Navigation from "../Navigation";
-import { login } from "../../features/userSlice";
+import { checkAuth, login } from "../../features/userSlice";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2"; // Import SweetAlert2
@@ -27,6 +27,7 @@ function Login() {
     const result = await dispatch(login({ email, password }));
 
     if (result.meta.requestStatus === "fulfilled") {
+      await dispatch(checkAuth());
       navigate("/home");
     } else {
       const errorMessage =
