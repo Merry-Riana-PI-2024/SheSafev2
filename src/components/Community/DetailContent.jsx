@@ -36,8 +36,8 @@ function DetailContent({ data }) {
   };
 
   // Handle comment deletion
-  const handleDeleteComment = (idcomment) => {
-    Swal.fire({
+  const handleDeleteComment = async (idcomment) => {
+    const result = await Swal.fire({
       title: "Apakah Anda yakin?",
       text: "Komentar ini akan dihapus dan tidak bisa dikembalikan!",
       icon: "warning",
@@ -45,22 +45,23 @@ function DetailContent({ data }) {
       confirmButtonText: "Ya, hapus komentar!",
       cancelButtonText: "Batal",
       reverseButtons: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        dispatch(deleteComment({ id: idcomment, casesID: id }));
-        // dispatch(
-        //   fetchCommentar({
-        //     id,
-        //     page,
-        //     perPage: per_page,
-        //   })
-        // );
-        Swal.fire("Terhapus!", "Komentar telah dihapus.", "success");
-        window.location.reload();
-      } else {
-        Swal.fire("Dibatalkan", "Komentar tidak dihapus.", "info");
-      }
     });
+
+    if (result.isConfirmed) {
+      try {
+        await dispatch(deleteComment({ id: idcomment, casesID: id }));
+        Swal.fire("Terhapus!", "Komentar telah dihapus.", "success").then(
+          () => {
+            window.location.reload();
+          }
+        );
+      } catch (error) {
+        console.error("Gagal menghapus komentar:", error);
+        Swal.fire("Error", "Gagal menghapus komentar.", "error");
+      }
+    } else {
+      Swal.fire("Dibatalkan", "Komentar tidak dihapus.", "info");
+    }
   };
 
   const formattedDate = new Date(data.approved).toLocaleDateString("id-ID", {
