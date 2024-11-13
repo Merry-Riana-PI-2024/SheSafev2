@@ -47,7 +47,7 @@ function DetailContent({ data }) {
       reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
-        dispatch(deleteComment({ _id: idcomment, casesID: id }));
+        dispatch(deleteComment({ id: idcomment, casesID: id }));
         // dispatch(
         //   fetchCommentar({
         //     id,
