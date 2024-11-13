@@ -24,31 +24,40 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const result = await dispatch(login({ email, password }));
+    try {
+      const result = await dispatch(login({ email, password }));
 
-    if (result.meta.requestStatus === "fulfilled") {
-      await dispatch(checkAuth());
-      navigate("/home");
-    } else {
-      const errorMessage =
-        result.payload?.message ||
-        "Email atau password yang Anda masukkan salah.";
-
-      if (errorMessage.includes("belum tervalidasi identitasnya")) {
-        Swal.fire({
-          icon: "error",
-          title: "Login Gagal",
-          text: "Identitas Anda belum tervalidasi",
-        });
+      if (result.meta.requestStatus === "fulfilled") {
+        await dispatch(checkAuth());
+        navigate("/home");
       } else {
-        Swal.fire({
-          icon: "error",
-          title: "Login Gagal",
-          text: errorMessage,
-        });
+        handleLoginError(result.payload?.message);
       }
+    } catch (error) {
+      console.error("Error saat login:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Login Gagal",
+        text: "Terjadi kesalahan pada sistem. Silakan coba lagi.",
+      });
     }
   };
+
+  function handleLoginError(errorMessage) {
+    if (errorMessage?.includes("belum tervalidasi identitasnya")) {
+      Swal.fire({
+        icon: "error",
+        title: "Login Gagal",
+        text: "Identitas Anda belum tervalidasi",
+      });
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Login Gagal",
+        text: errorMessage || "Email atau password yang Anda masukkan salah.",
+      });
+    }
+  }
 
   // Redirect jika pengguna sudah login
   // if (isLoggedin) {
