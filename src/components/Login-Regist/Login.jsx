@@ -16,10 +16,15 @@ function Login() {
   const [password, setPassword] = useState("");
 
   useEffect(() => {
-    if (isLoggedin) {
-      navigate("/home");
-    }
-  }, [isLoggedin]);
+    const checkAuthentication = async () => {
+      const authStatus = await dispatch(checkAuth());
+      if (authStatus.meta.requestStatus === "fulfilled" && authStatus.payload.isAuthenticated) {
+        navigate("/home");
+      }
+    };
+
+    checkAuthentication();
+  }, [dispatch, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

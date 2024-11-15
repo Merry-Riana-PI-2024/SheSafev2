@@ -19,7 +19,7 @@ function ProtectedRoutes() {
     return <div>Loading...</div>;
   }
 
-  return isLoggedin || localStorage.getItem("isLoggedin") === "true" ? (
+  return isLoggedin ? (
     <Outlet />
   ) : (
     <Navigate to="/login" />
