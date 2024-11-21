@@ -95,7 +95,19 @@ function EducationSection() {
 
       <div className={`${style["tips-content"]} silder-container mb-5`}>
         {loading ? (
-          <p>Loading...</p>
+              <Slider {...settings}>
+              {[...Array(6)].map((_, index) => (
+                <div className="px-3">
+                <div
+                  className="w-full h-48 bg-gray-200 rounded-lg animate-pulse"
+                  key={index}>
+                  <div className="w-full h-32 bg-gray-300 rounded-t-lg mb-4"></div>
+                  <div className="w-3/4 h-4 bg-gray-300 rounded mb-2"></div>
+                  <div className="w-1/2 h-4 bg-gray-300 rounded"></div>
+                </div>
+                </div>
+              ))}
+            </Slider>
         ) : error ? (
           <p>Error: {error}</p>
         ) : (
