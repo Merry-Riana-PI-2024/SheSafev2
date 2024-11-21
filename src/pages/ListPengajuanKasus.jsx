@@ -100,7 +100,7 @@ function ListPengajuanKasus() {
     <div>
       {new Array(itemsPerPage).fill(null).map((_, index) => (
         <div key={index}>
-          <div className="space-y-4 mx-5 mt-10">
+          <div className="space-y-4 mx-5 mt-3">
             <div className="flex justify-between gap-4 ">
               <div className="h-[50px] w-[100px] bg-gray-300 animate-pulse rounded-md"></div>
               <div className="h-[50px] w-[200px] bg-gray-300 animate-pulse rounded-md"></div>
