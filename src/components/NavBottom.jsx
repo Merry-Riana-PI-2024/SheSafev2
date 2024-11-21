@@ -143,7 +143,7 @@ function NavBottom() {
                 height="36"
                 style={{ color: "#BA324F" }}
               />
-              <p className="text-sm">Ajukan Kasus</p>
+              <p className="text-sm font-lighter text-[#BA324F]">Ajukan Kasus</p>
             </Link>
             <Link to="/addJurnal" className={`${style["popup-content"]}`}>
               <Icon
@@ -152,7 +152,7 @@ function NavBottom() {
                 height="36"
                 style={{ color: "#BA324F" }}
               />
-              <p className="text-sm">Buat Jurnal</p>
+              <p className="text-sm font-lighter text-[#BA324F]">Buat Jurnal</p>
             </Link>
           </div>
         </div>

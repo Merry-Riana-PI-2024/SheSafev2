@@ -149,7 +149,7 @@ const DetailJurnal = () => {
       </div>
 
       <div
-        className={`flex flex-col gap-4 mx-5 px-2 py-3 border-2 border-[#f5f5f5] rounded-[5px]  `}>
+        className={`flex flex-col gap-4 mx-5 mb-6 px-2 py-3 border-2 border-[#f5f5f5] rounded-[5px]  `}>
         <div className={`flex justify-between items-center`}>
           <h6
             className={`font-bold bg-[#F8EBED] px-3 py-2 rounded-[10px] text-md text-[#BA324F]`}>

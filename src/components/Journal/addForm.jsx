@@ -85,26 +85,9 @@ function AddForm() {
 
   return (
     <>
-      <div className="container mx-auto flex justify-center items-center min-h-screen p-4">
+      <div className=" mx-auto flex justify-center items-center p-4">
         <div className="w-full max-w-lg">
-          <div className="text-center mb-10 gap-4 flex cols-2 justify-between">
-            <button onClick={() => navigate(-1)}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="1em"
-                height="5rem"
-                viewBox="0 0 12 24">
-                <path
-                  fill="#8c263b"
-                  fillRule="evenodd"
-                  d="m3.343 12l7.071 7.071L9 20.485l-7.778-7.778a1 1 0 0 1 0-1.414L9 3.515l1.414 1.414z"
-                />
-              </svg>
-            </button>
-            <h1 className={`${style["h1"]} font-bold`}>Formulir Jurnal</h1>
-            <div></div>
-          </div>
-
+      
           <form onSubmit={handleSubmit}>
             <div className="mb-1">
               <label htmlFor="judul" className="text-sm font-bold">

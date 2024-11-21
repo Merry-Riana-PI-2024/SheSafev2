@@ -1,4 +1,4 @@
-import { Icon } from "@iconify/react/dist/iconify.js";
+import { Icon } from "@iconify/react";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -16,6 +16,8 @@ function ListPengajuanKasus() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const navigate = useNavigate(); // Inisialisasi navigate
+  const [loading,setLoading]=useState(true);
+  const [itemsPerPage] = useState(6);
 
   const perPage = 6;
 
@@ -27,6 +29,7 @@ function ListPengajuanKasus() {
       const { cases, totalPages } = response.data;
       setData(cases);
       setTotalPages(totalPages);
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -92,105 +95,123 @@ function ListPengajuanKasus() {
         </select>
       </div>
 
-      {data.map((item) => (
-        <div
-          key={item._id}
-          className="bg-white border rounded-lg shadow-sm mb-3 mx-5">
-          <div className="flex justify-between items-center px-4 mt-5">
-            <span
-              className={`${
-                item.isApproved === "draft"
-                  ? "text-red-600 bg-red-100"
-                  : "text-pink-600 bg-pink-100"
-              } text-sm font-semibold px-2 py-2 rounded`}>
-              {item.isApproved === "draft" ? "Draft" : item.isApproved}
-            </span>
-            <span className="text-sm text-[#04395E] px-2 py-2 rounded mr-2">
-              {new Date(item.created).toLocaleDateString("id-ID", {
-                day: "numeric",
-                month: "long",
-                year: "numeric",
-              })}
-            </span>
-          </div>
-
-          <div
-            className="px-4 py-3 cursor-pointer"
-            onClick={() => navigate(`/journal/mycases/detail/${item._id}`)}>
-            <h4 className="font-semibold text-lg text-gray-800">
-              {item.title.length > 60
-                ? item.title.slice(0, 60) + "..."
-                : item.title}
-            </h4>
-            <p
-              className="text-gray-600 mt-2"
-              dangerouslySetInnerHTML={{
-                __html:
-                  item.description.length > 100
-                    ? item.description.slice(0, 80) + "..."
-                    : item.description,
-              }}></p>
-          </div>
-
-          <div
-            style={{ backgroundColor: "rgba(245, 245, 245, 1)" }}
-            className="flex justify-between px-4 py-2">
-            {item.isApproved === "Approved" ? (
-              <div></div>
-            ) : (
-              <button
-                onClick={() => handleEditClick(item._id)} // Menggunakan item._id yang sesuai
-                className="flex gap-2 items-center text-[#04395E] hover:text-blue-700 px-3 py-1 rounded border border-[#04395E]">
-                <Icon
-                  icon="tabler:edit"
-                  width="24"
-                  height="24"
-                  style={{ color: "#04395E" }}
-                />
-                Edit
-              </button>
-            )}
-
-            <button
-              onClick={() => handleDelete(item._id)}
-              className="flex gap-2 items-center text-[#BA324F] hover:text-red-700 px-3 py-1 rounded border border-red-600">
-              <Icon
-                icon="mi:delete"
-                width="24"
-                height="24"
-                style={{ color: "#BA324F" }}
-              />
-              Hapus
-            </button>
+      {
+  loading ? (
+    <div>
+      {new Array(itemsPerPage).fill(null).map((_, index) => (
+        <div key={index}>
+          <div className="space-y-4 mx-5 mt-10">
+            <div className="flex justify-between gap-4 ">
+              <div className="h-[50px] w-[100px] bg-gray-300 animate-pulse rounded-md"></div>
+              <div className="h-[50px] w-[200px] bg-gray-300 animate-pulse rounded-md"></div>
+            </div>
+            <div className="h-8 bg-gray-300 animate-pulse rounded-md"></div>
+            <div className="h-[100px] bg-gray-300 animate-pulse rounded-md"></div>
           </div>
         </div>
       ))}
+    </div>
+  ) : data.length === 0 ? (
+    <h1 className="mx-5 text-[#BA324F] text-[16px]">Belum ada Kasus yang diajukan</h1>
+  ) : (
+    data.map((item) => (
+      <div key={item._id} className="bg-white border rounded-lg shadow-sm mb-3 mx-5">
+        <div className="flex justify-between items-center px-4 mt-5">
+          <span
+            className={`${
+              item.isApproved === "draft"
+                ? "text-red-600 bg-red-100"
+                : "text-pink-600 bg-pink-100"
+            } text-sm font-semibold px-2 py-2 rounded`}>
+            {item.isApproved === "draft" ? "Draft" : item.isApproved}
+          </span>
+          <span className="text-sm text-[#04395E] px-2 py-2 rounded mr-2">
+            {new Date(item.created).toLocaleDateString("id-ID", {
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+            })}
+          </span>
+        </div>
 
-      <div className="flex justify-center my-4 pb-10">
+        <div
+          className="px-4 py-3 cursor-pointer"
+          onClick={() => navigate(`/journal/mycases/detail/${item._id}`)}>
+          <h4 className="font-semibold text-lg text-gray-800">
+            {item.title.length > 60 ? item.title.slice(0, 60) + "..." : item.title}
+          </h4>
+          <p
+            className="text-gray-600 mt-2"
+            dangerouslySetInnerHTML={{
+              __html: item.description.length > 100 ? item.description.slice(0, 80) + "..." : item.description,
+            }}></p>
+        </div>
+
+        <div
+          style={{ backgroundColor: "rgba(245, 245, 245, 1)" }}
+          className="flex justify-between px-4 py-2">
+          {item.isApproved === "Approved" ? (
+            <div></div>
+          ) : (
+            <button
+              onClick={() => handleEditClick(item._id)} // Menggunakan item._id yang sesuai
+              className="flex gap-2 items-center text-[#04395E] hover:text-blue-700 px-3 py-1 rounded border border-[#04395E]">
+              <Icon
+                icon="tabler:edit"
+                width="24"
+                height="24"
+                style={{ color: "#04395E" }}
+              />
+              Edit
+            </button>
+          )}
+
+          <button
+            onClick={() => handleDelete(item._id)}
+            className="flex gap-2 items-center text-[#BA324F] hover:text-red-700 px-3 py-1 rounded border border-red-600">
+            <Icon
+              icon="mi:delete"
+              width="24"
+              height="24"
+              style={{ color: "#BA324F" }}
+            />
+            Hapus
+          </button>
+        </div>
+      </div>
+    ))
+  )
+}
+
+    
+
+      <div className="flex justify-center gap-4 my-4 pb-10">
         <button
           onClick={goToPreviousPage}
           disabled={currentPage === 1}
-          className={`mx-1 px-3 py-1 rounded ${
+          className={`mx-1 px-4 py-1 rounded ${
             currentPage === 1
               ? "bg-gray-300 text-gray-500 cursor-not-allowed"
               : "bg-[#BA324F] text-white"
           }`}>
-          {"<"}
+        <Icon icon="si:arrow-left-fill" width="24px" height="24px"  style={{color: "#ffffff"}} />
+
         </button>
 
-        <span className="mx-2 px-3 py-1 bg-gray-200 text-gray-800 rounded">
+        <span className="mx-2 px-4 py-1 bg-gray-200 text-gray-800 rounded">
           {currentPage}
         </span>
 
         <button
           onClick={goToNextPage}
           disabled={currentPage === totalPages}
-          className={`mx-1 px-3 py-1 rounded ${
+          className={`mx-1 px-4 py-1 rounded ${
             currentPage === totalPages
               ? "bg-gray-300 text-gray-500 cursor-not-allowed"
               : "bg-[#BA324F] text-white"
           }`}>
-          {">"}
+       <Icon icon="si:arrow-right-fill" width="24px" height="24px"  style={{color: "#ffffff"}} />
+
         </button>
       </div>
     </div>

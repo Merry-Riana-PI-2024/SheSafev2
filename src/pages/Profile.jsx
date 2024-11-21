@@ -135,9 +135,9 @@ function Profile() {
     }
   }, [isLoggedin, navigate]);
 
-  if (!profileData) {
-    return <p>Loading...</p>;
-  }
+  // if (!profileData) {
+  //   return <p>Loading...</p>;
+  // }
 
   const handleCancelEdit = () => {
     setFormData({
@@ -151,8 +151,18 @@ function Profile() {
 
   return (
     <>
+    
       <div className="bg-white wrapper-mobile">
-        <div className="pt-10 mx-5">
+        {!profileData ? (<div className="pt-10 mx-5">
+          <div className="space-y-4 mx-5 mt-10">
+            <div className="flex justify-center gap-4 ">
+              <div className=" bg-gray-300 animate-pulse rounded-full w-[80px] h-[80px]"></div>
+              {/* <div className="h-[50px] w-[200px] bg-gray-300 animate-pulse rounded-md"></div> */}
+            </div>
+            <div className="h-8 bg-gray-300 animate-pulse rounded-md"></div>
+            <div className="h-[100px] bg-gray-300 animate-pulse rounded-md"></div>
+          </div>
+        </div>) : (<div className="pt-10 mx-5">
           <div className="flex flex-col gap-8 justify-center items-center">
             {!profileData.avatar ? (
               <img src={foto} className={`rounded w-[80px] object-cover`} />
@@ -263,7 +273,8 @@ function Profile() {
               </h6>
             </div>
           </div>
-        </div>
+        </div>)}
+        
 
         <NavBottom />
       </div>

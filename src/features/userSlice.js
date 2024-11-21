@@ -3,6 +3,7 @@ import axios from "axios";
 axios.defaults.withCredentials = true;
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
+// Registrasi user
 export const regist = createAsyncThunk("users/regist", async (dataUser) => {
   try {
     const response = await axios.post(
@@ -22,6 +23,7 @@ export const regist = createAsyncThunk("users/regist", async (dataUser) => {
   }
 });
 
+// Login user
 export const login = createAsyncThunk(
   "users/login",
   async ({ email, password }, { rejectWithValue }) => {
@@ -37,6 +39,7 @@ export const login = createAsyncThunk(
   }
 );
 
+// Check status login (untuk verifikasi apakah user sudah login)
 export const checkAuth = createAsyncThunk("users/checkAuth", async () => {
   const response = await axios.get(`${API_BASE_URL}/check`, {
     withCredentials: true,
@@ -44,9 +47,10 @@ export const checkAuth = createAsyncThunk("users/checkAuth", async () => {
   return response.data;
 });
 
+// Logout user
 export const logout = createAsyncThunk("users/logout", async () => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/auth/logout`, {
+    const response = await axios.post(`${API_BASE_URL}/auth/logout`, {}, {
       withCredentials: true,
     });
     return response.data;
@@ -58,7 +62,7 @@ export const logout = createAsyncThunk("users/logout", async () => {
 const userSlice = createSlice({
   name: "users",
   initialState: {
-    isLoggedin: localStorage.getItem("isLoggedin") === "true",
+    isLoggedin: false, 
     userData: null,
     loading: false,
     error: null,
@@ -67,7 +71,6 @@ const userSlice = createSlice({
   reducers: {
     setLoginStatus(state, action) {
       state.isLoggedin = action.payload;
-      localStorage.setItem("isLoggedin", action.payload); // Menyimpan status ke localStorage
     },
   },
   extraReducers: (builder) => {
@@ -91,7 +94,6 @@ const userSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         state.loading = false;
         state.userData = action.payload;
-        localStorage.setItem("isLoggedin", "true");
         state.isLoggedin = true;
       })
       .addCase(login.rejected, (state, action) => {
@@ -103,10 +105,9 @@ const userSlice = createSlice({
         state.error = null;
       })
       .addCase(checkAuth.fulfilled, (state, action) => {
-        console.log("Check Auth Response:", action.payload);
         state.loading = false;
         state.isLoginChecked = true;
-        state.isLoggedin = action.payload.isAuthenticated;
+        state.isLoggedin = action.payload.isAuthenticated;  // Status login tergantung pada respons server
         state.userData = action.payload.user;
       })
       .addCase(checkAuth.rejected, (state, action) => {
@@ -114,9 +115,7 @@ const userSlice = createSlice({
         state.error = action.error.message;
         state.isLoginChecked = true;
         state.isLoggedin = false;
-        localStorage.removeItem("isLoggedin");
       })
-      //ini logout
       .addCase(logout.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -125,7 +124,6 @@ const userSlice = createSlice({
         state.loading = false;
         state.isLoggedin = false;
         state.userData = null;
-        localStorage.removeItem("isLoggedin");
       })
       .addCase(logout.rejected, (state, action) => {
         state.loading = false;
@@ -133,5 +131,6 @@ const userSlice = createSlice({
       });
   },
 });
+
 export const { setLoginStatus } = userSlice.actions;
 export default userSlice.reducer;

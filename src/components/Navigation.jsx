@@ -34,14 +34,12 @@ function Navigation() {
               <a href="/#hero-section">Tentang SheSafe</a>
             </li>
             <li>
-              <a href="/#guide-section">Bagaimana Cara Kerjanya?</a>
+              <a href="/#guide-section">Fitur Utama</a>
             </li>
             <li>
               <a href="/#advantages-section">Mengapa Pilih Kami?</a>
             </li>
-            <li>
-              <a href="/#contact-section">Bergabunglah Bersama Kami</a>
-            </li>
+           
           </ul>
         </div>
 

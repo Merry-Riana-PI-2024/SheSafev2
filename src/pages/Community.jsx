@@ -4,6 +4,7 @@ import NavBottom from "../components/NavBottom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCommunity, resetCommunity } from "../features/communitySlice";
 import { fetchCategories } from "../features/categoriesSlice";
+import { Icon } from "@iconify/react";
 
 function Community() {
   const dispatch = useDispatch();
@@ -49,7 +50,8 @@ function Community() {
     <>
       <div className="bg-white wrapper-mobile">
         <div className="flex justify-between mx-5 pt-10">
-          <h2 className="text-black text-xl font-bold">Postingan</h2>
+          {/* <h2 className="text-black text-xl font-bold">Postingan</h2> */}
+          <div></div>
           <select
             className="bg-[#BA324F] rounded-[10px] text-white px-4 py-2"
             value={selectedCategory}
@@ -85,7 +87,7 @@ function Community() {
               ))}
             </div>
           ) : community.length === 0 ? (
-            <h1 className="mx-5 my-3">Belum ada kasus yang dibagikan</h1>
+            <h1 className="mx-5 my-10 text-center text-[#BA324F] text-[16px]">Belum ada kasus yang dibagikan pada kategori ini</h1>
           ) : (
             community.map((items) => {
               return <Card data={items} key={items._id} />;
@@ -93,23 +95,20 @@ function Community() {
           )}
 
           {/* Pagination */}
-          <div className="flex justify-center items-center mb-5">
+          <div className="flex justify-center items-center gap-4 mb-5">
             {/* Prev Button */}
             <button
               disabled={currentPage === 1}
               onClick={() => handlePageChange(currentPage - 1)}
-              className="px-4 py-2 border bg-[#BA324F] text-white rounded-md disabled:opacity-50">
-              Prev
+              className="px-4 py-1 border bg-[#BA324F] text-white rounded-md disabled:opacity-50">
+              <Icon icon="si:arrow-left-fill" width="24px" height="24px"  style={{color: "#ffffff"}} />
             </button>
 
             {/* Page info */}
-            <span className="mx-3">
-              {`Page ${currentPage} of ${
-                pagination && pagination.total_pages
-                  ? pagination.total_pages
-                  : 1
-              }`}
-            </span>
+           
+             <span className="mx-2 px-4 py-1 bg-gray-200 text-gray-800 rounded flex items-center justify-center">
+          {currentPage}
+        </span>
 
             {/* Next Button */}
             <button
@@ -120,8 +119,9 @@ function Community() {
                   : 1)
               }
               onClick={() => handlePageChange(currentPage + 1)}
-              className="px-4 py-2 border bg-[#BA324F] text-white rounded-md disabled:opacity-50">
-              Next
+              className="px-4 py-1 border bg-[#BA324F] text-white rounded-md disabled:opacity-50">
+              <Icon icon="si:arrow-right-fill" width="24px" height="24px"  style={{color: "#ffffff"}} />
+
             </button>
           </div>
         </div>

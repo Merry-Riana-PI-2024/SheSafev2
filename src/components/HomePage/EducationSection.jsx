@@ -85,7 +85,7 @@ function EducationSection() {
   return (
     <div className={`${style["tips-section"]} pb-[2rem]`}>
       <div className={`${style["tips-title"]} flex justify-between`}>
-        <h4 className={`text-xl`}>Tips dan Panduan</h4>
+        <h4 className={`text-xl`}>Modul Edukasi</h4>
         <p
           className={`text-[#BA324F] cursor-pointer`}
           onClick={() => navigate("/education")}>
