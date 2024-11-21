@@ -89,14 +89,13 @@ function Guide() {
               />
             </div>
             <div className={`${style.title}`}>
-              <h5 className="text-lg">4. Modul Edukasi & Pelatihan</h5>
+              <h5 className="text-lg">4. Modul Edukasi</h5>
               <p>
-                <b>Pelajari keterampilan baru untuk hari yang lebih baik.</b>
+                <b>Pengetahuan adalah langkah pertama menuju keberanian.</b>
               </p>
               <p>
                 {" "}
-                SheSafe menawarkan modul edukasi yang relevan untuk
-                memberdayakan diri dan meningkatkan pengetahuan kamu.
+                Nikmati artikel edukasi praktis tentang hak-hak perempuan, langkah hukum, dan strategi pemberdayaan diri. Semua dirancang untuk membantu kamu memahami situasi dan mengambil tindakan yang tepat.
               </p>
             </div>
           </div>
