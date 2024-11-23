@@ -308,15 +308,73 @@ const EditForm = () => {
                 ) : (
                   file.map((item) => (
                     <tr key={item._id}>
-                      <td className="border px-4 py-2 text-center cursor-pointer  ">
-                        <a target="_blank" href={item.file}>
-                          <img
-                            src={item.file}
-                            alt="Uploaded file"
-                            className="w-[100px] height-[100px] object-cover flex justify-center items-center inline-flex"
-                          />
-                        </a>
-                      </td>
+                   <td className="border px-4 py-2 text-center cursor-pointer flex flex-col gap-2 justify-center items-center">
+  {(() => {
+    if (item.file.endsWith(".jpg") || item.file.endsWith(".jpeg") || item.file.endsWith(".png")) {
+      // Jika file adalah gambar (jpg, jpeg, png)
+      return (
+        <>
+          <img
+            src={item.file}
+            alt="Uploaded file"
+            className="w-[100px] h-[100px] object-cover"
+          />
+          <a target="_blank" href={item.file}>
+          {item.file.split('/').pop()}          </a>
+        </>
+      );
+    } else if (item.file.endsWith(".mp4") || item.file.endsWith(".mov")) {
+      // Jika file adalah video (mp4, mov)
+      return (
+        <>
+          <video
+            controls
+            className="w-[100px] h-[100px] object-cover"
+          >
+            <source src={item.file} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+          <a target="_blank" href={item.file}>
+          {item.file.split('/').pop()}          </a>
+        </>
+      );
+    } else if (item.file.endsWith(".mp3")) {
+      // Jika file adalah audio (mp3)
+      return (
+        <>
+          <audio
+            controls
+            className="w-[100px] h-[100px]"
+          >
+            <source src={item.file} type="audio/mpeg" />
+            Your browser does not support the audio element.
+          </audio>
+          <a target="_blank" href={item.file}>
+          {item.file.split('/').pop()}          </a>
+        </>
+      );
+    } else if (item.file.endsWith(".pdf")) {
+      // Jika file adalah PDF
+      return (
+        <>
+          <a
+            href={item.file}
+            target="_blank"
+            className="text-blue-500 underline"
+          >
+            {item.file.split('/').pop()}  
+          </a>
+        </>
+      );
+    } else {
+      return (
+        <a target="_blank" href={item.file}>
+ {item.file.split('/').pop()}        </a>
+      );
+    }
+  })()}
+</td>
+
                       <td className="border  cursor-pointer ">
                         <p
                           onClick={() => handleDelete(item._id)}
