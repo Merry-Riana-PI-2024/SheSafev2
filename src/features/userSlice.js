@@ -50,9 +50,13 @@ export const checkAuth = createAsyncThunk("users/checkAuth", async () => {
 // Logout user
 export const logout = createAsyncThunk("users/logout", async () => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/auth/logout`, {}, {
-      withCredentials: true,
-    });
+    const response = await axios.post(
+      `${API_BASE_URL}/auth/logout`,
+      {},
+      {
+        withCredentials: true,
+      }
+    );
     return response.data;
   } catch (error) {
     throw new Error(error.response?.data?.message || "Gagal logout");
@@ -62,7 +66,7 @@ export const logout = createAsyncThunk("users/logout", async () => {
 const userSlice = createSlice({
   name: "users",
   initialState: {
-    isLoggedin: false, 
+    isLoggedin: false,
     userData: null,
     loading: false,
     error: null,
@@ -71,6 +75,9 @@ const userSlice = createSlice({
   reducers: {
     setLoginStatus(state, action) {
       state.isLoggedin = action.payload;
+    },
+    setUserData: (state, action) => {
+      state.userData = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -95,6 +102,7 @@ const userSlice = createSlice({
         state.loading = false;
         state.userData = action.payload;
         state.isLoggedin = true;
+        localStorage.setItem("isLoggedin", true);
       })
       .addCase(login.rejected, (state, action) => {
         state.loading = false;
@@ -107,7 +115,7 @@ const userSlice = createSlice({
       .addCase(checkAuth.fulfilled, (state, action) => {
         state.loading = false;
         state.isLoginChecked = true;
-        state.isLoggedin = action.payload.isAuthenticated;  // Status login tergantung pada respons server
+        state.isLoggedin = action.payload.isAuthenticated; // Status login tergantung pada respons server
         state.userData = action.payload.user;
       })
       .addCase(checkAuth.rejected, (state, action) => {
@@ -124,6 +132,7 @@ const userSlice = createSlice({
         state.loading = false;
         state.isLoggedin = false;
         state.userData = null;
+        localStorage.removeItem("isLoggedin");
       })
       .addCase(logout.rejected, (state, action) => {
         state.loading = false;
@@ -132,5 +141,5 @@ const userSlice = createSlice({
   },
 });
 
-export const { setLoginStatus } = userSlice.actions;
+export const { setLoginStatus, setUserData } = userSlice.actions;
 export default userSlice.reducer;

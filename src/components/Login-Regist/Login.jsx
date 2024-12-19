@@ -18,7 +18,10 @@ function Login() {
   useEffect(() => {
     const checkAuthentication = async () => {
       const authStatus = await dispatch(checkAuth());
-      if (authStatus.meta.requestStatus === "fulfilled" && authStatus.payload.isAuthenticated) {
+      if (
+        authStatus.meta.requestStatus === "fulfilled" &&
+        authStatus.payload.isAuthenticated
+      ) {
         navigate("/home");
       }
     };
