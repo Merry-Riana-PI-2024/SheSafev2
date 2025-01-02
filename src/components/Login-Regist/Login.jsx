@@ -3,8 +3,8 @@ import logo from "../../assets/images/lg_ss.png";
 import image from "../../assets/images/asset_login.png";
 import style from "../../assets/css/LoginRegist.module.css";
 import Navigation from "../Navigation";
-import { login } from "../../features/userSlice";
-import { useState } from "react";
+import { checkAuth, login } from "../../features/userSlice";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2"; // Import SweetAlert2
 
@@ -15,38 +15,62 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  useEffect(() => {
+    const checkAuthentication = async () => {
+      const authStatus = await dispatch(checkAuth());
+      if (
+        authStatus.meta.requestStatus === "fulfilled" &&
+        authStatus.payload.isAuthenticated
+      ) {
+        navigate("/home");
+      }
+    };
+
+    checkAuthentication();
+  }, [dispatch, navigate]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const result = await dispatch(login({ email, password }));
+    try {
+      const result = await dispatch(login({ email, password }));
 
-    if (result.meta.requestStatus === "fulfilled") {
-      navigate("/home");
-    } else {
-      const errorMessage =
-        result.payload?.message ||
-        "Email atau password yang Anda masukkan salah.";
-
-      if (errorMessage === "Akun Anda belum tervalidasi identitasnya") {
-        Swal.fire({
-          icon: "error",
-          title: "Login Gagal",
-          text: "Identitas anda belum tervalidasi",
-        });
+      if (result.meta.requestStatus === "fulfilled") {
+        await dispatch(checkAuth());
+        navigate("/home");
       } else {
-        Swal.fire({
-          icon: "error",
-          title: "Login Gagal",
-          text: errorMessage,
-        });
+        handleLoginError(result.payload?.message);
       }
+    } catch (error) {
+      console.error("Error saat login:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Login Gagal",
+        text: "Terjadi kesalahan pada sistem. Silakan coba lagi.",
+      });
     }
   };
 
-  // Redirect jika pengguna sudah login
-  if (isLoggedin) {
-    return <Navigate to="/home" />;
+  function handleLoginError(errorMessage) {
+    if (errorMessage?.includes("belum tervalidasi identitasnya")) {
+      Swal.fire({
+        icon: "error",
+        title: "Login Gagal",
+        text: "Identitas Anda belum tervalidasi",
+      });
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Login Gagal",
+        text: errorMessage || "Email atau password yang Anda masukkan salah.",
+      });
+    }
   }
+
+  // Redirect jika pengguna sudah login
+  // if (isLoggedin) {
+  //   return <Navigate to="/home" />;
+  // }
 
   return (
     <div className="wrapper-mobile">

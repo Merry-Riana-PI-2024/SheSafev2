@@ -81,7 +81,7 @@ function Card({ data }) {
               height="24"
               style={{ color: "#BA324F" }}
             />
-            <p className={`text-[#BA324F]`}>{data.supportCounter} Dukungan</p>
+            <p className={`text-[#BA324F]`}>{data.supportCounter || 0} Dukungan</p>
           </div>
         </div>
       </div>

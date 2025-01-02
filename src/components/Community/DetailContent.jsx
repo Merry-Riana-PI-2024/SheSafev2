@@ -36,8 +36,8 @@ function DetailContent({ data }) {
   };
 
   // Handle comment deletion
-  const handleDeleteComment = (idcomment) => {
-    Swal.fire({
+  const handleDeleteComment = async (idcomment) => {
+    const result = await Swal.fire({
       title: "Apakah Anda yakin?",
       text: "Komentar ini akan dihapus dan tidak bisa dikembalikan!",
       icon: "warning",
@@ -45,22 +45,23 @@ function DetailContent({ data }) {
       confirmButtonText: "Ya, hapus komentar!",
       cancelButtonText: "Batal",
       reverseButtons: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        dispatch(deleteComment({ _id: idcomment, casesID: id }));
-        // dispatch(
-        //   fetchCommentar({
-        //     id,
-        //     page,
-        //     perPage: per_page,
-        //   })
-        // );
-        Swal.fire("Terhapus!", "Komentar telah dihapus.", "success");
-        window.location.reload();
-      } else {
-        Swal.fire("Dibatalkan", "Komentar tidak dihapus.", "info");
-      }
     });
+
+    if (result.isConfirmed) {
+      try {
+        await dispatch(deleteComment({ id: idcomment, casesID: id }));
+        Swal.fire("Terhapus!", "Komentar telah dihapus.", "success").then(
+          () => {
+            window.location.reload();
+          }
+        );
+      } catch (error) {
+        console.error("Gagal menghapus komentar:", error);
+        Swal.fire("Error", "Gagal menghapus komentar.", "error");
+      }
+    } else {
+      Swal.fire("Dibatalkan", "Komentar tidak dihapus.", "info");
+    }
   };
 
   const formattedDate = new Date(data.approved).toLocaleDateString("id-ID", {
@@ -103,7 +104,7 @@ function DetailContent({ data }) {
             style={{ color: "#BA324F" }}
           />
           <p className="text-[#BA324F] text-md">
-            {data.supportCounter} Dukungan
+            {data.supportCounter || 0} Dukungan
           </p>
         </div>
       </div>
@@ -151,32 +152,33 @@ function DetailContent({ data }) {
             />
           ))
         ) : (
-          <h6 className="text-black mt-6">Belum Ada Komentar</h6>
+          <h6 className="text-[#BA324F] mt-6">Belum Ada Komentar</h6>
         )}
 
         {/* Pagination */}
         <div className="flex justify-center mt-8">
           <nav aria-label="Pagination">
-            <ul className="flex items-center space-x-3">
+            <ul className="flex items-center gap-4 ">
               <li>
                 <button
                   onClick={() => handlePageChange(page - 1)}
                   disabled={page <= 1}
-                  className="px-4 py-2 text-sm font-medium text-white bg-[#BA324F] rounded-md disabled:opacity-50">
-                  Previous
-                </button>
+                  className="px-4 py-1 text-sm font-medium text-white bg-[#BA324F] rounded-md disabled:opacity-50">
+              <Icon icon="si:arrow-left-fill" width="24px" height="24px"  style={{color: "#ffffff"}} />
+              </button>
               </li>
               <li>
-                <span className="text-sm font-medium">
-                  Page {page} of {total_pages}
-                </span>
+              <span className="mx-2 px-4 py-1 bg-gray-200 text-gray-800 rounded flex items-center justify-center">
+          {page}
+        </span>
               </li>
               <li>
                 <button
                   onClick={() => handlePageChange(page + 1)}
                   disabled={page >= total_pages}
-                  className="px-4 py-2 text-sm font-medium text-white bg-[#BA324F] rounded-md disabled:opacity-50">
-                  Next
+                  className="px-4 py-1 text-sm font-medium text-white bg-[#BA324F] rounded-md disabled:opacity-50">
+                  <Icon icon="si:arrow-right-fill" width="24px" height="24px"  style={{color: "#ffffff"}} />
+
                 </button>
               </li>
             </ul>

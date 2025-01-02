@@ -51,12 +51,12 @@ export const postCommentar = createAsyncThunk(
 //thunk untuk delete
 export const deleteComment = createAsyncThunk(
   "commentar/deleteComment",
-  async ({ _id, casesID }) => {
+  async ({ id, casesID }) => {
     try {
       const response = await axios.delete(
-        `${API_BASE_URL}/community/commentar/${casesID}`,
+        `${API_BASE_URL}/community/commentar/${id}`,
         {
-          data: { _id },
+          data: { casesID },
         }
       );
       return response.data.commentar || {};
@@ -120,7 +120,10 @@ const commentarSlice = createSlice({
       })
       .addCase(deleteComment.fulfilled, (state, action) => {
         state.loading = false;
-        state.commentar = action.payload || [];
+        const deletedCommentId = action.payload._id;
+        state.commentar = state.commentar.filter(
+          (comment) => comment._id !== deletedCommentId
+        );
       });
   },
 });

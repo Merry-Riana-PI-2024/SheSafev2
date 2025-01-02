@@ -1,4 +1,4 @@
-import { Icon } from "@iconify/react/dist/iconify.js";
+import { Icon } from "@iconify/react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
@@ -77,11 +77,11 @@ const DetailCase = () => {
             />
           </svg>
         </button>
-        <h2 className="text-xl font-medium">Detail Case</h2>
+        <h2 className="text-xl font-medium">Detail Pengajuan Kasus</h2>
         <div></div>
       </div>
 
-      <div className="flex w-full px-5 mb-2 py-5 justify-end items-center  ">
+      <div className="flex w-full px-5 mb-6 py-5 justify-end items-center  ">
         <div className="flex gap-2 ">
           <button
             onClick={() => handleDelete(data._id)}

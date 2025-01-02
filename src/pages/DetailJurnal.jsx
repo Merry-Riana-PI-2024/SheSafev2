@@ -10,7 +10,7 @@ const DetailJurnal = () => {
   // const API_BASE_URL = "http://localhost:4000"
   const { id } = useParams(); //get id dari route
   const [data, setData] = useState(null);
-  // const [error, setError] = useState(null)
+  const [file, setFile] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -54,13 +54,6 @@ const DetailJurnal = () => {
   };
 
   const handleEdit = async () => {
-    // const confirmEdit = window.confirm(
-    //   "Anda akan mengedit jurnal ini. Lanjutkan?"
-    // );
-    // if (confirmEdit) {
-    //   console.log("berhasil edit journal");
-    //   navigate(`/editJurnal/${data._id}`);
-    // }
     const result = await Swal.fire({
       title: "Anda yakin?",
       text: "Anda akan mengedit jurnal ini.",
@@ -75,6 +68,34 @@ const DetailJurnal = () => {
       window.location.href = `/editJurnal/${data._id}`;
     }
   };
+
+  const fetchFileData = async () => {
+    if (!id) return; // avoid fetching if id is undefined
+    try {
+      const fileResponse = await axios.get(
+        `${API_BASE_URL}/journal/file/${id}`,
+        {
+          withCredentials: true,
+        }
+      );
+      const data = fileResponse.data.data;
+
+      if (Array.isArray(data)) {
+        setFile(data);
+      } else {
+        console.log("File data is not an array", data.file);
+        setFile([]);
+      }
+    } catch (error) {
+      console.error("Error fetching file data: ", error);
+      setFile([]);
+    }
+  };
+
+  //getfile
+  useEffect(() => {
+    fetchFileData();
+  }, [id]);
 
   if (!data) return <div>Tidak ada data..</div>;
 
@@ -128,7 +149,7 @@ const DetailJurnal = () => {
       </div>
 
       <div
-        className={`flex flex-col gap-4 mx-5 px-2 py-3 border-2 border-[#f5f5f5] rounded-[5px]  `}>
+        className={`flex flex-col gap-4 mx-5 mb-6 px-2 py-3 border-2 border-[#f5f5f5] rounded-[5px]  `}>
         <div className={`flex justify-between items-center`}>
           <h6
             className={`font-bold bg-[#F8EBED] px-3 py-2 rounded-[10px] text-md text-[#BA324F]`}>
@@ -173,64 +194,106 @@ const DetailJurnal = () => {
         <div className={`flex flex-col gap-2`}>
           <h4 className="font-semibold mb-1 text-[#BA324F]">Judul Jurnal :</h4>
           <h3 className="font-semibold text-lg">{data.title}</h3>
-          {/* <p className="text-gray-500 ">{mockupData.deskripsi}</p> */}
         </div>
 
         <div className={`flex flex-col gap-2`}>
           <h4 className="font-semibold mb-1 text-[#BA324F]">
             Ringkasan Kejadian :
           </h4>
-          {/* <h3 className="font-semibold text-lg">{mockupData.judul}</h3> */}
           <p className="text-gray-500 ">{data.description}</p>
         </div>
-
-        {/* <div className={`flex flex-col gap-4`}>
-          <h4 className="font-semibold ">Klasifikasi Kejadian</h4>
-          <div
-            className="bg-red-200 text-red-700 p-2 rounded text-center text-sm"
-            style={{ width: "200px", fontSize: "14px" }}>
-            {mockupData.klasifikasi}
-          </div>
-        </div> */}
-
-        {/* <div className={`flex flex-col gap-4`}>
-          <h4 className="font-semibold ">Kronologi Kejadian</h4>
-          <p className="text-gray-500 ">{mockupData.kronologi}</p>
-        </div> */}
 
         <div className={`flex flex-col gap-4`}>
           <h4 className="font-semibold mb-1 text-[#BA324F]">
             Lampiran Bukti :
           </h4>
-          {data.file ? (
-            <table className="w-full mb-6 border rounded">
-              <thead>
-                <tr className="bg-gray-100">
-                  <th className="border px-4 py-2">Nama File</th>
-                  <th className="border px-4 py-2">File</th>
-                </tr>
-              </thead>
-              <tbody>
+          <table className="w-full mb-6 border rounded mt-3">
+            <thead>
+              <tr className="bg-gray-100">
+                <th className="border px-4 py-2">File</th>
+              </tr>
+            </thead>
+            <tbody>
+              {file && file.length === 0 ? (
                 <tr>
-                  <td className="border px-4 py-2 text-center">
-                    {/* {data.file?.originalname || "No File"} */}
-                    <img src={data.file} alt="" />
-                  </td>
-                  <td className="border px-4 py-2 text-center">
-                    <a
-                      href={data.file}
-                      className="text-blue-500 hover:underline"
-                      target="_blank"
-                      rel="noopener noreferrer">
-                      {data.file}
-                    </a>
+                  <td className="border px-4 py-2 text-center" colSpan="2">
+                    No files available
                   </td>
                 </tr>
-              </tbody>
-            </table>
-          ) : (
-            <p>No File Attached</p>
-          )}
+              ) : (
+                file.map((item) => (
+                  <tr key={item._id}>
+                     <td className="border px-4 py-2 text-center cursor-pointer flex flex-col gap-2 justify-center items-center">
+  {(() => {
+    if (item.file.endsWith(".jpg") || item.file.endsWith(".jpeg") || item.file.endsWith(".png")) {
+      // Jika file adalah gambar (jpg, jpeg, png)
+      return (
+        <>
+          <img
+            src={item.file}
+            alt="Uploaded file"
+            className="w-[100px] h-[100px] object-cover"
+          />
+          <a target="_blank" href={item.file}>
+          {item.file.split('/').pop()}          </a>
+        </>
+      );
+    } else if (item.file.endsWith(".mp4") || item.file.endsWith(".mov")) {
+      // Jika file adalah video (mp4, mov)
+      return (
+        <>
+          <video
+            controls
+            className="w-[100px] h-[100px] object-cover"
+          >
+            <source src={item.file} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+          <a target="_blank" href={item.file}>
+          {item.file.split('/').pop()}          </a>
+        </>
+      );
+    } else if (item.file.endsWith(".mp3")) {
+      // Jika file adalah audio (mp3)
+      return (
+        <>
+          <audio
+            controls
+            className="w-[100px] h-[100px]"
+          >
+            <source src={item.file} type="audio/mpeg" />
+            Your browser does not support the audio element.
+          </audio>
+          <a target="_blank" href={item.file}>
+          {item.file.split('/').pop()}          </a>
+        </>
+      );
+    } else if (item.file.endsWith(".pdf")) {
+      // Jika file adalah PDF
+      return (
+        <>
+          <a
+            href={item.file}
+            target="_blank"
+            className="text-blue-500 underline"
+          >
+            {item.file.split('/').pop()}  
+          </a>
+        </>
+      );
+    } else {
+      return (
+        <a target="_blank" href={item.file}>
+ {item.file.split('/').pop()}        </a>
+      );
+    }
+  })()}
+</td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

@@ -5,18 +5,21 @@ import { checkAuth } from "../features/userSlice";
 
 function ProtectedRoutes() {
   const dispatch = useDispatch();
+  const { isLoggedin, loading, isLoginChecked } = useSelector(
+    (state) => state.users
+  );
 
   useEffect(() => {
-    dispatch(checkAuth());
-  }, [dispatch]);
+    if (!isLoginChecked) {
+      dispatch(checkAuth());
+    }
+  }, [dispatch, isLoginChecked]);
 
-  const { isLoggedin, loading } = useSelector((state) => state.users);
-
-  if (loading) {
+  if (loading || !isLoginChecked) {
     return <div>Loading...</div>;
   }
 
-  return isLoggedin || localStorage.getItem("isLoggedin") === "true" ? (
+  return isLoggedin ? (
     <Outlet />
   ) : (
     <Navigate to="/login" />

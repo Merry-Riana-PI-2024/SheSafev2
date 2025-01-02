@@ -60,7 +60,7 @@ function Register() {
     // }
 
     try {
-      const resultAction = await dispatch(regist(formData)).unwrap();
+      const resultAction = await dispatch(regist(formData));
       if (resultAction) {
         Swal.fire({
           icon: "success",

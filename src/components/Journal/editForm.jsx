@@ -4,6 +4,8 @@ import image from "../../assets/images/asset_login.png";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import Swal from "sweetalert2";
+import { Icon } from "@iconify/react";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const EditForm = () => {
@@ -17,8 +19,26 @@ const EditForm = () => {
   const [endDate, setEndDate] = useState("");
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
-  const [file, setFile] = useState(null);
+  const [file, setFile] = useState([]);
   const [categories, setCategories] = useState([]);
+
+  const [editData, setEditData] = useState({
+    title: "",
+    startDate: "",
+    endDate: "",
+    category: "",
+    description: "",
+  });
+
+  useEffect(() => {
+    setEditData({
+      title,
+      startDate,
+      endDate,
+      category,
+      description,
+    });
+  }, [title, startDate, endDate, category, description]);
 
   useEffect(() => {
     console.log("Journal id: ", id);
@@ -57,26 +77,88 @@ const EditForm = () => {
     fetchData();
   }, [id]);
 
+  const fetchFileData = async () => {
+    if (!id) return; // avoid fetching if id is undefined
+    try {
+      const fileResponse = await axios.get(
+        `${API_BASE_URL}/journal/file/${id}`,
+        {
+          withCredentials: true,
+        }
+      );
+      const data = fileResponse.data.data;
+
+      if (Array.isArray(data)) {
+        setFile(data);
+      } else {
+        console.log("File data is not an array", data.file);
+        setFile([]);
+      }
+    } catch (error) {
+      console.error("Error fetching file data: ", error);
+      setFile([]);
+    }
+  };
+
+  //getfile
+  useEffect(() => {
+    fetchFileData();
+  }, [id]);
+
   //form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("startDate", startDate);
-    formData.append("endDate", endDate);
-    formData.append("category", category);
-    formData.append("description", description);
-    if (file) formData.append("file", file);
-
+    setEditData({
+      title,
+      startDate,
+      endDate,
+      category,
+      description,
+    });
     try {
-      await axios.put(`${API_BASE_URL}/journal/${id}`, formData, {
+      await axios.put(`${API_BASE_URL}/journal/${id}`, editData, {
         withCredentials: true,
       });
       console.log("berhasil edit journal");
-      navigate(-1);
+      navigate("/journal");
     } catch (error) {
       console.error("gagal edit journal: ", error);
+    }
+  };
+
+  const handleSubmitFile = async () => {
+    const { value: file } = await Swal.fire({
+      title: "Select file",
+      input: "file",
+    });
+
+    if (file) {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      try {
+        await axios.post(`${API_BASE_URL}/journal/file/${id}`, formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+          withCredentials: true,
+        });
+        Swal.fire("Success", "File uploaded successfully", "success");
+        fetchFileData();
+      } catch (error) {
+        Swal.fire("Error", "Failed to upload file", "error");
+      }
+    }
+  };
+
+  const handleDelete = async (fileId) => {
+    try {
+      await axios.delete(`${API_BASE_URL}/journal/file/${fileId}`, {
+        withCredentials: true,
+      });
+      Swal.fire("Deleted", "File deleted successfully", "success");
+
+      fetchFileData();
+    } catch (error) {
+      Swal.fire("Error", "Failed to delete file", "error");
     }
   };
 
@@ -195,28 +277,122 @@ const EditForm = () => {
               **Hindari menggunakan nama asli atau informasi pribadi orang lain
               tanpa izin
             </small>
-            <div className="mb-1 mt-3">
+            <div className="flex flex-col mb-1 mt-3">
               <label htmlFor="file" className="text-sm font-bold">
                 Lampirkan Bukti (Optional)
               </label>
-              <input
-                type="file"
-                id="file"
-                className={`${style["form-control"]} mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-#8c263b-500`}
-                onChange={(e) => setFile(e.target.files[0])}
-              />
-              {file && (
-                <p className="text-sm font-bold text-green mt-2 mb-3">
-                  File uploaded: {file.originalname || file.name}
-                </p>
-              )}
+              <p
+                onClick={handleSubmitFile}
+                className="mt-3 px-2 w-[150px] items-center flex justify-center py-3 rounded-[10px] bg-[#BA324F] text-white cursor-pointer">
+                Tambah Lampiran
+              </p>
             </div>
             <small className={`${style["small"]}`}>
-              **Anda dapat melampirkan gambar, video, atau dokumen pendukung{" "}
+              **Anda dapat melampirkan gambar, video, atau dokumen pendukung
             </small>
-            <small className={`${style["small"]}`}>
-              **Format yang didukung: JPG, PNG, MP4, PDF
-            </small>
+
+            <table className="w-full mb-6 border rounded mt-3">
+              <thead>
+                <tr className="bg-gray-100">
+                  <th className="border px-4 py-2">File</th>
+                  <th className="border px-4 py-2">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {file && file.length === 0 ? (
+                  <tr>
+                    <td className="border px-4 py-2 text-center" colSpan="2">
+                      No files available
+                    </td>
+                  </tr>
+                ) : (
+                  file.map((item) => (
+                    <tr key={item._id}>
+                   <td className="border px-4 py-2 text-center cursor-pointer flex flex-col gap-2 justify-center items-center">
+  {(() => {
+    if (item.file.endsWith(".jpg") || item.file.endsWith(".jpeg") || item.file.endsWith(".png")) {
+      // Jika file adalah gambar (jpg, jpeg, png)
+      return (
+        <>
+          <img
+            src={item.file}
+            alt="Uploaded file"
+            className="w-[100px] h-[100px] object-cover"
+          />
+          <a target="_blank" href={item.file}>
+          {item.file.split('/').pop()}          </a>
+        </>
+      );
+    } else if (item.file.endsWith(".mp4") || item.file.endsWith(".mov")) {
+      // Jika file adalah video (mp4, mov)
+      return (
+        <>
+          <video
+            controls
+            className="w-[100px] h-[100px] object-cover"
+          >
+            <source src={item.file} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+          <a target="_blank" href={item.file}>
+          {item.file.split('/').pop()}          </a>
+        </>
+      );
+    } else if (item.file.endsWith(".mp3")) {
+      // Jika file adalah audio (mp3)
+      return (
+        <>
+          <audio
+            controls
+            className="w-[100px] h-[100px]"
+          >
+            <source src={item.file} type="audio/mpeg" />
+            Your browser does not support the audio element.
+          </audio>
+          <a target="_blank" href={item.file}>
+          {item.file.split('/').pop()}          </a>
+        </>
+      );
+    } else if (item.file.endsWith(".pdf")) {
+      // Jika file adalah PDF
+      return (
+        <>
+          <a
+            href={item.file}
+            target="_blank"
+            className="text-blue-500 underline"
+          >
+            {item.file.split('/').pop()}  
+          </a>
+        </>
+      );
+    } else {
+      return (
+        <a target="_blank" href={item.file}>
+ {item.file.split('/').pop()}        </a>
+      );
+    }
+  })()}
+</td>
+
+                      <td className="border  cursor-pointer ">
+                        <p
+                          onClick={() => handleDelete(item._id)}
+                          className="flex justify-center items-center text-center">
+                          <Icon
+                            icon="mi:delete"
+                            width="24"
+                            height="24"
+                            style={{ color: "#BA324F" }}
+                          />
+                        </p>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+
             <small className={`${style["small"]}`}>**Maksimal file 10MB</small>
             <div className="flex justify-center">
               <button type="submit" className="px-6 py-2 sm-btn-primary mt-10">
